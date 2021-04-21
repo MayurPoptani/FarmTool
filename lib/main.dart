@@ -1,20 +1,17 @@
-import 'package:farmtool/Dashboard/Dashboard.dart';
-import 'package:farmtool/Global/functions/AWSConfiguration.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:flutter/material.dart';
-import 'package:amplify_flutter/amplify.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_admin/firebase_admin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await configureAWS();
-  try {
-    gUser = await Amplify.Auth.getCurrentUser();
-  } on AuthException catch (e) {
-    print(e.message??""+" == "+e.recoverySuggestion??""+" == "+e.underlyingException??"");
-  }
+  await Firebase.initializeApp();
+  // FirebaseAdmin.instance.initializeApp(AppOptions(
+    
+  // ));
+  // fAdmin = FirebaseAdmin.instance.app();
   runApp(MyApp());
 }
 
@@ -22,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Farm Tool',
       theme: ThemeData(
         fontFamily: "Raleway",
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),),
         )),
       ),
-      home: gUser!=null ? Dashboard() : LoginPage()
+      home: LoginPage()
     );
   }
 }

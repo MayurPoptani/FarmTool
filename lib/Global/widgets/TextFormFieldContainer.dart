@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFomFieldContainer extends StatelessWidget {
   final Widget child;
-  const TextFomFieldContainer({Key key, this.child}) : super(key: key);
+  const TextFomFieldContainer({Key? key, required this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

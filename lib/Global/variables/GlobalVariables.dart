@@ -1,5 +1,5 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_admin/firebase_admin.dart';
 
-AuthUser gUser;
-List<AuthUserAttribute> gUserAttributes;
+App? fAdmin;
+User? globalUser;

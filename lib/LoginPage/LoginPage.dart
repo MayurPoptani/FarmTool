@@ -2,9 +2,10 @@ import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:farmtool/SignupPage/SignupPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_admin/firebase_admin.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,8 +14,26 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  bool otpSent = false;
+
   TextEditingController phoneC = TextEditingController(text: "9527386497");
-  TextEditingController pinC = TextEditingController(text: "123456");
+  TextEditingController pinC = TextEditingController(text: "");
+
+  String? verificationID;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      print("CALLBACK");
+      globalUser = FirebaseAuth.instance.currentUser;
+      if(globalUser !=null && globalUser!.displayName!=null) Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => Dashboard()), (route) => false);
+      else {
+        await FirebaseAuth.instance.signOut();
+        globalUser = null;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                   controller: phoneC,
                   keyboardType: TextInputType.number,
                   maxLength: 10,
+                  onChanged: (str) {
+                    if(otpSent) setState(() => otpSent = false);
+                  },
                   decoration: InputDecoration(
                     counterText: "",
                     counterStyle: TextStyle(fontSize: double.minPositive),      
@@ -72,28 +94,36 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 children: [
                   Expanded(
-                    child: TextFomFieldContainer(
-                      child: TextFormField(
-                        controller: pinC,
-                        keyboardType: TextInputType.number,
-                        maxLength: 6,
-                        decoration: InputDecoration(
-                          counterText: "",
-                          counterStyle: TextStyle(fontSize: double.minPositive),
-                          labelText: "Pin Number",
-                          hintText: "6 Digit Pin Number",
+                    child: AnimatedCrossFade(
+                      crossFadeState: !otpSent ? CrossFadeState.showFirst : CrossFadeState.showSecond, 
+                      duration: Duration(milliseconds: 350,),
+                      firstChild: Container(), 
+                      secondChild: TextFomFieldContainer(
+                        child: TextFormField(
+                          controller: pinC,
+                          keyboardType: TextInputType.number,
+                          maxLength: 6,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            counterStyle: TextStyle(fontSize: double.minPositive),
+                            labelText: "OTP",
+                            hintText: "6 Digit Pin Number",
+                          ),
                         ),
-                      ),
+                      ), 
                     ),
                   ),
                   SizedBox(width: 16,),
                   ElevatedButton(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                      child: Text("Login", style: TextStyle(color: Colors.white,),),
+                      child: Text(otpSent ? "Login" : "Send OTP", style: TextStyle(color: Colors.white,),),
                     ),
                     onPressed: () {
-                      signIn();
+                      if(!otpSent) requestOTP();
+                      else if(pinC.text.trim().length==6 && verificationID!=null) {
+                        login(PhoneAuthProvider.credential(verificationId: verificationID!, smsCode: pinC.text.trim()));
+                      }
                     },
                   ),
                 ],
@@ -119,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Signup", style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),),
+                            child: Text("SignUp", style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),),
                           ),
                         ),
                       ),
@@ -134,35 +164,43 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  signIn() async {
-    try {
-      await Amplify.Auth.signOut();
-      SignInResult result =  await Amplify.Auth.signIn(
-        username: "+91"+phoneC.text.trim(), 
-        password: pinC.text.trim(),
-      );
-      if(result.isSignedIn) {
-        print("SIGN IN SUCCESS");
-        gUser = await Amplify.Auth.getCurrentUser();
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => Dashboard()), (route) => false);
-      } else {
-        // TODO: Promt user that id pass are wrong, check input
-        print("SING IN FAILURE");
-        print(result.nextStep.signInStep + " = " + result.nextStep.additionalInfo.toString());
+  requestOTP() async {
+    otpSent = false;
+    FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: "+91"+phoneC.text.trim(),
+      timeout: Duration(seconds: 45),
+      codeSent: (verificationId, code) {
+        if(mounted) setState(() => otpSent = true);
+        verificationID = verificationId;
+        print("codeSent.verificationId => "+verificationId);
+        print("codeSent.code => "+code.toString());
+      },
+      verificationCompleted: (cred) {
+        print("verificationCompleted.verificationId => "+(cred.verificationId??""));
+        print("verificationCompleted.smsCode => "+(cred.smsCode??""));
+        print("verificationCompleted.providerId => "+(cred.providerId));
+        login(cred);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        if(mounted) setState(() => verificationID = null);
+        print("codeAutoRetrievalTimeout.verificationId => "+verificationId);
+      },
+      verificationFailed: (error) {
+        print("verificationFailed.message => "+(error.message??""));
       }
-      
-    } on UserNotConfirmedException catch (e) {
-      print("===UserNotConfirmedException===\n"+e.toString());
-      print("RESENDING SIGNUP CODE");
-      Amplify.Auth.resendSignUpCode(username: "+91"+phoneC.text.trim());
-      // print(res.codeDeliveryDetails.toString());
-    } on UserNotFoundException catch (e) {
-      print("=== USER NOT FOUND EXCEPTION");
-      print(e.message + " = " + e.recoverySuggestion + " = " + e.underlyingException);
-    } on AuthException catch (e) {
-      print("=== AUTH EXCEPTION");
-      print(e.message + " = " + e.recoverySuggestion + " = " + e.underlyingException);
-    }
+    );
   }
 
+  login(PhoneAuthCredential cred) async {
+    try {
+      var userCred = await FirebaseAuth.instance.signInWithCredential(cred);
+      globalUser = userCred.user;
+      if(userCred.additionalUserInfo?.isNewUser??false || globalUser!.displayName==null) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => Signup.fromSignInPage()));
+      }
+      else Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => Dashboard()), (route) => false);
+    } on FirebaseAuthException catch (e) {
+      print(e.code+" === "+(e.message??""));
+    }
+  }
 }
