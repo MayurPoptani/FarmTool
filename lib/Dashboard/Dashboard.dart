@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:farmtool/AddTool/AddTool.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
@@ -26,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: myDrawer(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -34,9 +36,7 @@ class _DashboardState extends State<Dashboard> {
           child: IconButton(
             color: Colors.black,
             icon: Icon(Icons.menu,),
-            onPressed: () async {
-              
-            },
+            onPressed: () async {  },
           ),
         ),
         titleSpacing: 16,
@@ -99,11 +99,11 @@ class _DashboardState extends State<Dashboard> {
                       subTitle:"On Rent", 
                       asset: "assets/images/rent_warehouses.png"),
                     cardTile(
-                      title: "Sell Tools", 
+                      title: "Buy Tools", 
                       subTitle:"2nd Hand", 
                       asset: "assets/images/sell_tools.png"),
                     cardTile(
-                      title: "Sell Vehicles", 
+                      title: "Buy Vehicles", 
                       subTitle:"2nd Hand", 
                       asset: "assets/images/sell_vehicles.png"),
                     cardTile(
@@ -115,6 +115,26 @@ class _DashboardState extends State<Dashboard> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Drawer myDrawer() {
+    return Drawer(
+      child: SafeArea(
+        child: Column(
+          children: [
+            TextButton(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: Text("Add Item on Rent", style: TextStyle(color: Colors.black,),),
+              ),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddTool()));
+              },
+            )
+          ],
         ),
       ),
     );

@@ -136,7 +136,18 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        child: Text("Forgot Pin? Click Here", style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),),
+                        child: InkWell(
+                          onTap: () async {
+                            var cred = await FirebaseAuth.instance.signInAnonymously();
+                            globalUser = cred.user;
+                            await globalUser!.updateProfile(displayName: "Team 22");
+                             Navigator.of(context).push(MaterialPageRoute(builder: (_) => Dashboard()));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Forgot Pin? Click Here", style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(width: 16,),
