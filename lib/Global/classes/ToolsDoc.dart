@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 
 class ToolsDoc {
 
@@ -13,6 +14,7 @@ class ToolsDoc {
   static const UPDATEDTIMESTAMP = "updated_timestamp";
   static const ISAVAILABLE = "is_available";
   static const ISACTIVE = "is_active";
+  static const LOCATION = "loc";
 
   bool get isWithoutId => id == "";
 
@@ -27,6 +29,7 @@ class ToolsDoc {
   late Timestamp updatedTimestamp;
   late bool isAvailable;
   late bool isActive;
+  late GeoHashPoint geoHashPoint;
 
   ToolsDoc();
   
@@ -42,6 +45,7 @@ class ToolsDoc {
     this.updatedTimestamp = snapshot.data()![UPDATEDTIMESTAMP];
     this.isAvailable = snapshot.data()![ISAVAILABLE];
     this.isActive = snapshot.data()![ISACTIVE];
+    this.geoHashPoint = GeoHashPoint.fromMap(snapshot.data()![LOCATION]);
   }
 
   ToolsDoc.newDoc({
@@ -53,6 +57,7 @@ class ToolsDoc {
     required this.renterUID,
     required this.createdTimestamp,
     required this.id,
+    required this.geoHashPoint,
   }) : this.updatedTimestamp = createdTimestamp, this.isAvailable = true, this.isActive = true;
   
   ToolsDoc.newDocFromMap(Map map) : this.fromIdAndMapData("", map);
@@ -68,6 +73,7 @@ class ToolsDoc {
     this.updatedTimestamp = map[UPDATEDTIMESTAMP];
     this.isAvailable = map[ISAVAILABLE];
     this.isActive = map[ISACTIVE];
+    this.geoHashPoint = GeoHashPoint.fromMap(map[LOCATION]);
   }
 
   Map<String, dynamic> toMap() => {
@@ -82,6 +88,7 @@ class ToolsDoc {
     UPDATEDTIMESTAMP : this.updatedTimestamp,
     ISAVAILABLE : this.isAvailable,
     ISACTIVE : this.isActive,
+    LOCATION : this.geoHashPoint.toMap(),
   };
 
 }

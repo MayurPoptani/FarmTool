@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/ToolsDoc.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:images_picker/images_picker.dart';
 
 class AddTool extends StatefulWidget {
   @override
@@ -15,6 +20,8 @@ class _AddToolState extends State<AddTool> {
   TextEditingController catC = TextEditingController();
   TextEditingController amountC = TextEditingController();
   TextEditingController descC = TextEditingController();
+  TextEditingController addressC = TextEditingController();
+  List<Media>? images;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +82,38 @@ class _AddToolState extends State<AddTool> {
                       ),
                     ),
                     SizedBox(height: 8,),
+                    TextFomFieldContainer(
+                      child: TextFormField(
+                        controller: addressC,
+                        minLines: 3,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          labelText: "Address",
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8,),
+                    TextButton(
+                      child: Text("Select Image"),
+                      onPressed: () async {
+                        images = await ImagesPicker.pick(
+                          count: 5,
+                          pickType: PickType.image,
+                        );
+                        if(images!=null) {
+                          images!.forEach((element) {
+                            print(element.path);
+                          });
+                        }
+                        setState(() {});
+                      },
+                    ),
+                    if(images!=null && images!.length!=0) Row(
+                      children: images!.map((e) {
+                        return Image.file(File(e.path!), height: 64, width: 64,);
+                      }).toList(),
+                    ),
+                    SizedBox(height: 8,),
                   ],
                 ),
               ),
@@ -98,6 +137,7 @@ class _AddToolState extends State<AddTool> {
 
   uploadData() async {
     print("uploadData()");
+    GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
     ToolsDoc tool = ToolsDoc.newDoc(
       title: nameC.text.trim(), 
       category: catC.text.trim(), 
@@ -105,8 +145,9 @@ class _AddToolState extends State<AddTool> {
       rentAmount: double.parse(amountC.text.trim()), 
       rentDurationType: 0,
       renterUID: globalUser!.uid, 
-      createdTimestamp: Timestamp.now(), 
-      id: ""
+      createdTimestamp: Timestamp.now(),
+      geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
+      id: "",
     );
 
     var docRef = await FirebaseFirestore.instance.collection("RentTools").add(tool.toMap());

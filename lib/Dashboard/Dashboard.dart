@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:farmtool/AddTool/AddTool.dart';
+import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
@@ -17,11 +18,16 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
+    super.initState();
     FirebaseAuth.instance.userChanges().listen((user) {
       globalUser = user;
       if(mounted) setState(() {});
     });
-    super.initState();
+    getLocation().then((value) {
+      print("Lat = "+value.latitude.toString());
+      print("Long = "+value.longitude.toString());
+      globalPos = value;
+    });
   }
 
   @override
@@ -33,10 +39,14 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Colors.transparent,
         leading: Container(
           margin: EdgeInsets.only(left: 16,),
-          child: IconButton(
-            color: Colors.black,
-            icon: Icon(Icons.menu,),
-            onPressed: () async {  },
+          child: Builder(
+            builder: (builderContext) => IconButton(
+              color: Colors.black,
+              icon: Icon(Icons.menu,),
+              onPressed: () async {
+                Scaffold.of(builderContext).openDrawer();
+              },
+            ),
           ),
         ),
         titleSpacing: 16,

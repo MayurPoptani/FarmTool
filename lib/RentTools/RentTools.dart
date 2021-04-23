@@ -1,7 +1,10 @@
 import 'package:farmtool/Global/classes/ToolsDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/RentTools/RentToolListItem.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class RentTools extends StatefulWidget {
   @override
@@ -11,15 +14,28 @@ class RentTools extends StatefulWidget {
 class _RentToolsState extends State<RentTools> {
 
   List<ToolsDoc> docs = [];
+  late Stream<List<DocumentSnapshot>> stream;
+  int radius = 200;
 
   @override
   void initState() { 
     super.initState();
-    FirebaseFirestore.instance.collection("RentTools").get().then((snap) {
-      setState(() {
-        snap.docs.forEach((element) {
-          docs.add(ToolsDoc.fromDocument(element));
-        });
+    getData();
+  }
+
+  getData() {
+    var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
+    stream = Geoflutterfire()
+      .collection(
+        collectionRef: FirebaseFirestore.instance.collection("RentTools")
+        .where(ToolsDoc.ISACTIVE, isEqualTo: true)
+      ).within(center: point, radius: radius.toDouble(), field: ToolsDoc.LOCATION, strictMode: true);
+    stream.listen((event) {
+      docs.clear();
+      print("NEW DATA IN STREAM");
+      print("DATA LENGTH = "+event.length.toString());
+      if(mounted) setState(() {
+        event.forEach((element) => docs.add(ToolsDoc.fromDocument(element)));
       });
     });
   }
@@ -35,6 +51,23 @@ class _RentToolsState extends State<RentTools> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          PopupMenuButton<int>(
+            // icon: Icon(Icons.more_vert_rounded, color: Colors.black,),
+            icon: Text(radius.toString()+" KM", style: TextStyle(color: Colors.black),),
+            itemBuilder: (_) => [
+              PopupMenuItem(child: Text("10 KM"), value: 10,),
+              PopupMenuItem(child: Text("50 KM"), value: 50,),
+              PopupMenuItem(child: Text("100 KM"), value: 100,),
+              PopupMenuItem(child: Text("200 KM"), value: 200,),
+            ],
+            initialValue: radius,
+            onSelected: (val) {
+              radius = val;
+              getData();
+            },
+          )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: 16, left: 16, right: 16,),
@@ -50,36 +83,7 @@ class _RentToolsState extends State<RentTools> {
                 shrinkWrap: true,
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
-                  return Card(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: colorBgColor.withOpacity(0.75),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(docs[index].title, style: TextStyle(
-                                  fontSize: 18, color: Colors.white,
-                                ),),
-                              ),
-                              Text("Rs. "+docs[index].rentAmount.toString(), style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white,
-                              ),),
-                            ],
-                          ),
-                          SizedBox(height: 8,),
-                          Text(docs[index].desc, style: TextStyle(
-                            fontSize: 12, color: Colors.white,
-                          ),),
-                        ],
-                      ),
-                    ),
-                  );
+                  return RentToolListItem(docs[index]);
                 },
               ),
             ),
