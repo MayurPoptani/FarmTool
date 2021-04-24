@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:farmtool/Global/classes/ToolsDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -15,6 +17,7 @@ class _RentToolsState extends State<RentTools> {
 
   List<ToolsDoc> docs = [];
   late Stream<List<DocumentSnapshot>> stream;
+  late StreamSubscription? streamSubscription;
   int radius = 200;
 
   @override
@@ -30,7 +33,7 @@ class _RentToolsState extends State<RentTools> {
         collectionRef: FirebaseFirestore.instance.collection("RentTools")
         .where(ToolsDoc.ISACTIVE, isEqualTo: true)
       ).within(center: point, radius: radius.toDouble(), field: ToolsDoc.LOCATION, strictMode: true);
-    stream.listen((event) {
+    streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
@@ -91,5 +94,11 @@ class _RentToolsState extends State<RentTools> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if(streamSubscription!=null) streamSubscription!.cancel();
+    super.dispose();
   }
 }

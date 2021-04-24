@@ -37,12 +37,15 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   cloud_functions: ^1.0.4
-  firebase_admin: ^0.1.4
+  firebase_storage: ^8.0.4
+  flutter_cache_manager: ^3.0.1
   images_picker: ^1.2.0
 
 dependency_overrides:
   http_parser: ^4.0.0
   cloud_firestore: ^1.0.6
+  http: ^0.13.0
+  rxdart: ^0.25.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

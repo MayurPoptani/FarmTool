@@ -3,7 +3,6 @@ import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_admin/firebase_admin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

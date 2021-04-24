@@ -1,5 +1,6 @@
 import 'package:farmtool/Global/classes/ToolsDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/RentTools/RentToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class RentToolListItem extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.network("https://www.easydigging.com/images-new/home-garden-spade.jpg",
+                    child: Image.network(item.imageUrls.first,
                       width: MediaQuery.of(context).size.width*.15,
                       height: MediaQuery.of(context).size.width*.15,
                       fit: BoxFit.fill,
@@ -41,19 +42,23 @@ class RentToolListItem extends StatelessWidget {
                       children: [
                         Text(item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
                         SizedBox(height: 4,),
-                        Text(item.desc, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54),),
+                        // Text(item.desc, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54),),
+                        // SizedBox(height: 4,),
+                        // Row(children: [
+                        //   Expanded(child: Text("Rs. "+item.rentAmount.toString()+" "+DurationTypes.data[item.rentDurationType]!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),)),
+                        //   Container(
+                        //     height: 18,
+                        //     child: VerticalDivider(
+                        //       color: Colors.black,
+                        //       thickness: 0.5,
+                        //     ),
+                        //   ),
+                        //   Expanded(child: Text(item.categoryName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),)),
+                        // ],)
+                        // 
+                        Text("Rs. "+item.rentAmount.toString()+" "+DurationTypes.data[item.rentDurationType]!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),),
                         SizedBox(height: 4,),
-                        Row(children: [
-                          Expanded(child: Text("Rs. "+item.rentAmount.toString()+"/hr", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),)),
-                          Container(
-                            height: 18,
-                            child: VerticalDivider(
-                              color: Colors.black,
-                              thickness: 0.5,
-                            ),
-                          ),
-                          Expanded(child: Text(item.category, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),)),
-                        ],)
+                        Text(item.categoryName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),),
                       ],
                     ),
                   )

@@ -1,4 +1,5 @@
 import 'package:farmtool/Global/classes/ToolsDoc.dart';
+import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 
 class RentToolDetailsPage extends StatefulWidget {
@@ -36,7 +37,7 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
-                            child: Image.network("https://www.easydigging.com/images-new/home-garden-spade.jpg",
+                            child: Image.network(widget.item.imageUrls.first,
                               height: MediaQuery.of(context).size.width - 32,
                               fit: BoxFit.fill,
                             ),
@@ -49,7 +50,7 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                             children: [
                               Text(widget.item.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),),
                               SizedBox(height: 16,),
-                              Text("Rs. "+widget.item.rentAmount.toString()+" / Hr", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),),
+                              Text("Rs. "+widget.item.rentAmount.toString()+" "+DurationTypes.data[widget.item.rentDurationType]!, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),),
                               SizedBox(height: 16,),
                               Text((widget.item.desc+" ")*30, style: TextStyle(fontSize: 16, color: Colors.black45, fontWeight: FontWeight.w200),),
                             ],

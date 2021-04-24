@@ -6,6 +6,7 @@ class ToolsDoc {
   static const ID = "id";
   static const TITLE = "title";
   static const CATEGORY = "caterogy";
+  static const CATEGORYNAME = "caterogy_name";
   static const DESC = "desc";
   static const RENTAMOUNT = "rent_amount";
   static const RENTDURATIONTYPE = "rent_duration_type";
@@ -15,12 +16,14 @@ class ToolsDoc {
   static const ISAVAILABLE = "is_available";
   static const ISACTIVE = "is_active";
   static const LOCATION = "loc";
+  static const IMAGEURLS = "imgurls";
 
   bool get isWithoutId => id == "";
 
   late String id;
   late String title;
   late String category;
+  late String categoryName;
   late String desc;
   late double rentAmount;
   late int rentDurationType;
@@ -30,6 +33,8 @@ class ToolsDoc {
   late bool isAvailable;
   late bool isActive;
   late GeoHashPoint geoHashPoint;
+  late List<dynamic> imageUrls;
+  
 
   ToolsDoc();
   
@@ -37,6 +42,7 @@ class ToolsDoc {
     this.id = snapshot.id;
     this.title = snapshot.data()![TITLE];
     this.category = snapshot.data()![CATEGORY];
+    this.categoryName = snapshot.data()![CATEGORYNAME];
     this.desc = snapshot.data()![DESC];
     this.rentAmount = snapshot.data()![RENTAMOUNT];
     this.rentDurationType = snapshot.data()![RENTDURATIONTYPE];
@@ -46,11 +52,13 @@ class ToolsDoc {
     this.isAvailable = snapshot.data()![ISAVAILABLE];
     this.isActive = snapshot.data()![ISACTIVE];
     this.geoHashPoint = GeoHashPoint.fromMap(snapshot.data()![LOCATION]);
+    this.imageUrls = snapshot.data()![IMAGEURLS];
   }
 
   ToolsDoc.newDoc({
     required this.title,
     required this.category,
+    required this.categoryName,
     required this.desc,
     required this.rentAmount,
     required this.rentDurationType,
@@ -58,6 +66,7 @@ class ToolsDoc {
     required this.createdTimestamp,
     required this.id,
     required this.geoHashPoint,
+    this.imageUrls = const []
   }) : this.updatedTimestamp = createdTimestamp, this.isAvailable = true, this.isActive = true;
   
   ToolsDoc.newDocFromMap(Map map) : this.fromIdAndMapData("", map);
@@ -65,6 +74,7 @@ class ToolsDoc {
   ToolsDoc.fromIdAndMapData(this.id, Map map) {
     this.title = map[TITLE];
     this.category = map[CATEGORY];
+    this.categoryName = map[CATEGORYNAME];
     this.desc = map[DESC];
     this.rentAmount = map[RENTAMOUNT];
     this.rentDurationType = map[RENTDURATIONTYPE];
@@ -74,12 +84,14 @@ class ToolsDoc {
     this.isAvailable = map[ISAVAILABLE];
     this.isActive = map[ISACTIVE];
     this.geoHashPoint = GeoHashPoint.fromMap(map[LOCATION]);
+    this.imageUrls = map[IMAGEURLS];
   }
 
   Map<String, dynamic> toMap() => {
     ID : id,
     TITLE : this.title,
     CATEGORY : this.category,
+    CATEGORYNAME : this.categoryName,
     DESC : this.desc,
     RENTAMOUNT : this.rentAmount,
     RENTDURATIONTYPE : this.rentDurationType,
@@ -89,6 +101,7 @@ class ToolsDoc {
     ISAVAILABLE : this.isAvailable,
     ISACTIVE : this.isActive,
     LOCATION : this.geoHashPoint.toMap(),
+    IMAGEURLS : this.imageUrls,
   };
 
 }

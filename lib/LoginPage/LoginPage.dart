@@ -5,7 +5,6 @@ import 'package:farmtool/SignupPage/SignupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_admin/firebase_admin.dart';
 
 class LoginPage extends StatefulWidget {
   @override
