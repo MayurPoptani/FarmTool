@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
-import 'package:farmtool/Global/classes/ToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -13,12 +13,12 @@ import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class AddTool extends StatefulWidget {
+class RentToolPage extends StatefulWidget {
   @override
-  _AddToolState createState() => _AddToolState();
+  _RentToolPageState createState() => _RentToolPageState();
 }
 
-class _AddToolState extends State<AddTool> {
+class _RentToolPageState extends State<RentToolPage> {
 
   Map<String, dynamic>? categories;
   GlobalKey<FormState> formKey = GlobalKey();
@@ -71,57 +71,55 @@ class _AddToolState extends State<AddTool> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("TOOL IMAGES"),
-                      Card(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12
-                          ),
-                          padding: EdgeInsets.all(16),
-                          child: Builder(
-                            builder: (builderContext) => Row(
-                              children: images.asMap().entries.map((e) {
-                                return Expanded(
-                                  child: InkWell(
-                                    onTap: e.value!=null ? null : () => showImageSelectionOptionsBottomSheet(builderContext, e.key),
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.width*.175,
-                                      margin: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: colorBgColor.withOpacity(0.75),
-                                      ),
-                                      child: e.value==null 
-                                        ? Icon(Icons.image_rounded, color: Colors.white,) 
-                                        : Stack(
-                                          fit: StackFit.expand,
-                                          alignment: Alignment.center,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(8),
-                                              child: Image.file(File(e.value!), fit: BoxFit.fill,),
-                                            ),
-                                            Positioned(
-                                              top: 2, right: 2,
-                                              child: InkWell(
-                                                onTap: () => setState(() => images[e.key]=null),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(4),
-                                                    color: Colors.white
-                                                  ),
-                                                  child: Icon(Icons.delete_forever, size: 20, color: Colors.red,),
+                      SizedBox(height: 8,),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black12
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Builder(
+                          builder: (builderContext) => Row(
+                            children: images.asMap().entries.map((e) {
+                              return Expanded(
+                                child: InkWell(
+                                  onTap: e.value!=null ? null : () => showImageSelectionOptionsBottomSheet(builderContext, e.key),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.width*.175,
+                                    margin: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: colorBgColor.withOpacity(0.75),
+                                    ),
+                                    child: e.value==null 
+                                      ? Icon(Icons.image_rounded, color: Colors.white,) 
+                                      : Stack(
+                                        fit: StackFit.expand,
+                                        alignment: Alignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(8),
+                                            child: Image.file(File(e.value!), fit: BoxFit.fill,),
+                                          ),
+                                          Positioned(
+                                            top: 2, right: 2,
+                                            child: InkWell(
+                                              onTap: () => setState(() => images[e.key]=null),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(4),
+                                                  color: Colors.white
                                                 ),
+                                                child: Icon(Icons.delete_forever, size: 20, color: Colors.red,),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                    ),
+                                          ),
+                                        ],
+                                      ),
                                   ),
-                                );
-                              }).toList(),
-                            ),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ),
@@ -205,22 +203,19 @@ class _AddToolState extends State<AddTool> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 8,),
-                      
+                      SizedBox(height: 16,),
+                      ElevatedButton(
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: double.maxFinite,
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                          child: Text("Save", style: TextStyle(color: Colors.white,),),
+                        ),
+                        onPressed: () => uploadData(),
+                      ),
                     ],
                   ),
                 ),
-              ),
-              ElevatedButton(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                  child: Text("Save", style: TextStyle(color: Colors.white,),),
-                ),
-                onPressed: () {
-                  uploadData();
-                },
               ),
             ],
           ),
@@ -275,29 +270,7 @@ class _AddToolState extends State<AddTool> {
         ],
       ),
     ),);
-    // Scaffold.of(childContext).showBottomSheet((_) => BottomSheet(
-    //   elevation: 8,
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16),),),
-    //   enableDrag: true,
-    //   builder: (_) => Container(
-    //     padding: EdgeInsets.all(32),
-    //     child: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: [
-    //         Row(
-    //           children: [
-    //             Icon(Icons.camera_alt_rounded, color: Colors.black,),
-    //             SizedBox(width: 16,),
-    //             Text("Take from Camera", style: TextStyle(fontSize: 16),),
-    //           ],
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    //   onClosing: () {
-    //     print("imageSourceBottomSheet() onClosing() called");
-    //   },
-    // ));
+    
   }
 
   uploadData() async {
@@ -313,7 +286,7 @@ class _AddToolState extends State<AddTool> {
     Reference ref = FirebaseStorage.instance.ref().child("RentTools");
     List<String?> temp = images.where((element) => element!=null).toList();
     for(int i = 0 ; i < temp.length ; i++) {
-      var task = await ref.child(temp[i]!.split('/').last).putFile(File(temp[i]!));
+      var task = await ref.child(globalUser!.uid+"-"+DateTime.now().toIso8601String()+"."+temp[i]!.trim().split('/').last.split('.').last).putFile(File(temp[i]!));
       // TaskSnapshot snap = await task.whenComplete(() {});
       String url = await task.ref.getDownloadURL();
       print("url = "+url);
@@ -324,7 +297,7 @@ class _AddToolState extends State<AddTool> {
 
   uploadDocument([List<String> imageUrls = const []]) async {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
-    ToolsDoc tool = ToolsDoc.newDoc(
+    RentToolsDoc tool =  RentToolsDoc.newDoc(
       title: nameC.text.trim(), 
       category: categoryId!, 
       categoryName: categories![categoryId],

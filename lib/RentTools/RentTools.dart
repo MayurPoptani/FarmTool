@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:farmtool/Global/classes/ToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/RentTools/RentToolListItem.dart';
@@ -15,9 +16,9 @@ class RentTools extends StatefulWidget {
 
 class _RentToolsState extends State<RentTools> {
 
-  List<ToolsDoc> docs = [];
+  List<RentToolsDoc> docs = [];
   late Stream<List<DocumentSnapshot>> stream;
-  late StreamSubscription? streamSubscription;
+  StreamSubscription? streamSubscription;
   int radius = 200;
 
   @override
@@ -26,20 +27,20 @@ class _RentToolsState extends State<RentTools> {
     getData();
   }
 
-  getData() {
+  getData() async {
+    if(globalPos!=null) globalPos = await getLocation();
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
         collectionRef: FirebaseFirestore.instance.collection("RentTools")
-        .where(ToolsDoc.ISACTIVE, isEqualTo: true)
-      ).within(center: point, radius: radius.toDouble(), field: ToolsDoc.LOCATION, strictMode: true);
+        .where(RentToolsDoc.ISACTIVE, isEqualTo: true)
+      ).within(center: point, radius: radius.toDouble(), field: RentToolsDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      if(mounted) setState(() {
-        event.forEach((element) => docs.add(ToolsDoc.fromDocument(element)));
-      });
+      event.forEach((element) => docs.add(RentToolsDoc.fromDocument(element)));
+      if(mounted) setState(() {});
     });
   }
 

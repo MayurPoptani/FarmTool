@@ -1,9 +1,9 @@
-import 'package:farmtool/Global/classes/ToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 
 class RentToolDetailsPage extends StatefulWidget {
-  final ToolsDoc item;
+  final RentToolsDoc item;
   const RentToolDetailsPage(this.item, {Key? key}) : super(key: key);
   @override
   _RentToolDetailsPageState createState() => _RentToolDetailsPageState();

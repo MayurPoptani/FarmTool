@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
-import 'package:farmtool/AddTool/AddTool.dart';
+import 'package:farmtool/MyDrawer/MyDrawer.dart';
+import 'package:farmtool/AddTool/RentToolPage.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -130,24 +129,25 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Drawer myDrawer() {
-    return Drawer(
-      child: SafeArea(
-        child: Column(
-          children: [
-            TextButton(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Text("Add Item on Rent", style: TextStyle(color: Colors.black,),),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddTool()));
-              },
-            )
-          ],
-        ),
-      ),
-    );
+  Widget myDrawer() {
+    return MyDrawer();
+    // return Drawer(
+    //   child: SafeArea(
+    //     child: Column(
+    //       children: [
+    //         TextButton(
+    //           child: Container(
+    //             padding: EdgeInsets.all(16),
+    //             child: Text("Add Item on Rent", style: TextStyle(color: Colors.black,),),
+    //           ),
+    //           onPressed: () {
+    //             Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddTool()));
+    //           },
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   Widget cardTile({required String title, required String subTitle, required String asset, Function? onTap}) {

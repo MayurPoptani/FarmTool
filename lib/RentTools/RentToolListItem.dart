@@ -1,4 +1,4 @@
-import 'package:farmtool/Global/classes/ToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/RentTools/RentToolDetailsPage.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class RentToolListItem extends StatelessWidget {
 
-  final ToolsDoc item;
+  final RentToolsDoc item;
   RentToolListItem(this.item);
   
   @override
@@ -20,7 +20,7 @@ class RentToolListItem extends StatelessWidget {
         child: Hero(
           tag: item.id,
           child: Card(
-            color: Colors.white,
+            color: colorBgColor.withOpacity(0.65),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 8,
             child: Container(
@@ -40,25 +40,17 @@ class RentToolListItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
+                        Text(item.title, 
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold,),
+                        ),
+                        SizedBox(height: 4,), 
+                        Text("Rs. "+item.rentAmount.toString()+" "+DurationTypes.data[item.rentDurationType]!, 
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400,),
+                        ),
                         SizedBox(height: 4,),
-                        // Text(item.desc, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54),),
-                        // SizedBox(height: 4,),
-                        // Row(children: [
-                        //   Expanded(child: Text("Rs. "+item.rentAmount.toString()+" "+DurationTypes.data[item.rentDurationType]!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),)),
-                        //   Container(
-                        //     height: 18,
-                        //     child: VerticalDivider(
-                        //       color: Colors.black,
-                        //       thickness: 0.5,
-                        //     ),
-                        //   ),
-                        //   Expanded(child: Text(item.categoryName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),)),
-                        // ],)
-                        // 
-                        Text("Rs. "+item.rentAmount.toString()+" "+DurationTypes.data[item.rentDurationType]!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),),
-                        SizedBox(height: 4,),
-                        Text(item.categoryName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,),),
+                        Text(item.categoryName, 
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400,),
+                        ),
                       ],
                     ),
                   )
