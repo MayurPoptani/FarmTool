@@ -1,10 +1,10 @@
 import 'package:farmtool/MyDrawer/MyDrawer.dart';
-import 'package:farmtool/AddTool/RentToolPage.dart';
+import 'package:farmtool/AddToolPost/RentToolPage.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
-import 'package:farmtool/RentTools/RentTools.dart';
+import 'package:farmtool/RentToolsList/RentTools.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -32,37 +32,43 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: myDrawer(),
+      endDrawer: myDrawer(),
+      // drawer: myDrawer(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: Container(
-          margin: EdgeInsets.only(left: 16,),
-          child: Builder(
-            builder: (builderContext) => IconButton(
-              color: Colors.black,
-              icon: Icon(Icons.menu,),
-              onPressed: () async {
-                Scaffold.of(builderContext).openDrawer();
-              },
-            ),
-          ),
-        ),
-        titleSpacing: 16,
+        titleSpacing: 24,
         title: Text("My Dashboard", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400,),),
         actions: [
-          IconButton(
-            color: Colors.black,
-            icon: Icon(Icons.power_settings_new_rounded,),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut().then((value) {
-                globalUser = null;
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => LoginPage()), (route) => false);
-              }).onError((error, stackTrace) {
-                print("signOut.onError.error = "+error.toString());
-              });
-            },
+          Builder(
+            builder: (_) => Container(
+              margin: EdgeInsets.symmetric(horizontal: 8,),
+              padding: EdgeInsets.all(4),
+              child: InkWell(
+                onTap: () => Scaffold.of(_).openEndDrawer(),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset("assets/images/farmer_image.png", fit: BoxFit.fitHeight,),
+                  ),
+                ),
+              ),
+            ),
           ),
+          // IconButton(
+          //   color: Colors.black,
+          //   icon: Icon(Icons.power_settings_new_rounded,),
+          //   onPressed: () async {
+          //     await FirebaseAuth.instance.signOut().then((value) {
+          //       globalUser = null;
+          //       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => LoginPage()), (route) => false);
+          //     }).onError((error, stackTrace) {
+          //       print("signOut.onError.error = "+error.toString());
+          //     });
+          //   },
+          // ),
         ],
       ),
       body: SafeArea(
@@ -160,19 +166,30 @@ class _DashboardState extends State<Dashboard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),
         child: Container(
           decoration: BoxDecoration(
-            color: colorBgColor.withOpacity(0.75),
             borderRadius: BorderRadius.circular(8),
           ),
           padding: EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white, height: 1.5),),
-              Text(subTitle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white70),),
-              // Icon(icon, size: 64, color: Colors.white,)
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Image.asset(asset, height: 54, color: Colors.black,),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.25),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
               SizedBox(height: 16,),
-              Container(child: Image.asset(asset, height: 54, color: Colors.white,),),
+              Text(title, 
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black, height: 1.5),
+                textAlign: TextAlign.center,
+              ),
+              Text(subTitle, 
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),

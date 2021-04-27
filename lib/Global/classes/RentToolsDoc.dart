@@ -22,7 +22,7 @@ class RentToolsDoc {
 
   late String id;
   late String title;
-  late String category;
+  late int category;
   late String categoryName;
   late String desc;
   late double rentAmount;

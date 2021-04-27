@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 User? globalUser;
-Position? globalPos;
+LocationData? globalPos;

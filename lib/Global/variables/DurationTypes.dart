@@ -1,4 +1,4 @@
-class DurationTypes {
+class ToolDurationTypes {
 
   static const HOURLY = 1;
   static const DAILY = 2;
@@ -10,6 +10,20 @@ class DurationTypes {
     DAILY : "Per Day",
     WEEKLY : "Per Week",
     MONTHLY :  "Per Month",
+  };
+
+}
+
+class VehicleDurationTypes {
+
+  static const HOURLY = 1;
+  static const DAILY = 2;
+  static const ACRE = 3;
+  
+  static Map<int, String> get data => {
+    HOURLY : "Per Hour",
+    DAILY : "Per Day",
+    ACRE : "Per Acre"
   };
 
 }

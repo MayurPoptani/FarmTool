@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
-import 'package:farmtool/Global/classes/SellToolsDoc.dart';
+import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -14,14 +14,14 @@ import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class SellToolPage extends StatefulWidget {
+class RentToolPage extends StatefulWidget {
   @override
-  _SellToolPageState createState() => _SellToolPageState();
+  _RentToolPageState createState() => _RentToolPageState();
 }
 
-class _SellToolPageState extends State<SellToolPage> {
+class _RentToolPageState extends State<RentToolPage> {
 
-  Map<String, dynamic>? categories;
+  Map<int, String>? categories;
   GlobalKey<FormState> formKey = GlobalKey();
 
   TextEditingController nameC = TextEditingController();
@@ -30,7 +30,8 @@ class _SellToolPageState extends State<SellToolPage> {
   TextEditingController descC = TextEditingController();
   TextEditingController addressC = TextEditingController();
   List<String?> images = [null, null, null, null];
-  String? categoryId;
+  int? categoryId;
+  int durationTypeId = ToolDurationTypes.DAILY;
 
   @override
   void initState() { 
@@ -39,10 +40,7 @@ class _SellToolPageState extends State<SellToolPage> {
   }
 
   fetchRentToolCategories() async {
-    DocumentReference catRef = FirebaseFirestore.instance.collection("AppData").doc("RentToolsCategories");
-    var docSnap = await catRef.get();
-    categories = docSnap.data();
-    setState(() {});
+    categories = toolsCategories;
   }
 
 
@@ -51,7 +49,7 @@ class _SellToolPageState extends State<SellToolPage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sell Tool", style: TextStyle(color: Colors.black),), 
+        title: Text("Rent Tool", style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -70,7 +68,9 @@ class _SellToolPageState extends State<SellToolPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("TOOL IMAGES"),
+                      Container(
+                        child: Text("TOOL IMAGES"),
+                      ),
                       SizedBox(height: 8,),
                       Container(
                         decoration: BoxDecoration(
@@ -142,14 +142,14 @@ class _SellToolPageState extends State<SellToolPage> {
                       Text("TOOL TYPE", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
-                        child: DropdownButtonFormField<String>(
+                        child: DropdownButtonFormField<int>(
                           validator: (str) {
                             if(str==null) return "Please select the tool's type";
                             else return null;
                           },
                           hint: Text("Tap to select"),
                           items: (categories??{}).entries.toList().map((e) {
-                            return DropdownMenuItem<String>(
+                            return DropdownMenuItem<int>(
                               child: Text(e.value),
                               value: e.key,
                             );
@@ -159,12 +159,12 @@ class _SellToolPageState extends State<SellToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("SELL AMOUNT", style: TextStyle(color: Colors.black),), 
+                      Text("RENT AMOUNT", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the tool's sell amount";
+                            if(str!.trim().isEmpty) return "Please select the tool's rent amount";
                             else return null;
                           },
                           controller: amountC,
@@ -172,6 +172,22 @@ class _SellToolPageState extends State<SellToolPage> {
                           decoration: InputDecoration(
                             hintText: "Example: 100"
                           ),
+                        ),
+                      ),
+                      SizedBox(height: 16,),
+                      Text("DURATION TYPE", style: TextStyle(color: Colors.black),), 
+                      SizedBox(height: 8,),
+                      TextFomFieldContainer(
+                        child: DropdownButtonFormField<int>(
+                          hint: Text("Tap to select"),
+                          items: ToolDurationTypes.data.entries.toList().map((e) {
+                            return DropdownMenuItem<int>(
+                              child: Text(e.value),
+                              value: e.key,
+                            );
+                          }).toList(),
+                          value: durationTypeId,
+                          onChanged: (val) => setState(() => durationTypeId = val??durationTypeId),
                         ),
                       ),
                       SizedBox(height: 16,),
@@ -267,7 +283,7 @@ class _SellToolPageState extends State<SellToolPage> {
 
   uploadImages() async {
     List<String> ls = [];
-    Reference ref = FirebaseStorage.instance.ref().child("SellTools");
+    Reference ref = FirebaseStorage.instance.ref().child("RentTools");
     List<String?> temp = images.where((element) => element!=null).toList();
     for(int i = 0 ; i < temp.length ; i++) {
       var task = await ref.child(globalUser!.uid+"-"+DateTime.now().toIso8601String()+"."+temp[i]!.trim().split('/').last.split('.').last).putFile(File(temp[i]!));
@@ -281,20 +297,21 @@ class _SellToolPageState extends State<SellToolPage> {
 
   uploadDocument([List<String> imageUrls = const []]) async {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
-    SellToolsDoc tool =  SellToolsDoc.newDoc(
+    RentToolsDoc tool =  RentToolsDoc.newDoc(
       title: nameC.text.trim(), 
       category: categoryId!, 
-      categoryName: categories![categoryId],
+      categoryName: categories![categoryId]!,
       desc: descC.text.trim(), 
-      sellAmount: double.parse(amountC.text.trim()), 
-      sellerUID: globalUser!.uid, 
+      rentAmount: double.parse(amountC.text.trim()), 
+      rentDurationType: durationTypeId,
+      renterUID: globalUser!.uid, 
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
       id: "",
       imageUrls: imageUrls,
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("SellTools").add(tool.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("RentTools").add(tool.toMap());
     print(docRef.id);
   }
 

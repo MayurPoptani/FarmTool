@@ -1,10 +1,12 @@
 import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/HindiConstants.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:farmtool/SignupPage/SignupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,11 +60,11 @@ class _LoginPageState extends State<LoginPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Login", style: TextStyle(
+                        Text('login_page.login'.tr(), style: TextStyle(
                           fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black, height: 1,
                           shadows: [BoxShadow(color: Colors.white30, blurRadius: 8, offset: Offset(-2, 2),),],
                         ),),
-                        Text("to your account", style: TextStyle(
+                        Text('login_page.to your account'.tr(), style: TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black54, height: 1,
                           shadows: [BoxShadow(color: Colors.white30, blurRadius: 8, offset: Offset(-2, 2),),],
                         ),),
@@ -83,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     counterText: "",
                     counterStyle: TextStyle(fontSize: double.minPositive),      
-                    labelText: "Phone Number",
-                    hintText: "10 Digit Pin Number",
+                    labelText: "login_page.phone number".tr(),
+                    hintText: "10 Digit Phone Number",
                     prefix: Text("+91 ")
                   ),
                 ),
@@ -116,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                      child: Text(otpSent ? "Login" : "Send OTP", style: TextStyle(color: Colors.white,),),
+                      child: Text((otpSent ? LOGINPAGE.LOGIN : LOGINPAGE.SENDOTP).tr(), style: TextStyle(color: Colors.white,),),
                     ),
                     onPressed: () {
                       if(!otpSent) requestOTP();

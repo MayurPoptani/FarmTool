@@ -19,16 +19,19 @@ class _DrawerSubMenuItemState extends State<DrawerSubMenuItem> {
         children: [
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
-            child: Text("-", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900)),
+            child: Text("-", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500)),
           ),
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: ListTile(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                tileColor: colorBgColor.withOpacity(0.75),
-                title: Text(widget.title, style: TextStyle(color: Colors.white,),),
-                onTap: widget.onTap,
+              child: Container(
+                color: Colors.white,
+                child: ListTile(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  tileColor: colorBgColor.withOpacity(0.65),
+                  title: Text(widget.title, style: TextStyle(color: Colors.white,),),
+                  onTap: widget.onTap,
+                ),
               ),
             ),
           ),

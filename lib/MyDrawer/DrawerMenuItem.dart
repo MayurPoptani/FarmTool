@@ -24,6 +24,7 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if(widget.onTap!=null) widget.onTap!();
         if(DrawerMenu.of(context)!.selectedIndex==widget.index) DrawerMenu.of(context)!.changeIndex(-1);
         else DrawerMenu.of(context)!.changeIndex(widget.index);
         Future.delayed(Duration(milliseconds: 10), () {
@@ -38,24 +39,31 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
             elevation: 4,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: colorBgColor.withOpacity(0.75),
+                // color: Color(0xFFe44d20),
               ),
               width: double.maxFinite,
               child: Row(
                 children: [
-                  Icon(widget.icon, size: 40, color: Colors.white,),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(widget.icon, size: 24, color: Colors.black,),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.green.withOpacity(0.25),
+                    ),
+                  ),
                   SizedBox(width: 16,),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.title.toUpperCase(), style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold,),),
-                        SizedBox(height: 8,),
+                        Text(widget.title.toUpperCase(), style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold,),),
+                        SizedBox(height: 4,),
                         Row(children: [
-                          Expanded(child: Text(widget.subTitle, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w100,),)),
+                          Expanded(child: Text(widget.subTitle, style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w100,),)),
                         ],),
                       ],
                     ),
@@ -69,6 +77,7 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
             duration: Duration(milliseconds: 250,),
             firstChild: Container(), 
             secondChild: Container(
+              margin: EdgeInsets.only(top: 4),
               alignment: Alignment.centerLeft,
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),

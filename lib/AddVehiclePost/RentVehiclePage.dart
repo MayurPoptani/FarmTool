@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -13,24 +15,25 @@ import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class RentToolPage extends StatefulWidget {
+class RentVehiclePage extends StatefulWidget {
   @override
-  _RentToolPageState createState() => _RentToolPageState();
+  _RentVehiclePageState createState() => _RentVehiclePageState();
 }
 
-class _RentToolPageState extends State<RentToolPage> {
+class _RentVehiclePageState extends State<RentVehiclePage> {
 
-  Map<String, dynamic>? categories;
+  Map<int, String>? categories;
   GlobalKey<FormState> formKey = GlobalKey();
 
   TextEditingController nameC = TextEditingController();
+  TextEditingController brandC = TextEditingController();
   TextEditingController catC = TextEditingController();
   TextEditingController amountC = TextEditingController();
   TextEditingController descC = TextEditingController();
   TextEditingController addressC = TextEditingController();
   List<String?> images = [null, null, null, null];
-  String? categoryId;
-  int durationTypeId = DurationTypes.DAILY;
+  int? categoryId;
+  int durationTypeId = ToolDurationTypes.DAILY;
 
   @override
   void initState() { 
@@ -39,10 +42,7 @@ class _RentToolPageState extends State<RentToolPage> {
   }
 
   fetchRentToolCategories() async {
-    DocumentReference catRef = FirebaseFirestore.instance.collection("AppData").doc("RentToolsCategories");
-    var docSnap = await catRef.get();
-    categories = docSnap.data();
-    setState(() {});
+    categories = vehiclesCategories;
   }
 
 
@@ -51,7 +51,7 @@ class _RentToolPageState extends State<RentToolPage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Tool", style: TextStyle(color: Colors.black),), 
+        title: Text("Rent Vehicle", style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -70,7 +70,9 @@ class _RentToolPageState extends State<RentToolPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("TOOL IMAGES"),
+                      Container(
+                        child: Text("VEHICLE IMAGES"),
+                      ),
                       SizedBox(height: 8,),
                       Container(
                         decoration: BoxDecoration(
@@ -124,32 +126,32 @@ class _RentToolPageState extends State<RentToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL NAME", style: TextStyle(color: Colors.black),), 
+                      Text("VEHICLE NAME", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please fill the tool's name";
+                            if(str!.trim().isEmpty) return "Please fill the vehicle's name";
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: "Name of the tool",
+                            hintText: "Name of the vehicle",
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL TYPE", style: TextStyle(color: Colors.black),), 
+                      Text("VEHICLE TYPE", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
-                        child: DropdownButtonFormField<String>(
+                        child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return "Please select the tool's type";
+                            if(str==null) return "Please select the vehicle's type";
                             else return null;
                           },
                           hint: Text("Tap to select"),
                           items: (categories??{}).entries.toList().map((e) {
-                            return DropdownMenuItem<String>(
+                            return DropdownMenuItem<int>(
                               child: Text(e.value),
                               value: e.key,
                             );
@@ -159,12 +161,24 @@ class _RentToolPageState extends State<RentToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
+                      Text("VEHICLE COMPANY NAME (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      SizedBox(height: 8,),
+                      TextFomFieldContainer(
+                        child: TextFormField(
+                          controller: brandC,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "Example: TATA"
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16,),
                       Text("RENT AMOUNT", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the tool's rent amount";
+                            if(str!.trim().isEmpty) return "Please select the vehicle's rent amount";
                             else return null;
                           },
                           controller: amountC,
@@ -180,7 +194,7 @@ class _RentToolPageState extends State<RentToolPage> {
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           hint: Text("Tap to select"),
-                          items: DurationTypes.data.entries.toList().map((e) {
+                          items: VehicleDurationTypes.data.entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
                               value: e.key,
@@ -199,7 +213,7 @@ class _RentToolPageState extends State<RentToolPage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: "Write something about this tool",
+                            hintText: "Write something about this vehicle",
                           ),
                         ),
                       ),
@@ -276,6 +290,7 @@ class _RentToolPageState extends State<RentToolPage> {
   uploadData() async {
     if(formKey.currentState!.validate()==false) return;
     List<String> imageUrls = [];
+    showProgressLoaderDialog();
     if(images.where((element) => element!=null).isNotEmpty) uploadImages();
     else uploadDocument();
   }
@@ -297,22 +312,24 @@ class _RentToolPageState extends State<RentToolPage> {
 
   uploadDocument([List<String> imageUrls = const []]) async {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
-    RentToolsDoc tool =  RentToolsDoc.newDoc(
-      title: nameC.text.trim(), 
+    RentVehiclesDoc vehicle =  RentVehiclesDoc.newDoc(
+      model: nameC.text.trim(), 
       category: categoryId!, 
-      categoryName: categories![categoryId],
-      desc: descC.text.trim(), 
+      categoryName: categories![categoryId]!,
+      desc: descC.text.trim(),
+      brand: brandC.text.trim(),
       rentAmount: double.parse(amountC.text.trim()), 
       rentDurationType: durationTypeId,
       renterUID: globalUser!.uid, 
       createdTimestamp: Timestamp.now(),
-      geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
-      id: "",
+      geoHashPoint: GeoHashPoint(point.hash, point.geoPoint),
       imageUrls: imageUrls,
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("RentTools").add(tool.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("RentVehicles").add(vehicle.toMap());
     print(docRef.id);
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -321,6 +338,23 @@ class _RentToolPageState extends State<RentToolPage> {
       print("Cache Cleared");
     });
     super.dispose();
+  }
+
+  showProgressLoaderDialog() {
+    showDialog(
+      barrierDismissible: false,
+      context: context, 
+      builder: (_) => AlertDialog(
+        title: Text("Uploading..."),
+        content: Container(
+          height: 100,
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation(Colors.green),
+          ),
+        ),
+      ),
+    );
   }
 
 }

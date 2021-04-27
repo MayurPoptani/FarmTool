@@ -4,7 +4,7 @@ import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
-import 'package:farmtool/RentTools/RentToolListItem.dart';
+import 'package:farmtool/RentToolsList/RentToolListItem.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';

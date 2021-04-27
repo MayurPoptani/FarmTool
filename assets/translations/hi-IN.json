@@ -1,0 +1,13 @@
+{
+    "login_page" : {
+        "login" : "लॉग इन करें",
+        "to your account" : "आपके खाते में",
+        "verify OTP" : "ओटीपी सत्यापित करें ",
+        "request OTP" : "ओटीपी भेजो",
+        "phone number" : "फ़ोन नंबर"
+    },
+    "sign_up" : {
+        "full_name" : "पूरा नाम",
+        "mobile_number" : "फ़ोन नंबर"
+    }
+}
