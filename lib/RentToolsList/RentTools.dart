@@ -5,8 +5,9 @@ import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentToolsList/RentToolListItem.dart';
+import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -115,7 +116,15 @@ class _RentToolsState extends State<RentTools> {
                 shrinkWrap: true,
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
-                  return RentToolListItem(docs[index]);
+                  return GridListTile(
+                    header: "Rs. "+docs[index].rentAmount.toStringAsFixed(0),
+                    title: docs[index].title,
+                    subtitle: docs[index].categoryName,
+                    imageUrl: docs[index].imageUrls[0]??null,
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolDetailsPage(docs[index])));
+                    },
+                  );
                 },
               ),
             ),
