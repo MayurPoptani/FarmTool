@@ -276,6 +276,7 @@ class _RentToolPageState extends State<RentToolPage> {
   uploadData() async {
     if(formKey.currentState!.validate()==false) return;
     List<String> imageUrls = [];
+    showProgressLoaderDialog();
     if(images.where((element) => element!=null).isNotEmpty) uploadImages();
     else uploadDocument();
   }
@@ -304,15 +305,37 @@ class _RentToolPageState extends State<RentToolPage> {
       desc: descC.text.trim(), 
       rentAmount: double.parse(amountC.text.trim()), 
       rentDurationType: durationTypeId,
-      renterUID: globalUser!.uid, 
+      renterUID: globalUser!.uid,
+      renterName: globalUser!.displayName!,
+      renterPhone: globalUser!.phoneNumber!, 
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
       id: "",
       imageUrls: imageUrls,
+      
     );
 
     var docRef = await FirebaseFirestore.instance.collection("RentTools").add(tool.toMap());
     print(docRef.id);
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+  }
+
+  showProgressLoaderDialog() {
+    showDialog(
+      barrierDismissible: false,
+      context: context, 
+      builder: (_) => AlertDialog(
+        title: Text("Uploading..."),
+        content: Container(
+          height: 100,
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation(Colors.green),
+          ),
+        ),
+      ),
+    );
   }
 
   @override

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 
@@ -18,6 +21,26 @@ Future<LocationData> getLocation() async {
   }
   _locationData = await location.getLocation();
   return _locationData;
+}
+
+LocationData? getSavedLocation() {
+  String? locDataList = prefs!.getString("location");
+  if(locDataList!=null) {
+    return LocationData.fromMap((jsonDecode(locDataList) as Map).map<String,double>((key, value) => MapEntry<String,double>(key, value)));
+  } 
+}
+
+void saveLocation(LocationData loc) {
+  prefs!.setString("location", jsonEncode({
+    'latitude' : loc.latitude,
+    'longitude' : loc.longitude,
+    'accuracy' : loc.accuracy,
+    'altitude' : loc.altitude,
+    'speed' : loc.speed,
+    'speed_accuracy' : loc.speedAccuracy,
+    'heading' : loc.heading,
+    'time' : loc.time,
+  }));
 }
 
 /// Determine the current position of the device.

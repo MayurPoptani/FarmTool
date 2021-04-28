@@ -5,6 +5,9 @@ import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:farmtool/RentToolsList/RentTools.dart';
+import 'package:farmtool/RentVehiclesList/RentVehicles.dart';
+import 'package:farmtool/SellToolsList/SellTools.dart';
+import 'package:farmtool/SellVehiclesList/SellVehicles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -22,10 +25,14 @@ class _DashboardState extends State<Dashboard> {
       globalUser = user;
       if(mounted) setState(() {});
     });
+    globalPos = getSavedLocation();
+    print("globalPos = getSavedLocation() => "+(globalPos!=null).toString());
     getLocation().then((value) {
       print("Lat = "+value.latitude.toString());
       print("Long = "+value.longitude.toString());
       globalPos = value;
+      print("calling saveLocation()");
+      saveLocation(globalPos!);
     });
   }
 
@@ -108,7 +115,11 @@ class _DashboardState extends State<Dashboard> {
                     cardTile(
                       title: "Buy Vehicles", 
                       subTitle:"On Rent", 
-                      asset: "assets/images/rent_vehicles.png"),
+                      asset: "assets/images/rent_vehicles.png",
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehicles()));
+                      }
+                    ),
                     cardTile(
                       title: "Buy Warehouses", 
                       subTitle:"On Rent", 
@@ -116,11 +127,19 @@ class _DashboardState extends State<Dashboard> {
                     cardTile(
                       title: "Buy Tools", 
                       subTitle:"2nd Hand", 
-                      asset: "assets/images/sell_tools.png"),
+                      asset: "assets/images/sell_tools.png",
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellTools()));
+                      }
+                    ),
                     cardTile(
                       title: "Buy Vehicles", 
                       subTitle:"2nd Hand", 
-                      asset: "assets/images/sell_vehicles.png"),
+                      asset: "assets/images/sell_vehicles.png",
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehicles()));
+                      }  
+                    ),
                     cardTile(
                       title: "Get Labour", 
                       subTitle:"On Fair Rates",

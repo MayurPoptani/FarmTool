@@ -7,14 +7,14 @@ import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class RentToolDetailsPage extends StatefulWidget {
-  final RentToolsDoc item;
-  const RentToolDetailsPage(this.item, {Key? key}) : super(key: key);
+class RentVehicleDetailsPage extends StatefulWidget {
+  final RentVehiclesDoc item;
+  const RentVehicleDetailsPage(this.item, {Key? key}) : super(key: key);
   @override
-  _RentToolDetailsPageState createState() => _RentToolDetailsPageState();
+  _RentVehicleDetailsPageState createState() => _RentVehicleDetailsPageState();
 }
 
-class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
+class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
   bool favourite = false;
   int imgIndex = 0;
 
@@ -91,7 +91,7 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 alignment: Alignment.centerLeft,
-                                child: Text(widget.item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                child: Text(widget.item.model, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                               ),
                             ],
                           )
@@ -193,6 +193,18 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                       icon: Icons.category_rounded,
                                       label: "CATEGORY",
                                       text: widget.item.categoryName
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16,),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: displayItem(
+                                      icon: Icons.category_rounded,
+                                      label: "BRAND",
+                                      text: widget.item.brand
                                     ),
                                   ),
                                 ],

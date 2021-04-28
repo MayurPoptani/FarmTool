@@ -314,13 +314,15 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
     RentVehiclesDoc vehicle =  RentVehiclesDoc.newDoc(
       model: nameC.text.trim(), 
-      category: categoryId!, 
+      category: categoryId!,
       categoryName: categories![categoryId]!,
       desc: descC.text.trim(),
       brand: brandC.text.trim(),
       rentAmount: double.parse(amountC.text.trim()), 
       rentDurationType: durationTypeId,
-      renterUID: globalUser!.uid, 
+      renterUID: globalUser!.uid,
+      renterName: globalUser!.displayName!,
+      renterPhone: globalUser!.phoneNumber!,
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint),
       imageUrls: imageUrls,

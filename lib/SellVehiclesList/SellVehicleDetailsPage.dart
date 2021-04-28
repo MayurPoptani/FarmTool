@@ -1,5 +1,6 @@
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
@@ -7,14 +8,14 @@ import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class RentToolDetailsPage extends StatefulWidget {
-  final RentToolsDoc item;
-  const RentToolDetailsPage(this.item, {Key? key}) : super(key: key);
+class SellVehicleDetailsPage extends StatefulWidget {
+  final SellVehiclesDoc item;
+  const SellVehicleDetailsPage(this.item, {Key? key}) : super(key: key);
   @override
-  _RentToolDetailsPageState createState() => _RentToolDetailsPageState();
+  _SellVehicleDetailsPageState createState() => _SellVehicleDetailsPageState();
 }
 
-class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
+class _SellVehicleDetailsPageState extends State<SellVehicleDetailsPage> {
   bool favourite = false;
   int imgIndex = 0;
 
@@ -91,7 +92,7 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 alignment: Alignment.centerLeft,
-                                child: Text(widget.item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                child: Text(widget.item.model, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                               ),
                             ],
                           )
@@ -166,20 +167,7 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                     child: displayItem(
                                       icon: Icons.av_timer_sharp,
                                       label: "RENT PRICE",
-                                      text: "Rs. "+widget.item.rentAmount.toStringAsFixed(0),
-                                    ),
-                                  ),
-                                  
-                                ],
-                              ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.av_timer_sharp,
-                                      label: "DURATION",
-                                      text: ToolDurationTypes.data[widget.item.rentDurationType]!,
+                                      text: "Rs. "+widget.item.sellAmount.toStringAsFixed(0),
                                     ),
                                   ),
                                   
@@ -202,9 +190,21 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                 children: [
                                   Expanded(
                                     child: displayItem(
+                                      icon: Icons.category_rounded,
+                                      label: "BRAND",
+                                      text: widget.item.brand
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16,),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: displayItem(
                                       icon: Icons.indeterminate_check_box,
                                       label: "RENTER'S NAME",
-                                      text: widget.item.renterName,
+                                      text: widget.item.sellerName,
                                     ),
                                   ),
                                 ],
@@ -240,8 +240,8 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                             child: Text("Call", style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
-                            if(await UrlLauncher.canLaunch("tel:"+widget.item.renterPhone)) {
-                              UrlLauncher.launch("tel:"+widget.item.renterPhone);
+                            if(await UrlLauncher.canLaunch("tel:"+widget.item.sellerPhone)) {
+                              UrlLauncher.launch("tel:"+widget.item.sellerPhone);
                             }
                           }, 
                         ),

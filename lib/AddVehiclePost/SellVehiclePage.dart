@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
-import 'package:farmtool/Global/classes/SellToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
@@ -15,23 +16,25 @@ import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class SellToolPage extends StatefulWidget {
+class SellVehiclePage extends StatefulWidget {
   @override
-  _SellToolPageState createState() => _SellToolPageState();
+  _SellVehiclePageState createState() => _SellVehiclePageState();
 }
 
-class _SellToolPageState extends State<SellToolPage> {
+class _SellVehiclePageState extends State<SellVehiclePage> {
 
   Map<int, String>? categories;
   GlobalKey<FormState> formKey = GlobalKey();
 
   TextEditingController nameC = TextEditingController();
+  TextEditingController brandC = TextEditingController();
   TextEditingController catC = TextEditingController();
   TextEditingController amountC = TextEditingController();
   TextEditingController descC = TextEditingController();
   TextEditingController addressC = TextEditingController();
   List<String?> images = [null, null, null, null];
   int? categoryId;
+  int durationTypeId = ToolDurationTypes.DAILY;
 
   @override
   void initState() { 
@@ -40,7 +43,7 @@ class _SellToolPageState extends State<SellToolPage> {
   }
 
   fetchRentToolCategories() async {
-    categories = toolsCategories;
+    categories = vehiclesCategories;
   }
 
 
@@ -49,7 +52,7 @@ class _SellToolPageState extends State<SellToolPage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sell Tool", style: TextStyle(color: Colors.black),), 
+        title: Text("Sell Vehicle", style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -68,7 +71,9 @@ class _SellToolPageState extends State<SellToolPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("TOOL IMAGES"),
+                      Container(
+                        child: Text("VEHICLE IMAGES"),
+                      ),
                       SizedBox(height: 8,),
                       Container(
                         decoration: BoxDecoration(
@@ -122,27 +127,27 @@ class _SellToolPageState extends State<SellToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL NAME", style: TextStyle(color: Colors.black),), 
+                      Text("VEHICLE NAME", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please fill the tool's name";
+                            if(str!.trim().isEmpty) return "Please fill the vehicle's name";
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: "Name of the tool",
+                            hintText: "Name of the vehicle",
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL TYPE", style: TextStyle(color: Colors.black),), 
+                      Text("VEHICLE TYPE", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return "Please select the tool's type";
+                            if(str==null) return "Please select the vehicle's type";
                             else return null;
                           },
                           hint: Text("Tap to select"),
@@ -157,12 +162,24 @@ class _SellToolPageState extends State<SellToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
+                      Text("VEHICLE COMPANY NAME (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      SizedBox(height: 8,),
+                      TextFomFieldContainer(
+                        child: TextFormField(
+                          controller: brandC,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "Example: TATA"
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16,),
                       Text("SELL AMOUNT", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the tool's sell amount";
+                            if(str!.trim().isEmpty) return "Please select the vehicle's selling amount";
                             else return null;
                           },
                           controller: amountC,
@@ -181,7 +198,7 @@ class _SellToolPageState extends State<SellToolPage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: "Write something about this tool",
+                            hintText: "Write something about this vehicle",
                           ),
                         ),
                       ),
@@ -266,7 +283,7 @@ class _SellToolPageState extends State<SellToolPage> {
 
   uploadImages() async {
     List<String> ls = [];
-    Reference ref = FirebaseStorage.instance.ref().child("SellTools");
+    Reference ref = FirebaseStorage.instance.ref().child("RentTools");
     List<String?> temp = images.where((element) => element!=null).toList();
     for(int i = 0 ; i < temp.length ; i++) {
       var task = await ref.child(globalUser!.uid+"-"+DateTime.now().toIso8601String()+"."+temp[i]!.trim().split('/').last.split('.').last).putFile(File(temp[i]!));
@@ -280,25 +297,33 @@ class _SellToolPageState extends State<SellToolPage> {
 
   uploadDocument([List<String> imageUrls = const []]) async {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
-    SellToolsDoc tool =  SellToolsDoc.newDoc(
-      title: nameC.text.trim(), 
-      category: categoryId!, 
+    SellVehiclesDoc vehicle =  SellVehiclesDoc.newDoc(
+      model: nameC.text.trim(), 
+      category: categoryId!,
       categoryName: categories![categoryId]!,
-      desc: descC.text.trim(), 
+      desc: descC.text.trim(),
+      brand: brandC.text.trim(),
       sellAmount: double.parse(amountC.text.trim()), 
-      sellerUID: globalUser!.uid, 
-      renterName: globalUser!.displayName!,
-      renterPhone: globalUser!.phoneNumber!,
+      sellerUID: globalUser!.uid,
+      sellerName: globalUser!.displayName!,
+      sellerPhone: globalUser!.phoneNumber!,
       createdTimestamp: Timestamp.now(),
-      geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
-      id: "",
+      geoHashPoint: GeoHashPoint(point.hash, point.geoPoint),
       imageUrls: imageUrls,
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("SellTools").add(tool.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("SellVehicles").add(vehicle.toMap());
     print(docRef.id);
     Navigator.of(context).pop();
     Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() async {
+    DefaultCacheManager().emptyCache().then((value) {
+      print("Cache Cleared");
+    });
+    super.dispose();
   }
 
   showProgressLoaderDialog() {
@@ -316,14 +341,6 @@ class _SellToolPageState extends State<SellToolPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() async {
-    DefaultCacheManager().emptyCache().then((value) {
-      print("Cache Cleared");
-    });
-    super.dispose();
   }
 
 }

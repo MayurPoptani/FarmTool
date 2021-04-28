@@ -1,22 +1,23 @@
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
-import 'package:farmtool/RentVehiclesList/RentVehicleDetailsPage.dart';
+import 'package:farmtool/SellToolsList/SellToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 
-class RentToolListItem extends StatefulWidget {
+class SellToolListItem extends StatefulWidget {
 
-  final RentToolsDoc item;
-  RentToolListItem(this.item);
+  final SellToolsDoc item;
+  SellToolListItem(this.item);
 
   @override
-  _RentToolListItemState createState() => _RentToolListItemState();
+  _SellToolListItemState createState() => _SellToolListItemState();
 }
 
-class _RentToolListItemState extends State<RentToolListItem> {
+class _SellToolListItemState extends State<SellToolListItem> {
 
   bool favourite = false;
   @override
@@ -30,7 +31,7 @@ class _RentToolListItemState extends State<RentToolListItem> {
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8,),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolDetailsPage(widget.item)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellToolDetailsPage(widget.item)));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +57,7 @@ class _RentToolListItemState extends State<RentToolListItem> {
                     Positioned(
                       top: 8, right: 8,
                       child: Container(
-                        child: Text("Rs. "+widget.item.rentAmount.toStringAsFixed(0), style: TextStyle(fontSize: 12,),),
+                        child: Text("Rs. "+widget.item.sellAmount.toStringAsFixed(0), style: TextStyle(fontSize: 12,),),
                         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
                           color: Colors.white30,

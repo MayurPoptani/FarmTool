@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 
-class RentVehiclesDoc {
+class SellVehiclesDoc {
 
   static const ID = "id";
   static const MODEL = "model";
@@ -9,11 +9,10 @@ class RentVehiclesDoc {
   static const CATEGORYNAME = "caterogy_name";
   static const DESC = "desc";
   static const BRAND = "brand";
-  static const RENTAMOUNT = "rent_amount";
-  static const RENTDURATIONTYPE = "rent_duration_type";
-  static const RENTERUID = "renter_uid";
-  static const RENTERNAME = "renter_name";
-  static const RENTERPHONE = "renter_phone";
+  static const SELLAMOUNT = "rent_amount";
+  static const SELLERUID = "renter_uid";
+  static const SELLERNAME = "renter_name";
+  static const SELLERPHONE = "renter_phone";
   static const CREATEDTIMESTAMP = "created_timestamp";
   static const UPDATEDTIMESTAMP = "updated_timestamp";
   static const ISAVAILABLE = "is_available";
@@ -29,11 +28,10 @@ class RentVehiclesDoc {
   late String categoryName;
   late String desc;
   late String brand;
-  late double rentAmount;
-  late int rentDurationType;
-  late String renterUID;
-  late String renterName;
-  late String renterPhone;
+  late double sellAmount;
+  late String sellerUID;
+  late String sellerName;
+  late String sellerPhone;
   late Timestamp createdTimestamp;
   late Timestamp updatedTimestamp;
   late bool isAvailable;
@@ -42,20 +40,19 @@ class RentVehiclesDoc {
   late List<dynamic> imageUrls;
   
 
-  RentVehiclesDoc();
+  SellVehiclesDoc();
   
-  RentVehiclesDoc.fromDocument(DocumentSnapshot snapshot) {
+  SellVehiclesDoc.fromDocument(DocumentSnapshot snapshot) {
     this.id = snapshot.id;
     this.model = snapshot.data()![MODEL];
     this.category = snapshot.data()![CATEGORY];
     this.categoryName = snapshot.data()![CATEGORYNAME];
     this.desc = snapshot.data()![DESC];
     this.brand = snapshot.data()![BRAND];
-    this.rentAmount = snapshot.data()![RENTAMOUNT];
-    this.rentDurationType = snapshot.data()![RENTDURATIONTYPE];
-    this.renterUID = snapshot.data()![RENTERUID];
-    this.renterName = snapshot.data()![RENTERNAME];
-    this.renterPhone = snapshot.data()![RENTERPHONE];
+    this.sellAmount = snapshot.data()![SELLAMOUNT];
+    this.sellerUID = snapshot.data()![SELLERUID];
+    this.sellerName = snapshot.data()![SELLERNAME];
+    this.sellerPhone = snapshot.data()![SELLERPHONE];
     this.createdTimestamp = snapshot.data()![CREATEDTIMESTAMP];
     this.updatedTimestamp = snapshot.data()![UPDATEDTIMESTAMP];
     this.isAvailable = snapshot.data()![ISAVAILABLE];
@@ -64,16 +61,15 @@ class RentVehiclesDoc {
     this.imageUrls = snapshot.data()![IMAGEURLS];
   }
 
-  RentVehiclesDoc.newDoc({
+  SellVehiclesDoc.newDoc({
     required this.model,
     required this.category,
     required this.categoryName,
     required this.desc,
-    required this.rentAmount,
-    required this.rentDurationType,
-    required this.renterUID,
-    required this.renterName,
-    required this.renterPhone,
+    required this.sellAmount,
+    required this.sellerUID,
+    required this.sellerName,
+    required this.sellerPhone,
     required this.createdTimestamp,
     required this.geoHashPoint,
     this.brand = "",
@@ -81,19 +77,18 @@ class RentVehiclesDoc {
     this.imageUrls = const []
   }) : this.updatedTimestamp = createdTimestamp, this.isAvailable = true, this.isActive = true;
   
-  RentVehiclesDoc.newDocFromMap(Map map) : this.fromIdAndMapData("", map);
+  SellVehiclesDoc.newDocFromMap(Map map) : this.fromIdAndMapData("", map);
   
-  RentVehiclesDoc.fromIdAndMapData(this.id, Map map) {
+  SellVehiclesDoc.fromIdAndMapData(this.id, Map map) {
     this.model = map[MODEL];
     this.category = map[CATEGORY];
     this.categoryName = map[CATEGORYNAME];
     this.desc = map[DESC];
     this.brand = map[BRAND];
-    this.rentAmount = map[RENTAMOUNT];
-    this.rentDurationType = map[RENTDURATIONTYPE];
-    this.renterUID = map[RENTERUID];
-    this.renterName = map[RENTERNAME];
-    this.renterPhone = map[RENTERPHONE];
+    this.sellAmount = map[SELLAMOUNT];
+    this.sellerUID = map[SELLERUID];
+    this.sellerName = map[SELLERNAME];
+    this.sellerPhone = map[SELLERPHONE];
     this.createdTimestamp = map[CREATEDTIMESTAMP];
     this.updatedTimestamp = map[UPDATEDTIMESTAMP];
     this.isAvailable = map[ISAVAILABLE];
@@ -109,11 +104,10 @@ class RentVehiclesDoc {
     CATEGORYNAME : this.categoryName,
     DESC : this.desc,
     BRAND : this.brand,
-    RENTAMOUNT : this.rentAmount,
-    RENTDURATIONTYPE : this.rentDurationType,
-    RENTERUID : this.renterUID,
-    RENTERNAME : this.renterName,
-    RENTERPHONE : this.renterPhone,
+    SELLAMOUNT : this.sellAmount,
+    SELLERUID : this.sellerUID,
+    SELLERNAME : this.sellerName,
+    SELLERPHONE : this.sellerPhone,
     CREATEDTIMESTAMP : this.createdTimestamp,
     UPDATEDTIMESTAMP : this.updatedTimestamp,
     ISAVAILABLE : this.isAvailable,

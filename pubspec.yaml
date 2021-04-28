@@ -44,6 +44,8 @@ dev_dependencies:
   images_picker: ^1.2.0
   latlong: ^0.6.1
   location: ^4.1.1
+  shared_preferences: ^2.0.5
+  url_launcher: ^6.0.3
 
 dependency_overrides:
   http_parser: ^4.0.0

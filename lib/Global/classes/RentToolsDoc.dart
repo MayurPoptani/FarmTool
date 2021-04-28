@@ -11,6 +11,8 @@ class RentToolsDoc {
   static const RENTAMOUNT = "rent_amount";
   static const RENTDURATIONTYPE = "rent_duration_type";
   static const RENTERUID = "renter_uid";
+  static const RENTERNAME = "renter_name";
+  static const RENTERPHONE = "renter_phone";
   static const CREATEDTIMESTAMP = "created_timestamp";
   static const UPDATEDTIMESTAMP = "updated_timestamp";
   static const ISAVAILABLE = "is_available";
@@ -28,6 +30,8 @@ class RentToolsDoc {
   late double rentAmount;
   late int rentDurationType;
   late String renterUID;
+  late String renterName;
+  late String renterPhone;
   late Timestamp createdTimestamp;
   late Timestamp updatedTimestamp;
   late bool isAvailable;
@@ -47,6 +51,8 @@ class RentToolsDoc {
     this.rentAmount = snapshot.data()![RENTAMOUNT];
     this.rentDurationType = snapshot.data()![RENTDURATIONTYPE];
     this.renterUID = snapshot.data()![RENTERUID];
+    this.renterName = snapshot.data()![RENTERNAME];
+    this.renterPhone = snapshot.data()![RENTERPHONE];
     this.createdTimestamp = snapshot.data()![CREATEDTIMESTAMP];
     this.updatedTimestamp = snapshot.data()![UPDATEDTIMESTAMP];
     this.isAvailable = snapshot.data()![ISAVAILABLE];
@@ -63,6 +69,8 @@ class RentToolsDoc {
     required this.rentAmount,
     required this.rentDurationType,
     required this.renterUID,
+    required this.renterName,
+    required this.renterPhone,
     required this.createdTimestamp,
     required this.id,
     required this.geoHashPoint,
@@ -79,6 +87,8 @@ class RentToolsDoc {
     this.rentAmount = map[RENTAMOUNT];
     this.rentDurationType = map[RENTDURATIONTYPE];
     this.renterUID = map[RENTERUID];
+    this.renterName = map[RENTERNAME];
+    this.renterPhone = map[RENTERPHONE];
     this.createdTimestamp = map[CREATEDTIMESTAMP];
     this.updatedTimestamp = map[UPDATEDTIMESTAMP];
     this.isAvailable = map[ISAVAILABLE];
@@ -96,6 +106,8 @@ class RentToolsDoc {
     RENTAMOUNT : this.rentAmount,
     RENTDURATIONTYPE : this.rentDurationType,
     RENTERUID : this.renterUID,
+    RENTERNAME : this.renterName,
+    RENTERPHONE : this.renterPhone,
     CREATEDTIMESTAMP : this.createdTimestamp,
     UPDATEDTIMESTAMP : this.updatedTimestamp,
     ISAVAILABLE : this.isAvailable,

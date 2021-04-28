@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentToolsList/RentToolListItem.dart';
+import 'package:farmtool/SellToolsList/SellToolListItem.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
-class RentTools extends StatefulWidget {
+class SellTools extends StatefulWidget {
   @override
-  _RentToolsState createState() => _RentToolsState();
+  _SellToolsState createState() => _SellToolsState();
 }
 
-class _RentToolsState extends State<RentTools> {
+class _SellToolsState extends State<SellTools> {
 
-  List<RentToolsDoc> docs = [];
+  List<SellToolsDoc> docs = [];
   late Stream<List<DocumentSnapshot>> stream;
   StreamSubscription? streamSubscription;
   int selectedCategoryId = 0;
@@ -31,19 +31,19 @@ class _RentToolsState extends State<RentTools> {
   }
 
   getData() async {
-    if(globalPos==null) globalPos = await getLocation();
+    if(globalPos!=null) globalPos = await getLocation();
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("RentTools")
-        .where(RentToolsDoc.ISACTIVE, isEqualTo: true)
-        .where(RentToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
-      ).within(center: point, radius: radius.toDouble(), field: RentToolsDoc.LOCATION, strictMode: true);
+        collectionRef: FirebaseFirestore.instance.collection("SellTools")
+        .where(SellToolsDoc.ISACTIVE, isEqualTo: true)
+        .where(SellToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
+      ).within(center: point, radius: radius.toDouble(), field: SellToolsDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      event.forEach((element) => docs.add(RentToolsDoc.fromDocument(element)));
+      event.forEach((element) => docs.add(SellToolsDoc.fromDocument(element)));
       if(mounted) setState(() {});
     });
   }
@@ -59,7 +59,7 @@ class _RentToolsState extends State<RentTools> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Rent Tools", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
+        title: Text("Sell Tools", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
         titleSpacing: 0,
         actions: [
           PopupMenuButton<int>(
@@ -115,7 +115,7 @@ class _RentToolsState extends State<RentTools> {
                 shrinkWrap: true,
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
-                  return RentToolListItem(docs[index]);
+                  return SellToolListItem(docs[index]);
                 },
               ),
             ),

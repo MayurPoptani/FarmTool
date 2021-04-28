@@ -1,22 +1,25 @@
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
 import 'package:farmtool/RentVehiclesList/RentVehicleDetailsPage.dart';
+import 'package:farmtool/SellVehiclesList/SellVehicleDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 
-class RentToolListItem extends StatefulWidget {
+class SellVehicleListItem extends StatefulWidget {
 
-  final RentToolsDoc item;
-  RentToolListItem(this.item);
+  final SellVehiclesDoc item;
+  SellVehicleListItem(this.item);
 
   @override
-  _RentToolListItemState createState() => _RentToolListItemState();
+  _SellVehicleListItemState createState() => _SellVehicleListItemState();
 }
 
-class _RentToolListItemState extends State<RentToolListItem> {
+class _SellVehicleListItemState extends State<SellVehicleListItem> {
 
   bool favourite = false;
   @override
@@ -30,7 +33,7 @@ class _RentToolListItemState extends State<RentToolListItem> {
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8,),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolDetailsPage(widget.item)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehicleDetailsPage(widget.item)));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +50,7 @@ class _RentToolListItemState extends State<RentToolListItem> {
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
                           child: Image.network(widget.item.imageUrls.first,
-                            height: MediaQuery.of(context).size.width*.375,
+                            // height: MediaQuery.of(context).size.width*.375,
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -56,7 +59,7 @@ class _RentToolListItemState extends State<RentToolListItem> {
                     Positioned(
                       top: 8, right: 8,
                       child: Container(
-                        child: Text("Rs. "+widget.item.rentAmount.toStringAsFixed(0), style: TextStyle(fontSize: 12,),),
+                        child: Text("Rs. "+widget.item.sellAmount.toStringAsFixed(0), style: TextStyle(fontSize: 12,),),
                         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
                           color: Colors.white30,
@@ -83,7 +86,7 @@ class _RentToolListItemState extends State<RentToolListItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(widget.item.title, softWrap: true, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900)),
+                          Text(widget.item.model, softWrap: true, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900)),
                           Text(widget.item.categoryName, softWrap: true, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54,)),
                         ],
                       ),

@@ -7,6 +7,10 @@ Map<int, String> get toolsCategories => <int, String>{
   6 : "Digging Tools",
 };
 
+Map<int, String> get toolCategoriesWithAllAsEntry => toolsCategories..addAll({
+  0 : "All Tools" 
+});
+
 Map<int, String> get vehiclesCategories => <int,String>{
   1 : "Tractor",
   2 : "Harvestor",
@@ -19,3 +23,7 @@ Map<int, String> get vehiclesCategories => <int,String>{
   9 : "Harvest Machine",
   10 : "Pilau Machine",
 };
+
+Map<int, String> get vehiclesCategoriesWithAllAsEntry => vehiclesCategories..addAll({
+  0 : "All Vehicles" 
+});

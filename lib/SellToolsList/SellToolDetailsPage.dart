@@ -1,5 +1,5 @@
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
@@ -7,14 +7,14 @@ import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class RentToolDetailsPage extends StatefulWidget {
-  final RentToolsDoc item;
-  const RentToolDetailsPage(this.item, {Key? key}) : super(key: key);
+class SellToolDetailsPage extends StatefulWidget {
+  final SellToolsDoc item;
+  const SellToolDetailsPage(this.item, {Key? key}) : super(key: key);
   @override
-  _RentToolDetailsPageState createState() => _RentToolDetailsPageState();
+  _SellToolDetailsPageState createState() => _SellToolDetailsPageState();
 }
 
-class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
+class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
   bool favourite = false;
   int imgIndex = 0;
 
@@ -165,21 +165,8 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.av_timer_sharp,
-                                      label: "RENT PRICE",
-                                      text: "Rs. "+widget.item.rentAmount.toStringAsFixed(0),
-                                    ),
-                                  ),
-                                  
-                                ],
-                              ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.av_timer_sharp,
-                                      label: "DURATION",
-                                      text: ToolDurationTypes.data[widget.item.rentDurationType]!,
+                                      label: "SELLING PRICE",
+                                      text: "Rs. "+widget.item.sellAmount.toStringAsFixed(0),
                                     ),
                                   ),
                                   

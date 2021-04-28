@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentToolsList/RentToolListItem.dart';
+import 'package:farmtool/SellVehiclesList/SellVehicleListItem.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
-class RentTools extends StatefulWidget {
+class SellVehicles extends StatefulWidget {
   @override
-  _RentToolsState createState() => _RentToolsState();
+  _SellVehiclesState createState() => _SellVehiclesState();
 }
 
-class _RentToolsState extends State<RentTools> {
+class _SellVehiclesState extends State<SellVehicles> {
 
-  List<RentToolsDoc> docs = [];
+  List<SellVehiclesDoc> docs = [];
   late Stream<List<DocumentSnapshot>> stream;
   StreamSubscription? streamSubscription;
   int selectedCategoryId = 0;
@@ -31,19 +31,19 @@ class _RentToolsState extends State<RentTools> {
   }
 
   getData() async {
-    if(globalPos==null) globalPos = await getLocation();
+    if(globalPos!=null) globalPos = await getLocation();
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("RentTools")
-        .where(RentToolsDoc.ISACTIVE, isEqualTo: true)
-        .where(RentToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
-      ).within(center: point, radius: radius.toDouble(), field: RentToolsDoc.LOCATION, strictMode: true);
+        collectionRef: FirebaseFirestore.instance.collection("SellVehicles")
+        .where(SellVehiclesDoc.ISACTIVE, isEqualTo: true)
+        .where(SellVehiclesDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
+      ).within(center: point, radius: radius.toDouble(), field: SellVehiclesDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      event.forEach((element) => docs.add(RentToolsDoc.fromDocument(element)));
+      event.forEach((element) => docs.add(SellVehiclesDoc.fromDocument(element)));
       if(mounted) setState(() {});
     });
   }
@@ -59,7 +59,7 @@ class _RentToolsState extends State<RentTools> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Rent Tools", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
+        title: Text("Buy Vehicles", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
         titleSpacing: 0,
         actions: [
           PopupMenuButton<int>(
@@ -92,19 +92,17 @@ class _RentToolsState extends State<RentTools> {
               child: Text("Categories", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             HorizontalSelector<int>(
-              items: (toolCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
+              items: (vehiclesCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
               initialSelection: selectedCategoryId,
-              onChange: (val) {
-                if(selectedCategoryId!=val) setState(() {
-                  selectedCategoryId = val;
-                  getData();
-                });
-              },
+              onChange: (val) => setState(() {
+                selectedCategoryId = val;
+                getData();
+              }),
             ),
             SizedBox(height: 24,),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text("Available Tools", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text("Available Vehicles", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             Expanded(
               child: GridView.builder(
@@ -115,7 +113,7 @@ class _RentToolsState extends State<RentTools> {
                 shrinkWrap: true,
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
-                  return RentToolListItem(docs[index]);
+                  return SellVehicleListItem(docs[index]);
                 },
               ),
             ),

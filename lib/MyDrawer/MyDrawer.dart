@@ -1,6 +1,7 @@
 import 'package:farmtool/AddToolPost/RentToolPage.dart';
 import 'package:farmtool/AddToolPost/SellToolPage.dart';
 import 'package:farmtool/AddVehiclePost/RentVehiclePage.dart';
+import 'package:farmtool/AddVehiclePost/SellVehiclePage.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
@@ -95,7 +96,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                 ),
                                 DrawerSubMenuItem(
                                   title: "Add a vehicle for selling",
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehiclePage(),),),
                                 ),
                               ],
                             ),
