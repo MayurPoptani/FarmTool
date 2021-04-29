@@ -1,13 +1,215 @@
 {
+    "rent_tool_durations" : {
+        "per_hour" : "घंटे से",
+        "per_day" : "प्रति दिन",
+        "per_week" : "प्रति सप्ताह",
+        "per_month" : "प्रति महीने"
+    },
+    "tool_categories" : {
+        "all_tools" : "सभी उपकरण",
+        "water_sprinklers" : "पानी का फव्वारा",
+        "gardening_tools" : "बागवानी उपकरण",
+        "lawn_movers" : "बगीचे की घास काटने का यंत्र",
+        "sprayers" : "छिड़कनेवाला यंत्र",
+        "water_pumps" : "पानी का पम्प",
+        "digging_tools" : "खुदाई का उपकरण"
+    },
+    "rent_vehicle_durations" : {
+        "per_hour" : "घंटे से",
+        "per_day" : "प्रति दिन",
+        "per_acre" : "प्रति एकड़"
+    },
+    "vehicle_categories" : {
+        "all_vehicle" : "सभी वाहन",
+        "tractor" : "ट्रैक्टर",
+        "harvestor" : "फसल काटने की मशीन",
+        "jcb" : "जेसीबी",
+        "tempo_and_trucks" : "टेम्पो और ट्रक",
+        "cultivator" : "खेतिहर",
+        "thresher" : "कुटाई की मशीन",
+        "trolley" : "ट्राली",
+        "plough_machine" : "हल मशीन"
+    },
     "login_page" : {
         "login" : "लॉग इन करें",
-        "to your account" : "आपके खाते में",
-        "verify OTP" : "ओटीपी सत्यापित करें ",
-        "request OTP" : "ओटीपी भेजो",
-        "phone number" : "फ़ोन नंबर"
+        "to_your_account" : "आपके खाते में",
+        "verify_otp" : "ओटीपी सत्यापित करें ",
+        "request_otp" : "ओटीपी भेजो",
+        "phone_number" : "फ़ोन नंबर",
+        "sign_up_button_label" : "खाता बनाएं",
+        "phone_number_label" : "10 अंकों का फोन नंबर",
+        "otp_field_label" : "6 अंक का ओ.टी.पी."
     },
     "sign_up" : {
+        "sign_up" : "खाता बनाएं",
         "full_name" : "पूरा नाम",
-        "mobile_number" : "फ़ोन नंबर"
+        "phone_number" : "फ़ोन नंबर",
+        "full_name_label" : "पहला नाम मध्य नाम अंतिम नाम",
+        "phone_number_label" : "10 अंकों का फोन नंबर",
+        "continue_button_label" : "आगे बढ़ो",
+        "verify_otp_dialog_header" : "अपने खाते को सत्यापित करें",
+        "verify_otp_dialog_otp_field" : "ओ.टी.पी",
+        "verify_otp_dialog_otp_field_label" : "6 अंक का ओ.टी.पी.",
+        "verify_otp_dialog_verify_button_label" : "सत्यापित करें"
+    },
+    "dashboard" : {
+        "my_dashboard" : "मेरे घर",
+        "hi" : "नमस्ते, ",
+        "greetings" : "आपका दिन शुभ हो",
+        "buy_tools" : "उपकरण खरीदें", 
+        "buy_vehicles" : "वाहन खरीदें", 
+        "buy_warehouses" : "वेयरहाउस खरीदें", 
+        "on_rent" : "किराए पर", 
+        "second_hand" : "उपयोग किया गया", 
+        "get_labor" : "श्रम प्राप्त करें", 
+        "on_fair_rates" : "उचित दरों पर" 
+    },
+    "change_language_page" : {
+        "appbar_label" : "Language / भाषा",
+        "helper_label" : "चयन करने के लिए ऊपर एक भाषा के नाम पर स्पर्श करें",
+        "button_label" : "बदल दें"
+    },
+    "my_drawer" : {
+        "edit_name" : "नाम संपादित करें",
+        "add_new_rent_post_title" : "नई किराया पोस्ट जोड़ें",
+        "add_new_rent_post_subtitle" : "उपकरण, वाहन या गोदाम किराए पर रखें",
+            "add_rent_tool_title" : "किराए पर एक उपकरण जोड़ें",
+            "add_rent_vehicle_title" : "किराए पर वाहन जोड़ें",
+            "add_rent_warehouse_title" : "किराए पर एक गोदाम जोड़ें",
+        "add_new_sell_post_title" : "नई बिक्री पोस्ट जोड़ें",
+        "add_new_sell_post_subtitle" : "अपने उपयोग किए गए उपकरण, वाहन या गोदाम बेच दें और पैसे कमाएं",
+            "add_sell_tool_post_title" : "बेचने के लिए एक उपकरण जोड़ें",     
+            "add_sell_vehicle_post_title" : "बेचने के लिए एक वाहन जोड़ें",             
+        "add_new_labour_post_title" : "नई कार्य पोस्ट जोड़ें",
+        "add_new_labour_post_subtitle" : "खुद को श्रम के लिए रखो और मजदूरी कमाओ",
+        "logout" : "खाते से बाहर निकलो",
+        "update" : "बदलो",
+        "write_your_name" : "अपना नाम लिखो",
+        "change_language_title" : "भाषा बदलें",
+        "change_language_subtitle" : "ऐप के इंटरफ़ेस की भाषा बदलें"
+    },
+    "rent_tool" : {
+        "appbar_label" : "उपकरण किराए पर रखें",
+        "tool_images" : "उपकरण की छवियाँ",
+        "tool_name" : "उपकरण का नाम",
+        "name_of_tool_label" : "उपकरण का नाम लिखें",
+        "tool_type" : "उपकरण का प्रकार",
+        "tool_type_label" : "चयन करने के लिए स्पर्श करें",
+        "tool_rent_amount" : "किराए की राशि",
+        "tool_rent_amount_label" : "उदाहरण: 100",
+        "duration_type" : "अवधि के प्रकार",
+        "duration_type_label" : "अवधि के प्रकार",
+        "description" : "विवरण (वैकल्पिक)",
+        "description_label" : "इस उपकरण के बारे में कुछ लिखें",
+        "save" : "पोस्ट डाल",
+        "tool_name_empty_error" : "कृपया उपकरण का नाम भरें",
+        "tool_type_empty_error" : "कृपया उपकरण का प्रकार भरें",
+        "tool_rent_amount_empty_error" : "कृपया उपकरण का किराया राशि चुनें"
+    },
+    "sell_tool" : {
+        "appbar_label" : "बेचने के लिए उपकरण रखो",
+        "tool_images" : "उपकरण की छवियाँ",
+        "tool_name" : "उपकरण का नाम",
+        "name_of_tool_label" : "उपकरण का नाम लिखें",
+        "tool_type" : "उपकरण का प्रकार",
+        "tool_type_label" : "चयन करने के लिए स्पर्श करें",
+        "tool_sell_amount" : "बेचने का भाव",
+        "tool_sell_amount_label" : "उदाहरण: 25000",
+        "description" : "विवरण (वैकल्पिक)",
+        "description_label" : "इस उपकरण के बारे में कुछ लिखें",
+        "save" : "पोस्ट डाल",
+        "tool_name_empty_error" : "कृपया उपकरण का नाम भरें",
+        "tool_type_empty_error" : "कृपया उपकरण का प्रकार भरें",
+        "tool_sell_amount_empty_error" : "कृपया उपकरण की बिक्री राशि का चयन करें"
+    },
+    "rent_vehicle" : {
+        "appbar_label" : "वाहन किराए पर रखें",
+        "vehicle_images" : "वाहन के चित्र",
+        "vehicle_name" : "वाहन का नाम / मॉडल",
+        "name_of_vehicle_label" : "वाहन का नाम / मॉडल",
+        "vehicle_type" : "वाहन का प्रकार",
+        "vehicle_type_label" : "चयन करने के लिए स्पर्श करें",
+        "vehicle_company_name" : "वाहन की कंपनी का नाम (वैकल्पिक)",
+        "vehicle_company_name_label" : "उदाहरण: टाटा",
+        "vehicle_rent_amount" : "किराए की राशि",
+        "vehicle_rent_amount_label" : "उदाहरण: 25000",
+        "duration_type" : "अवधि प्रकार",
+        "duration_type_label" : "चयन करने के लिए स्पर्श करें",
+        "description" : "विवरण (वैकल्पिक)",
+        "description_label" : "इस वाहन के बारे में कुछ लिखें",
+        "save" : "पोस्ट डाल",
+        "vehicle_name_empty_error" : "कृपया वाहन का नाम / मॉडल दर्ज करें",
+        "vehicle_type_empty_error" : "कृपया वाहन का प्रकार चुनें",
+        "vehicle_rent_amount_empty_error" : "कृपया वाहन का किराया राशि दर्ज करें"
+    },
+    "sell_vehicle" : {
+        "appbar_label" : "वाहन बेचने पर रखें",
+        "vehicle_images" : "वाहन के चित्र",
+        "vehicle_name" : "वाहन का नाम / मॉडल",
+        "name_of_vehicle_label" : "वाहन का नाम / मॉडल",
+        "vehicle_type" : "वाहन का प्रकार",
+        "vehicle_type_label" : "चयन करने के लिए स्पर्श करें",
+        "vehicle_company_name" : "वाहन की कंपनी का नाम (वैकल्पिक)",
+        "vehicle_company_name_label" : "उदाहरण: टाटा",
+        "vehicle_sell_amount" : "वाहन बेचने की राशि",
+        "vehicle_sell_amount_label" : "उदाहरण: 25000",
+        "description" : "विवरण (वैकल्पिक)",
+        "description_label" : "इस वाहन के बारे में कुछ लिखें",
+        "save" : "पोस्ट डाल",
+        "vehicle_name_empty_error" : "कृपया वाहन का नाम / मॉडल दर्ज करें",
+        "vehicle_type_empty_error" : "कृपया वाहन का प्रकार चुनें",
+        "vehicle_sell_amount_empty_error" : "कृपया वाहन का बिक्री राशि दर्ज करें"
+    },
+    "rent_tool_list_page" : {
+        "appbar_label" : "किराए पर उपकरण खरीदें",
+        "categories_label" : "प्रकार",
+        "list_label" : "उपलब्ध उपकरण"
+    },
+    "rent_tool_details_page" : {
+        "rent_price_label" : "किराए की कीमत",
+        "duration_label" : "अवधि",
+        "category_label" : "प्रकार",
+        "renter_name_label" : "मालिक का नाम",
+        "description_label" : "विवरण",
+        "button_label" : "कॉल करो"
+    },
+    "rent_vehicle_list_page" : {
+        "appbar_label" : "किराए पर वाहन खरीदें",
+        "categories_label" : "प्रकार",
+        "list_label" : "उपलब्ध वाहन"
+    },
+    "rent_vehicle_details_page" : {
+        "rent_price_label" : "किराए की कीमत",
+        "duration_label" : "अवधि",
+        "category_label" : "प्रकार",
+        "brand_label" : "वाहन की कंपनी",
+        "renter_name_label" : "मालिक का नाम",
+        "description_label" : "विवरण",
+        "button_label" : "कॉल करो"
+    },
+    "sell_tool_list_page" : {
+        "appbar_label" : "प्रयुक्त उपकरण खरीदें",
+        "categories_label" : "प्रकार",
+        "list_label" : "उपलब्ध उपकरण"
+    },
+    "sell_tool_details_page" : {
+        "sell_price_label" : "बिक्री मूल्य",
+        "category_label" : "प्रकार",
+        "seller_name_label" : "विक्रेता का नाम",
+        "description_label" : "विवरण",
+        "button_label" : "कॉल करो"
+    },
+    "sell_vehicle_list_page" : {
+        "appbar_label" : "उपयोग किए गए वाहन खरीदें",
+        "categories_label" : "प्रकार",
+        "list_label" : "उपलब्ध वाहन"
+    },
+    "sell_vehicle_details_page" : {
+        "sell_price_label" : "विक्रय मूल्य",
+        "category_label" : "प्रकार",
+        "brand_label" : "वाहन की कंपनी",
+        "seller_name_label" : "मालिक का नाम",
+        "description_label" : "विवरण",
+        "button_label" : "कॉल करो"
     }
 }

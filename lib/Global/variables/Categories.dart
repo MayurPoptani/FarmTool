@@ -1,29 +1,30 @@
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 Map<int, String> get toolsCategories => <int, String>{
-  1 : "Water Sprinklers",
-  2 : "Gardening Tools",
-  3 : "Lawn Movers",
-  4 : "Sprayers",
-  5 : "Water Pumps",
-  6 : "Digging Tools",
+  1 : TOOLCATEGORIES.WATER_SPRINKLERS.tr(),
+  2 : TOOLCATEGORIES.GARDENING_TOOLS.tr(),
+  3 : TOOLCATEGORIES.LAWN_MOVERS.tr(),
+  4 : TOOLCATEGORIES.SPRAYERS.tr(),
+  5 : TOOLCATEGORIES.WATER_PUMP.tr(),
+  6 : TOOLCATEGORIES.DIGGING_TOOLS.tr(),
 };
 
 Map<int, String> get toolCategoriesWithAllAsEntry => toolsCategories..addAll({
-  0 : "All Tools" 
+  0 : TOOLCATEGORIES.ALL_TOOLS.tr() 
 });
 
 Map<int, String> get vehiclesCategories => <int,String>{
-  1 : "Tractor",
-  2 : "Harvestor",
-  3 : "JCB",
-  4 : "Tempo and Trucks",
-  5 : "Stray Reaper",
-  6 : "Cultivator",
-  7 : "Thresher",
-  8 : "Trolley",
-  9 : "Harvest Machine",
-  10 : "Pilau Machine",
+  1 : VEHICLECATEGORIES.TRACTOR.tr(),
+  2 : VEHICLECATEGORIES.HARVESTOR.tr(),
+  3 : VEHICLECATEGORIES.JCB.tr(),
+  4 : VEHICLECATEGORIES.TEMPO_AND_TRUCK.tr(),
+  5 : VEHICLECATEGORIES.CULTIVATOR.tr(),
+  6 : VEHICLECATEGORIES.THRESHER.tr(),
+  7 : VEHICLECATEGORIES.TROLLEY.tr(),
+  8 : VEHICLECATEGORIES.PLOUGH_MACHINE.tr(),
 };
 
 Map<int, String> get vehiclesCategoriesWithAllAsEntry => vehiclesCategories..addAll({
-  0 : "All Vehicles" 
+  0 : VEHICLECATEGORIES.ALL_VEHICLES.tr()
 });

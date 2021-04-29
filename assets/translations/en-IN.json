@@ -1,13 +1,215 @@
 {
+    "rent_tool_durations" : {
+        "per_hour" : "Per Hour",
+        "per_day" : "Per Day",
+        "per_week" : "Per Week",
+        "per_month" : "Per Month"
+    },
+    "tool_categories" : {
+        "all_tools" : "All Tools",
+        "water_sprinklers" : "Water Sprinklers",
+        "gardening_tools" : "Gardening Tools",
+        "lawn_movers" : "Lawn Movers",
+        "sprayers" : "Sprayers",
+        "water_pumps" : "Water Pumps",
+        "digging_tools" : "Digging Tools"
+    },
+    "rent_vehicle_durations" : {
+        "per_hour" : "Per Hour",
+        "per_day" : "Per Day",
+        "per_acre" : "Per Acre"
+    },
+    "vehicle_categories" : {
+        "all_vehicle" : "All Vehicles",
+        "tractor" : "Tractor",
+        "harvestor" : "Harvestor",
+        "jcb" : "JCB",
+        "tempo_and_trucks" : "Temp and Truck",
+        "cultivator" : "Cultivator",
+        "thresher" : "Thresher",
+        "trolley" : "Trolley",
+        "plough_machine" : "Plough Machine"
+    },
     "login_page" : {
         "login" : "Login",
-        "to your account" : "to your account",
-        "Verify OTP" : "Verify OTP ",
-        "Request OTP" : "Send OTP",
-        "phone number" : "Phone Number"
+        "to_your_account" : "to your account",
+        "verify_otp" : "Verify OTP",
+        "request_otp" : "Request OTP",
+        "phone_number" : "Mobile Number",
+        "sign_up_button_label" : "Create Account",
+        "phone_number_label" : "10 Digit Phone Number",
+        "otp_field_label" : "6 Digit OTP"
     },
     "sign_up" : {
+        "sign_up" : "Create Account",
         "full_name" : "Full Name",
-        "mobile_number" : "Mobile Number"
+        "phone_number" : "Mobile Number",
+        "full_name_label" : "First Middle Last",
+        "phone_number_label" : "10 Digit Phone Nummber",
+        "continue_button_label" : "Continue",
+        "verify_otp_dialog_header" : "Verify Your Account",
+        "verify_otp_dialog_otp_field" : "OTP",
+        "verify_otp_dialog_otp_field_label" : "6 Digit OTP",
+        "verify_otp_dialog_verify_button_label" : "Verify"
+    },
+    "dashboard" : {
+        "my_dashboard" : "My Dashboard",
+        "hi" : "Hi,",
+        "greetings" : "Have a nice day",
+        "buy_tools" : "Buy Tools", 
+        "buy_vehicles" : "Buy Vehicles", 
+        "buy_warehouses" : "Buy Warehouses", 
+        "on_rent" : "On Rent", 
+        "second_hand" : "2nd Hand", 
+        "get_labor" : "Get Labor", 
+        "on_fair_rates" : "On Fair Rates" 
+    },
+    "my_drawer" : {
+        "edit_name" : "Edit Profile Name",
+        "add_new_rent_post_title" : "ADD NEW RENT POST",
+        "add_new_rent_post_subtitle" : "Put Tools, Vehicles or Warehouses On Rent",
+            "add_rent_tool_title" : "Put a tool on rent",
+            "add_rent_vehicle_title" : "Put a vehicle on rent",
+            "add_rent_warehouse_title" : "Put a warehouse on rent",
+        "add_new_sell_post_title" : "ADD NEW SELL POST",
+        "add_new_sell_post_subtitle" : "Sell your 2nd hand Tools and Vehicles & Earn Money",
+            "add_sell_tool_post_title" : "Put a tool for selling",
+            "add_sell_vehicle_post_title" : "Put a vehicle for selling",
+        "add_new_labour_post_title" : "ADD NEW LABOR POST",
+        "add_new_labour_post_subtitle" : "Put Yourself up for labor & Earn Money",
+        "logout" : "Logout",
+        "update" : "Update",
+        "write_your_name" : "Write your name",
+        "change_language_title" : "Change Language",
+        "change_language_subtitle" : "Change app's interface language"
+    },
+    "change_language_page" : {
+        "appbar_label" : "Lauguage / भाषा",
+        "helper_label" : "Click on a language name above to select it",
+        "button_label" : "CHANGE"
+    },
+    "rent_tool" : {
+        "appbar_label" : "RENT TOOL",
+        "tool_images" : "TOOL IMAGES",
+        "tool_name" : "TOOL NAME",
+        "name_of_tool_label" : "Name of the tool",
+        "tool_type" : "TOOL TYPE",
+        "tool_type_label" : "Tap to select",
+        "tool_rent_amount" : "RENT AMOUNT",
+        "tool_rent_amount_label" : "Example: 100",
+        "duration_type" : "DURATION TYPE",
+        "duration_type_label" : "Tap to select",
+        "description" : "DESCRIPTION (OPTIONAL)",
+        "description_label" : "Write something about this tool",
+        "save" : "POST IT",
+        "tool_name_empty_error" : "Please enter tool's name",
+        "tool_type_empty_error" : "Please select tool's type",
+        "tool_rent_amount_empty_error" : "Please enter tool's rent amount"
+    },
+    "sell_tool" : {
+        "appbar_label" : "SELL TOOL",
+        "tool_images" : "TOOL IMAGES",
+        "tool_name" : "TOOL NAME",
+        "name_of_tool_label" : "Name of the tool",
+        "tool_type" : "TOOL TYPE",
+        "tool_type_label" : "Tap to select",
+        "tool_sell_amount" : "RENT AMOUNT",
+        "tool_sell_amount_label" : "Example: 25000",
+        "description" : "DESCRIPTION (OPTIONAL)",
+        "description_label" : "Write something about this tool",
+        "save" : "POST IT",
+        "tool_name_empty_error" : "Please enter tool's name",
+        "tool_type_empty_error" : "Please select tool's type",
+        "tool_sell_amount_empty_error" : "Please enter tool's selling amount"
+    },
+    "rent_vehicle" : {
+        "appbar_label" : "RENT VEHICLE",
+        "vehicle_images" : "VEHICLE IMAGES",
+        "vehicle_name" : "VEHICLE NAME/MODEL",
+        "name_of_vehicle_label" : "Enter the Name/Model of the vehicle",
+        "vehicle_type" : "VEHICLE TYPE",
+        "vehicle_type_label" : "Tap to select",
+        "vehicle_company_name" : "VEHICLE COMPANY NAME (OPTIONAL)",
+        "vehicle_company_name_label" : "Example: TATA",
+        "vehicle_rent_amount" : "RENT AMOUNT",
+        "vehicle_rent_amount_label" : "Example: 100",
+        "duration_type" : "DURATION TYPE",
+        "duration_type_label" : "Tap to select",
+        "description" : "DESCRIPTION (OPTIONAL)",
+        "description_label" : "Write something about this vehicle",
+        "save" : "POST IT",
+        "vehicle_name_empty_error" : "Please enter vehicle's name/model",
+        "vehicle_type_empty_error" : "Please select vehicle's type",
+        "vehicle_rent_amount_empty_error" : "Please enter vehicle's rent amount"
+    },
+    "sell_vehicle" : {
+        "appbar_label" : "Sell Vehicle",
+        "vehicle_images" : "VEHICLE IMAGES",
+        "vehicle_name" : "VEHICLE NAME",
+        "name_of_vehicle_label" : "Name/Model of the vehicle",
+        "vehicle_type" : "VEHICLE TYPE",
+        "vehicle_type_label" : "Tap to select",
+        "vehicle_company_name" : "VEHICLE COMPANY NAME (OPTIONAL)",
+        "vehicle_company_name_label" : "EXAMPLE: TATA",
+        "vehicle_sell_amount" : "SELL AMOUT",
+        "vehicle_sell_amount_label" : "EXAMPLE: 25000",
+        "description" : "DESCRIPTION (OPTIONAL)",
+        "description_label" : "Write something about this vehicle",
+        "save" : "POST IT",
+        "vehicle_name_empty_error" : "Please enter the vehicle's name / model  ",
+        "vehicle_type_empty_error" : "Please select the vehicle's type",
+        "vehicle_sell_amount_empty_error" : "Please select the vehicle's selling amount"
+    },
+    "rent_tool_list_page" : {
+        "appbar_label" : "Buy Tools on Rent",
+        "categories_label" : "Categories",
+        "list_label" : "Available Tools"
+    },
+    "rent_tool_details_page" : {
+        "rent_price_label" : "RENT PRICE",
+        "duration_label" : "FOR DURATION",
+        "category_label" : "CATEGORY",
+        "renter_name_label" : "RENTER'S NAME",
+        "description_label" : "DESCRIPTION",
+        "button_label" : "CALL"
+    },
+    "rent_vehicle_list_page" : {
+        "appbar_label" : "Buy Vehicles on Rent",
+        "categories_label" : "Categories",
+        "list_label" : "Available Vehicles"
+    },
+    "rent_vehicle_details_page" : {
+        "rent_price_label" : "RENT PRICE",
+        "duration_label" : "FOR DURATION",
+        "category_label" : "CATEGORY",
+        "brand_label" : "BRAND",
+        "renter_name_label" : "RENTER'S NAME",
+        "description_label" : "DESCRIPTION",
+        "button_label" : "CALL"
+    },
+    "sell_tool_list_page" : {
+        "appbar_label" : "Buy 2nd Hand Tools",
+        "categories_label" : "Categories",
+        "list_label" : "Available Tools"
+    },
+    "sell_tool_details_page" : {
+        "sell_price_label" : "SELLING PRICE",
+        "category_label" : "CATEGORY",
+        "seller_name_label" : "SELLER'S NAME",
+        "description_label" : "DESCRIPTION",
+        "button_label" : "CALL"
+    },
+    "sell_vehicle_list_page" : {
+        "appbar_label" : "Buy 2nd Hand Vehicles",
+        "categories_label" : "Categories",
+        "list_label" : "Available Vehicles"
+    },
+    "sell_vehicle_details_page" : {
+        "sell_price_label" : "SELL PRICE",
+        "category_label" : "CATEGORY",
+        "brand_label" : "BRAND",
+        "seller_name_label" : "SELLER'S NAME",
+        "description_label" : "DESCRIPTION",
+        "button_label" : "CALL"
     }
 }

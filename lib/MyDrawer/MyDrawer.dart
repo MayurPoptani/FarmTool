@@ -3,7 +3,9 @@ import 'package:farmtool/AddToolPost/RentToolPage.dart';
 import 'package:farmtool/AddToolPost/SellToolPage.dart';
 import 'package:farmtool/AddVehiclePost/RentVehiclePage.dart';
 import 'package:farmtool/AddVehiclePost/SellVehiclePage.dart';
+import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:farmtool/MyDrawer/DrawerMenu.dart';
@@ -11,6 +13,7 @@ import 'package:farmtool/MyDrawer/DrawerMenuItem.dart';
 import 'package:farmtool/MyDrawer/DrawerSubMenuItem.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -52,14 +55,14 @@ class _MyDrawerState extends State<MyDrawer> {
                                 ),
                               ),
                               SizedBox(height: 16,),
-                              Text(globalUser!.displayName!.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),),
+                              if(globalUser!=null) Text(globalUser!.displayName!.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),),
                               TextButton(
                                 style: ButtonStyle(visualDensity: VisualDensity.compact,),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("Edit Profile Name", style: TextStyle(fontSize: 16, color: Colors.black54,),),
+                                    Text(MYDRAWER.EDIT_PROFILE_NAME.tr(), style: TextStyle(fontSize: 16, color: Colors.black54,),),
                                     SizedBox(width: 8,),
                                     Icon(Icons.edit, size: 20, color: Colors.black54,),
                                   ],
@@ -71,44 +74,50 @@ class _MyDrawerState extends State<MyDrawer> {
                                 selectedIndex: selectedMenuIndex, 
                                 items: [
                                   DrawerMenuItem(
-                                    title: "Add New Rent Post",
-                                    subTitle: "Put Tools, Vehicles or Warehouses On Rent",
+                                    title: MYDRAWER.ADD_NEW_RENT_POST_TITLE.tr(),
+                                    subTitle: MYDRAWER.ADD_NEW_RENT_POST_SUBTITLE.tr(),
                                     icon: Icons.add_circle_outlined,
                                     subMenuItems: [
                                       DrawerSubMenuItem(
-                                        title: "Add a tool on rent",
+                                        title: MYDRAWER.ADD_NEW_RENT_TOOL_TITLE.tr(),
                                         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolPage(),),),
                                       ),
                                       DrawerSubMenuItem(
-                                        title: "Add a vehicle on rent",
+                                        title: MYDRAWER.ADD_NEW_RENT_VEHICLE_TITLE.tr(),
                                         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehiclePage(),),),
                                       ),
                                       DrawerSubMenuItem(
-                                        title: "Add a warehouse on rent",
+                                        title: MYDRAWER.ADD_NEW_RENT_WAREHOUSE_TITLE.tr(),
                                         onTap: () {},
                                       ),
                                     ],
                                   ),
                                   DrawerMenuItem(
-                                    title: "Add New Sell Post",
-                                    subTitle: "Sell Your 2nd Tools And Vehicles And Earn Money",
+                                    title: MYDRAWER.ADD_NEW_SELL_POST_TITLE.tr(),
+                                    subTitle: MYDRAWER.ADD_NEW_SELL_POST_SUBTITLE.tr(),
                                     icon: Icons.monetization_on,
                                     subMenuItems: [
                                       DrawerSubMenuItem(
-                                        title: "Add a tool for selling",
+                                        title:MYDRAWER.ADD_NEW_SELL_TOOL_TITLE.tr(),
                                         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellToolPage(),),),
                                       ),
                                       DrawerSubMenuItem(
-                                        title: "Add a vehicle for selling",
+                                        title: MYDRAWER.ADD_NEW_SELL_VEHICLE_TITLE.tr(),
                                         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehiclePage(),),),
                                       ),
                                     ],
                                   ),
                                   DrawerMenuItem(
-                                    title: "Add New Labour Post",
-                                    subTitle: "Put Yourself Up For Labour And Earn Money",
+                                    title: MYDRAWER.ADD_NEW_LABOR_POST_TITLE.tr(),
+                                    subTitle: MYDRAWER.ADD_NEW_LABOR_POST_SUBTITLE.tr(),
                                     icon: Icons.accessibility_new_rounded,
                                     onTap: () {},
+                                  ),
+                                  DrawerMenuItem(
+                                    title: MYDRAWER.CHANGE_LANGGUAGE_TITLE.tr(),
+                                    subTitle: MYDRAWER.CHANGE_LANGGUAGE_SUBTITLE.tr(),
+                                    icon: Image.asset("assets/images/language.png", color: Colors.black, height: 24,),
+                                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChangeLanguagePage(),),),
                                   ),
                                 ], 
                                 onChange: (index) => setState(() => selectedMenuIndex = index),
@@ -121,7 +130,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         width: double.maxFinite,
                         child: TextButton.icon(
                           icon: Icon(Icons.power_settings_new_rounded, color: Colors.red), 
-                          label: Text("Logout", style: TextStyle(color: Colors.black),),
+                          label: Text(MYDRAWER.LOGOUT.tr(), style: TextStyle(color: Colors.black),),
                           onPressed: () {
                             FirebaseAuth.instance.signOut().then((value) {
                               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => LoginPage()), (route) => false);
@@ -148,12 +157,12 @@ class _MyDrawerState extends State<MyDrawer> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("UPDATE PROFILE NAME"),
+          Text(MYDRAWER.EDIT_PROFILE_NAME.tr()),
           SizedBox(height: 8,),
           TextFomFieldContainer(
             child: TextFormField(
               controller: nameC,
-              decoration: InputDecoration(hintText: "Write your name"),
+              decoration: InputDecoration(hintText: MYDRAWER.WRITE_YOUR_NAME.tr()),
             ),
           ),
           SizedBox(height: 8,),
@@ -162,26 +171,41 @@ class _MyDrawerState extends State<MyDrawer> {
             child: ElevatedButton(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text("Update"),
+                child: Text(MYDRAWER.UPDATE.tr()),
               ),
               onPressed: () async {
                 if(nameC.text.trim().isNotEmpty && globalUser!.displayName!.trim().toLowerCase()!=nameC.text.trim().toLowerCase())
                   updateDatabaseAndProfile(nameC.text.trim());
               }, 
             ),
-          )
+          ),
         ],
       ),
     ),);
   }
 
   updateDatabaseAndProfile(String name) async {
-    // FirebaseFirestore.instance.runTransaction((transaction) {
-    //   FirebaseFirestore.instance.collectionGroup("Posts").where(field)
-    // });
-    await globalUser!.updateProfile(displayName: name.trim(),);
-    Navigator.of(context).pop();
-    if(mounted) setState(() {});
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      // QuerySnapshot qsnap =  await FirebaseFirestore.instance.collectionGroup("Posts").where("uid", isEqualTo: globalUser!.uid).get();
+      QuerySnapshot qsnap =  await FirebaseFirestore.instance.collectionGroup("Entries").where("uid", isEqualTo: globalUser!.uid).get();
+      print(qsnap.docs.length);
+      for(int i = 0 ; i< qsnap.docs.length ; i ++) {
+        transaction.update(qsnap.docs[i].reference, {
+          "uid_name" : name
+        });
+      }
+      return transaction;
+    }).then((value) async {
+      await globalUser!.updateProfile(displayName: name.trim(),);
+      Navigator.of(context).pop();
+      if(mounted) setState(() {});
+    }).onError((error, stackTrace) {
+      print("TransactionError Error = "+error.toString());
+      print("TransactionError StackTrace  = "+stackTrace.toString());
+    });
+    // await globalUser!.updateProfile(displayName: name.trim(),);
+    // Navigator.of(context).pop();
+    // if(mounted) setState(() {}); 
   }
 
 }

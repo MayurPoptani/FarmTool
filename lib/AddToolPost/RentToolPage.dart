@@ -5,6 +5,7 @@ import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
@@ -13,6 +14,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RentToolPage extends StatefulWidget {
   @override
@@ -49,7 +51,7 @@ class _RentToolPageState extends State<RentToolPage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rent Tool", style: TextStyle(color: Colors.black),), 
+        title: Text(RENTTOOL.APPBAR_LABEL.tr(), style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -69,7 +71,7 @@ class _RentToolPageState extends State<RentToolPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        child: Text("TOOL IMAGES"),
+                        child: Text(RENTTOOL.TOOL_IMAGES.tr()),
                       ),
                       SizedBox(height: 8,),
                       Container(
@@ -124,30 +126,30 @@ class _RentToolPageState extends State<RentToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL NAME", style: TextStyle(color: Colors.black),), 
+                      Text(RENTTOOL.TOOL_NAME.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please fill the tool's name";
+                            if(str!.trim().isEmpty) return RENTTOOL.TOOL_NAME_EMPTY_ERROR.tr();
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: "Name of the tool",
+                            hintText: RENTTOOL.TOOL_NAME_LABEL.tr(),
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL TYPE", style: TextStyle(color: Colors.black),), 
+                      Text(RENTTOOL.TOOL_TYPE.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return "Please select the tool's type";
+                            if(str==null) return RENTTOOL.TOOL_TYPE_EMPTY_ERROR.tr();
                             else return null;
                           },
-                          hint: Text("Tap to select"),
+                          hint: Text(RENTTOOL.TOOL_TYPE_LABEL.tr()),
                           items: (categories??{}).entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
@@ -159,27 +161,27 @@ class _RentToolPageState extends State<RentToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("RENT AMOUNT", style: TextStyle(color: Colors.black),), 
+                      Text(RENTTOOL.RENT_AMOUNT.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the tool's rent amount";
+                            if(str!.trim().isEmpty) return RENTTOOL.TOOL_RENT_AMOUT_EMPTY_ERROR.tr();
                             else return null;
                           },
                           controller: amountC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Example: 100"
+                            hintText: RENTTOOL.RENT_AMOUNT_LABEL.tr()
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("DURATION TYPE", style: TextStyle(color: Colors.black),), 
+                      Text(RENTTOOL.DURATION_TYPE.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
-                          hint: Text("Tap to select"),
+                          hint: Text(RENTTOOL.DURATION_LABEL.tr()),
                           items: ToolDurationTypes.data.entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
@@ -191,7 +193,7 @@ class _RentToolPageState extends State<RentToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("DESCRIPTION (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      Text(RENTTOOL.DESCRIPTION.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
@@ -199,7 +201,7 @@ class _RentToolPageState extends State<RentToolPage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: "Write something about this tool",
+                            hintText: RENTTOOL.DESCRIPTION_LABEL.tr(),
                           ),
                         ),
                       ),
@@ -209,7 +211,7 @@ class _RentToolPageState extends State<RentToolPage> {
                           alignment: Alignment.center,
                           width: double.maxFinite,
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                          child: Text("Save", style: TextStyle(color: Colors.white,),),
+                          child: Text(RENTTOOL.SAVE.tr(), style: TextStyle(color: Colors.white,),),
                         ),
                         onPressed: () => uploadData(),
                       ),
@@ -307,7 +309,7 @@ class _RentToolPageState extends State<RentToolPage> {
       rentDurationType: durationTypeId,
       renterUID: globalUser!.uid,
       renterName: globalUser!.displayName!,
-      renterPhone: globalUser!.phoneNumber!, 
+      renterPhone: globalUser!.phoneNumber??"", 
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
       id: "",
@@ -315,7 +317,7 @@ class _RentToolPageState extends State<RentToolPage> {
       
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("RentTools").add(tool.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("Posts/RentTools/Entries").add(tool.toMap());
     print(docRef.id);
     Navigator.of(context).pop();
     Navigator.of(context).pop();

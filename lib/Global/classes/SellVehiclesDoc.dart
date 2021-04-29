@@ -10,8 +10,8 @@ class SellVehiclesDoc {
   static const DESC = "desc";
   static const BRAND = "brand";
   static const SELLAMOUNT = "rent_amount";
-  static const SELLERUID = "renter_uid";
-  static const SELLERNAME = "renter_name";
+  static const SELLERUID = "uid";
+  static const SELLERNAME = "uid_name";
   static const SELLERPHONE = "renter_phone";
   static const CREATEDTIMESTAMP = "created_timestamp";
   static const UPDATEDTIMESTAMP = "updated_timestamp";

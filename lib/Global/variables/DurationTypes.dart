@@ -1,3 +1,6 @@
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 class ToolDurationTypes {
 
   static const HOURLY = 1;
@@ -6,10 +9,10 @@ class ToolDurationTypes {
   static const MONTHLY = 4;
 
   static Map<int, String> get data => {
-    HOURLY : "Per Hour",
-    DAILY : "Per Day",
-    WEEKLY : "Per Week",
-    MONTHLY :  "Per Month",
+    HOURLY : RENTTOOLDURATIONS.PER_HOUR.tr(),
+    DAILY : RENTTOOLDURATIONS.PER_DAY.tr(),
+    WEEKLY : RENTTOOLDURATIONS.PER_WEEK.tr(),
+    MONTHLY : RENTTOOLDURATIONS.PER_MONTH.tr(),
   };
 
 }
@@ -21,9 +24,9 @@ class VehicleDurationTypes {
   static const ACRE = 3;
   
   static Map<int, String> get data => {
-    HOURLY : "Per Hour",
-    DAILY : "Per Day",
-    ACRE : "Per Acre"
+    HOURLY : RENTVEHICLEDURATIONS.PER_HOUR.tr(),
+    DAILY : RENTVEHICLEDURATIONS.PER_DAY.tr(),
+    ACRE : RENTVEHICLEDURATIONS.PER_ACRE.tr(),
   };
 
 }

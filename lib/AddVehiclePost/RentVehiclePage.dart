@@ -6,6 +6,7 @@ import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
@@ -14,6 +15,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RentVehiclePage extends StatefulWidget {
   @override
@@ -51,7 +53,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rent Vehicle", style: TextStyle(color: Colors.black),), 
+        title: Text(RENTVEHICLE.APPBAR_LABEL.tr(), style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -71,7 +73,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        child: Text("VEHICLE IMAGES"),
+                        child: Text(RENTVEHICLE.VEHICLE_IMAGES.tr()),
                       ),
                       SizedBox(height: 8,),
                       Container(
@@ -126,30 +128,30 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("VEHICLE NAME", style: TextStyle(color: Colors.black),), 
+                      Text(RENTVEHICLE.VEHICLE_NAME.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please fill the vehicle's name";
+                            if(str!.trim().isEmpty) return RENTVEHICLE.VEHICLE_NAME_EMPTY_ERROR.tr();
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: "Name of the vehicle",
+                            hintText: RENTVEHICLE.VEHICLE_NAME_LABEL.tr(),
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("VEHICLE TYPE", style: TextStyle(color: Colors.black),), 
+                      Text(RENTVEHICLE.VEHICLE_TYPE.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return "Please select the vehicle's type";
+                            if(str==null) return RENTVEHICLE.VEHICLE_TYPE_EMPTY_ERROR.tr();
                             else return null;
                           },
-                          hint: Text("Tap to select"),
+                          hint: Text(RENTVEHICLE.VEHICLE_TYPE_LABEL.tr()),
                           items: (categories??{}).entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
@@ -161,39 +163,39 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("VEHICLE COMPANY NAME (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      Text(RENTVEHICLE.VEHICLE_COMPANY.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: brandC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Example: TATA"
+                            hintText: RENTVEHICLE.VEHICLE_COMPANY_LABEL.tr()
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("RENT AMOUNT", style: TextStyle(color: Colors.black),), 
+                      Text(RENTVEHICLE.RENT_AMOUNT.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the vehicle's rent amount";
+                            if(str!.trim().isEmpty) return RENTVEHICLE.VEHICLE_RENT_AMOUT_EMPTY_ERROR.tr();
                             else return null;
                           },
                           controller: amountC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Example: 100"
+                            hintText: RENTVEHICLE.RENT_AMOUNT_LABEL.tr()
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("DURATION TYPE", style: TextStyle(color: Colors.black),), 
+                      Text(RENTVEHICLE.DURATION_TYPE.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
-                          hint: Text("Tap to select"),
+                          hint: Text(RENTVEHICLE.DURATION_LABEL.tr()),
                           items: VehicleDurationTypes.data.entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
@@ -205,7 +207,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("DESCRIPTION (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      Text(RENTVEHICLE.DESCRIPTION.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
@@ -213,7 +215,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: "Write something about this vehicle",
+                            hintText: RENTVEHICLE.DESCRIPTION_LABEL.tr(),
                           ),
                         ),
                       ),
@@ -223,7 +225,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                           alignment: Alignment.center,
                           width: double.maxFinite,
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                          child: Text("Save", style: TextStyle(color: Colors.white,),),
+                          child: Text(RENTVEHICLE.SAVE.tr(), style: TextStyle(color: Colors.white,),),
                         ),
                         onPressed: () => uploadData(),
                       ),
@@ -328,7 +330,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
       imageUrls: imageUrls,
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("RentVehicles").add(vehicle.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("Posts/RentVehicles/Entries").add(vehicle.toMap());
     print(docRef.id);
     Navigator.of(context).pop();
     Navigator.of(context).pop();

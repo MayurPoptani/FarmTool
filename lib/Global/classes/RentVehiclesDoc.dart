@@ -11,8 +11,8 @@ class RentVehiclesDoc {
   static const BRAND = "brand";
   static const RENTAMOUNT = "rent_amount";
   static const RENTDURATIONTYPE = "rent_duration_type";
-  static const RENTERUID = "renter_uid";
-  static const RENTERNAME = "renter_name";
+  static const RENTERUID = "uid";
+  static const RENTERNAME = "uid_name";
   static const RENTERPHONE = "renter_phone";
   static const CREATEDTIMESTAMP = "created_timestamp";
   static const UPDATEDTIMESTAMP = "updated_timestamp";

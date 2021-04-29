@@ -6,6 +6,7 @@ import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
@@ -14,6 +15,8 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class SellToolPage extends StatefulWidget {
   @override
@@ -49,7 +52,7 @@ class _SellToolPageState extends State<SellToolPage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sell Tool", style: TextStyle(color: Colors.black),), 
+        title: Text(SELLTOOL.APPBAR_LABEL.tr(), style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -68,7 +71,7 @@ class _SellToolPageState extends State<SellToolPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("TOOL IMAGES"),
+                      Text(SELLTOOL.TOOL_IMAGES.tr()),
                       SizedBox(height: 8,),
                       Container(
                         decoration: BoxDecoration(
@@ -122,30 +125,30 @@ class _SellToolPageState extends State<SellToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL NAME", style: TextStyle(color: Colors.black),), 
+                      Text(SELLTOOL.TOOL_NAME.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please fill the tool's name";
+                            if(str!.trim().isEmpty) return SELLTOOL.TOOL_NAME_EMPTY_ERROR.tr();
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: "Name of the tool",
+                            hintText: SELLTOOL.TOOL_NAME_LABEL.tr(),
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("TOOL TYPE", style: TextStyle(color: Colors.black),), 
+                      Text(SELLTOOL.TOOL_TYPE.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return "Please select the tool's type";
+                            if(str==null) return SELLTOOL.TOOL_TYPE_EMPTY_ERROR.tr();
                             else return null;
                           },
-                          hint: Text("Tap to select"),
+                          hint: Text(SELLTOOL.TOOL_TYPE_LABEL.tr()),
                           items: (categories??{}).entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
@@ -157,23 +160,23 @@ class _SellToolPageState extends State<SellToolPage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("SELL AMOUNT", style: TextStyle(color: Colors.black),), 
+                      Text(SELLTOOL.SELL_AMOUNT.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the tool's sell amount";
+                            if(str!.trim().isEmpty) return SELLTOOL.TOOL_SELL_AMOUT_EMPTY_ERROR.tr();
                             else return null;
                           },
                           controller: amountC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Example: 100"
+                            hintText: SELLTOOL.SELL_AMOUNT_LABEL.tr()
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("DESCRIPTION (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      Text(SELLTOOL.DESCRIPTION.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
@@ -181,7 +184,7 @@ class _SellToolPageState extends State<SellToolPage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: "Write something about this tool",
+                            hintText: SELLTOOL.DESCRIPTION_LABEL.tr(),
                           ),
                         ),
                       ),
@@ -191,7 +194,7 @@ class _SellToolPageState extends State<SellToolPage> {
                           alignment: Alignment.center,
                           width: double.maxFinite,
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                          child: Text("Save", style: TextStyle(color: Colors.white,),),
+                          child: Text(SELLTOOL.SAVE.tr(), style: TextStyle(color: Colors.white,),),
                         ),
                         onPressed: () => uploadData(),
                       ),
@@ -295,7 +298,7 @@ class _SellToolPageState extends State<SellToolPage> {
       imageUrls: imageUrls,
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("SellTools").add(tool.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("Posts/SellTools/Entries").add(tool.toMap());
     print(docRef.id);
     Navigator.of(context).pop();
     Navigator.of(context).pop();

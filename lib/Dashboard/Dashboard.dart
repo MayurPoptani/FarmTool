@@ -1,3 +1,4 @@
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/MyDrawer/MyDrawer.dart';
 import 'package:farmtool/AddToolPost/RentToolPage.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
@@ -45,7 +46,7 @@ class _DashboardState extends State<Dashboard> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         titleSpacing: 24,
-        title: Text("My Dashboard", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400,),),
+        title: Text(DASHBOARD.MY_DASHBOARD, style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400,),),
         actions: [
           Builder(
             builder: (_) => Container(
@@ -90,10 +91,10 @@ class _DashboardState extends State<Dashboard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Hi${globalUser?.displayName!=null?(", "+globalUser!.displayName!):" User"}", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w400,),),
-                    Text("Have a nice day", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700,),),
-                    SizedBox(height: 4,),
-                    Text("Wednesday, 21 April", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black54,),),
+                    Text(DASHBOARD.HI+"${globalUser?.displayName!=null?(globalUser!.displayName!):" User"}", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w400,),),
+                    Text(DASHBOARD.GREETINGS, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700,),),
+                    // SizedBox(height: 4,),
+                    // Text("Wednesday, 21 April", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black54,),),
                   ],
                 ),
               ),
@@ -105,44 +106,44 @@ class _DashboardState extends State<Dashboard> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.9, mainAxisSpacing: 4, crossAxisSpacing: 4,),
                   children: [
                     cardTile(
-                      title: "Buy Tools", 
-                      subTitle: "On Rent", 
+                      title: DASHBOARD.BUY_TOOLS, 
+                      subTitle: DASHBOARD.ON_RENT, 
                       asset: "assets/images/rent_tools.png",
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentTools()));
                       }
                     ),
                     cardTile(
-                      title: "Buy Vehicles", 
-                      subTitle:"On Rent", 
+                      title: DASHBOARD.BUY_VEHICLES, 
+                      subTitle: DASHBOARD.ON_RENT, 
                       asset: "assets/images/rent_vehicles.png",
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehicles()));
                       }
                     ),
                     cardTile(
-                      title: "Buy Warehouses", 
-                      subTitle:"On Rent", 
+                      title: DASHBOARD.BUY_WAREHOUSES, 
+                      subTitle: DASHBOARD.ON_RENT, 
                       asset: "assets/images/rent_warehouses.png"),
                     cardTile(
-                      title: "Buy Tools", 
-                      subTitle:"2nd Hand", 
+                      title: DASHBOARD.BUY_TOOLS, 
+                      subTitle: DASHBOARD.SECOND_HAND, 
                       asset: "assets/images/sell_tools.png",
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellTools()));
                       }
                     ),
                     cardTile(
-                      title: "Buy Vehicles", 
-                      subTitle:"2nd Hand", 
+                      title: DASHBOARD.BUY_VEHICLES, 
+                      subTitle: DASHBOARD.SECOND_HAND, 
                       asset: "assets/images/sell_vehicles.png",
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehicles()));
                       }  
                     ),
                     cardTile(
-                      title: "Get Labour", 
-                      subTitle:"On Fair Rates",
+                      title: DASHBOARD.GET_LABOR, 
+                      subTitle: DASHBOARD.ON_FAIR_RATES,
                       asset: "assets/images/get_labour.png"),
                   ],
                 ),

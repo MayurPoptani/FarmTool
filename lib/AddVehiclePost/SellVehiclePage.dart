@@ -7,6 +7,7 @@ import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
@@ -52,7 +53,7 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
     // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sell Vehicle", style: TextStyle(color: Colors.black),), 
+        title: Text(SELLVEHICLE.APPBAR_LABEL, style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -72,7 +73,7 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        child: Text("VEHICLE IMAGES"),
+                        child: Text(SELLVEHICLE.VEHICLE_IMAGES),
                       ),
                       SizedBox(height: 8,),
                       Container(
@@ -127,30 +128,30 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("VEHICLE NAME", style: TextStyle(color: Colors.black),), 
+                      Text(SELLVEHICLE.VEHICLE_NAME, style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please fill the vehicle's name";
+                            if(str!.trim().isEmpty) return SELLVEHICLE.VEHICLE_NAME_EMPTY_ERROR;
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: "Name of the vehicle",
+                            hintText: SELLVEHICLE.VEHICLE_NAME_LABEL,
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("VEHICLE TYPE", style: TextStyle(color: Colors.black),), 
+                      Text(SELLVEHICLE.VEHICLE_TYPE, style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return "Please select the vehicle's type";
+                            if(str==null) return SELLVEHICLE.VEHICLE_TYPE_EMPTY_ERROR;
                             else return null;
                           },
-                          hint: Text("Tap to select"),
+                          hint: Text(SELLVEHICLE.VEHICLE_TYPE_LABEL),
                           items: (categories??{}).entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
@@ -162,35 +163,35 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("VEHICLE COMPANY NAME (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      Text(SELLVEHICLE.VEHICLE_COMPANY, style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: brandC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Example: TATA"
+                            hintText: SELLVEHICLE.VEHICLE_COMPANY_LABEL
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("SELL AMOUNT", style: TextStyle(color: Colors.black),), 
+                      Text(SELLVEHICLE.SELL_AMOUNT, style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return "Please select the vehicle's selling amount";
+                            if(str!.trim().isEmpty) return SELLVEHICLE.VEHICLE_SELL_AMOUNT_EMPTY_ERROR;
                             else return null;
                           },
                           controller: amountC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Example: 100"
+                            hintText: SELLVEHICLE.SELL_AMOUNT_LABEL
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text("DESCRIPTION (OPTIONAL)", style: TextStyle(color: Colors.black),), 
+                      Text(SELLVEHICLE.DESCRIPTION, style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
@@ -198,7 +199,7 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: "Write something about this vehicle",
+                            hintText: SELLVEHICLE.DESCRIPTION_LABEL,
                           ),
                         ),
                       ),
@@ -208,7 +209,7 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                           alignment: Alignment.center,
                           width: double.maxFinite,
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                          child: Text("Save", style: TextStyle(color: Colors.white,),),
+                          child: Text(SELLVEHICLE.SAVE, style: TextStyle(color: Colors.white,),),
                         ),
                         onPressed: () => uploadData(),
                       ),
@@ -312,7 +313,7 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
       imageUrls: imageUrls,
     );
 
-    var docRef = await FirebaseFirestore.instance.collection("SellVehicles").add(vehicle.toMap());
+    var docRef = await FirebaseFirestore.instance.collection("Posts/SellVehicles/Entries").add(vehicle.toMap());
     print(docRef.id);
     Navigator.of(context).pop();
     Navigator.of(context).pop();

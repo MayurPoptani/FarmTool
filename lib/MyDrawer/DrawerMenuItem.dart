@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class DrawerMenuItem extends StatefulWidget {
   int index = -1;
-  final IconData icon;
+  final dynamic icon;
   final String title;
   final String subTitle;
   final List<DrawerSubMenuItem>? subMenuItems;
@@ -49,7 +49,9 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(8),
-                    child: Icon(widget.icon, size: 24, color: Colors.black,),
+                    child: widget.icon is IconData 
+                      ? Icon(widget.icon, size: 24, color: Colors.black,)
+                      : widget.icon,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.green.withOpacity(0.25),

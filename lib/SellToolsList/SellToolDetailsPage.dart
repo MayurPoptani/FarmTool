@@ -1,5 +1,7 @@
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/SellToolsDoc.dart';
+import 'package:farmtool/Global/variables/Categories.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
@@ -165,7 +167,7 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.av_timer_sharp,
-                                      label: "SELLING PRICE",
+                                      label: SELLTOOLDETAILSPAGE.SELL_PRICE_LABEL,
                                       text: "Rs. "+widget.item.sellAmount.toStringAsFixed(0),
                                     ),
                                   ),
@@ -178,8 +180,8 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.category_rounded,
-                                      label: "CATEGORY",
-                                      text: widget.item.categoryName
+                                      label: SELLTOOLDETAILSPAGE.CATEGORY_LABEL,
+                                      text: vehiclesCategories[widget.item.category]!
                                     ),
                                   ),
                                 ],
@@ -190,7 +192,7 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
-                                      label: "RENTER'S NAME",
+                                      label: SELLTOOLDETAILSPAGE.SELLER_NAME_LABEL,
                                       text: widget.item.renterName,
                                     ),
                                   ),
@@ -202,7 +204,7 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
-                                      label: "DESCRIPTION",
+                                      label: SELLTOOLDETAILSPAGE.DESCRIPTION_LABEL,
                                       text: widget.item.desc,
                                     ),
                                   ),
@@ -224,7 +226,7 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                         child: ElevatedButton(
                           child: Padding(
                             padding: EdgeInsets.all(16),
-                            child: Text("Call", style: TextStyle(fontSize: 18),),
+                            child: Text(SELLTOOLDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
                             if(await UrlLauncher.canLaunch("tel:"+widget.item.renterPhone)) {

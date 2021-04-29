@@ -1,6 +1,6 @@
 import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
-import 'package:farmtool/Global/variables/HindiConstants.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:farmtool/SignupPage/SignupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -60,11 +60,11 @@ class _LoginPageState extends State<LoginPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('login_page.login'.tr(), style: TextStyle(
+                        Text(LOGINPAGE.LOGIN, style: TextStyle(
                           fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black, height: 1,
                           shadows: [BoxShadow(color: Colors.white30, blurRadius: 8, offset: Offset(-2, 2),),],
                         ),),
-                        Text('login_page.to your account'.tr(), style: TextStyle(
+                        Text(LOGINPAGE.TO_YOUR_ACCOUNT, style: TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black54, height: 1,
                           shadows: [BoxShadow(color: Colors.white30, blurRadius: 8, offset: Offset(-2, 2),),],
                         ),),
@@ -85,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     counterText: "",
                     counterStyle: TextStyle(fontSize: double.minPositive),      
-                    labelText: "login_page.phone number".tr(),
-                    hintText: "10 Digit Phone Number",
+                    labelText: LOGINPAGE.PHONE_NUMBER,
+                    hintText: LOGINPAGE.PHONE_NUMBER_LABEL,
                     prefix: Text("+91 ")
                   ),
                 ),
@@ -107,8 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: InputDecoration(
                             counterText: "",
                             counterStyle: TextStyle(fontSize: double.minPositive),
-                            labelText: "OTP",
-                            hintText: "6 Digit Pin Number",
+                            hintText: LOGINPAGE.OTP_LABEL,
                           ),
                         ),
                       ), 
@@ -118,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                      child: Text((otpSent ? LOGINPAGE.LOGIN : LOGINPAGE.SENDOTP).tr(), style: TextStyle(color: Colors.white,),),
+                      child: Text((otpSent ? LOGINPAGE.LOGIN : LOGINPAGE.REQUEST_OTP), style: TextStyle(color: Colors.white,),),
                     ),
                     onPressed: () {
                       if(!otpSent) requestOTP();
@@ -161,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("SignUp", style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),),
+                            child: Text(LOGINPAGE.SIGN_UP_BOTTON_LABEL, style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),),
                           ),
                         ),
                       ),

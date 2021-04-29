@@ -4,6 +4,7 @@ import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
@@ -36,7 +37,7 @@ class _RentToolsState extends State<RentTools> {
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("RentTools")
+        collectionRef: FirebaseFirestore.instance.collection("Posts/RentTools/Entries")
         .where(RentToolsDoc.ISACTIVE, isEqualTo: true)
         .where(RentToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
       ).within(center: point, radius: radius.toDouble(), field: RentToolsDoc.LOCATION, strictMode: true);
@@ -60,7 +61,7 @@ class _RentToolsState extends State<RentTools> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Rent Tools", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
+        title: Text(RENTTOOLLISTPAGE.APPBAR_LABEL, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
         titleSpacing: 0,
         actions: [
           PopupMenuButton<int>(
@@ -90,7 +91,7 @@ class _RentToolsState extends State<RentTools> {
             // ),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text("Categories", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text(RENTTOOLLISTPAGE.CAREGORIES_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             HorizontalSelector<int>(
               items: (toolCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
@@ -105,7 +106,7 @@ class _RentToolsState extends State<RentTools> {
             SizedBox(height: 24,),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text("Available Tools", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text(RENTTOOLLISTPAGE.LIST_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             Expanded(
               child: GridView.builder(
@@ -119,7 +120,7 @@ class _RentToolsState extends State<RentTools> {
                   return GridListTile(
                     header: "Rs. "+docs[index].rentAmount.toStringAsFixed(0),
                     title: docs[index].title,
-                    subtitle: docs[index].categoryName,
+                    subtitle: toolsCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolDetailsPage(docs[index])));

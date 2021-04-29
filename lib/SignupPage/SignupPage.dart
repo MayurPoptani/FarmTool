@@ -1,5 +1,6 @@
 import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,7 +45,7 @@ class _SignupState extends State<Signup> {
                   SizedBox(width: 8,),
                   Container(
                     alignment: Alignment.centerLeft,
-                    child: Text("SignUp", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                    child: Text(SIGNUP.SIGN_UP, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
                   ),
                 ],
               ),
@@ -56,7 +57,7 @@ class _SignupState extends State<Signup> {
                 child: ElevatedButton(
                   child: Container(
                     padding: EdgeInsets.all(16),
-                    child: Text("Continue"),
+                    child: Text(SIGNUP.CONTINUE_BUTTON_LABEL),
                   ),
                   onPressed: () async {
                     requestOTP();
@@ -79,8 +80,8 @@ class _SignupState extends State<Signup> {
           child: TextFormField(
             controller: nameC,
             decoration: InputDecoration(
-              labelText: "Full Name",
-              hintText: "First Middle Last"
+              labelText: SIGNUP.FULL_NAME,
+              hintText: SIGNUP.FULL_NAME_LABEL
             ),
           ),
         ),
@@ -93,8 +94,8 @@ class _SignupState extends State<Signup> {
             decoration: InputDecoration(
               counterText: "",
               counterStyle: TextStyle(fontSize: double.minPositive),
-              labelText: "Phone Number",
-              hintText: "10 digit phone number",
+              labelText: SIGNUP.PHONE_NUMBER_LABEL,
+              hintText: SIGNUP.PHONE_NUMBER_LABEL,
             ),
           ),
         ),
@@ -137,7 +138,7 @@ class _SignupState extends State<Signup> {
     isSuccess = await showDialog<bool?>(
       context: context, 
       builder: (_) => AlertDialog(
-        title: Text("Verify Mobile"),
+        title: Text(SIGNUP.VERIFY_OTP_DIALOG_HEADER),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,8 +151,8 @@ class _SignupState extends State<Signup> {
                 decoration: InputDecoration(
                   counterText: "",
                   counterStyle: TextStyle(fontSize: double.minPositive),
-                  labelText: "OTP",
-                  hintText: "6 digit number"
+                  labelText: SIGNUP.VERIFY_OTP_DIALOG_OTP_FIELD,
+                  hintText: SIGNUP.VERIFY_OTP_DIALOG_OTP_FIELD_LABEL
                 ),
               ),
             ),
@@ -159,7 +160,7 @@ class _SignupState extends State<Signup> {
             ElevatedButton(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: Text("Verify"),
+                child: Text(SIGNUP.VERIFY_OTP_DIALOG_VERIFY_BUTTON_LABEL),
               ),
               onPressed: () {
                 if(otpC.text.trim().length==6) Navigator.of(_).pop(true);

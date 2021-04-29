@@ -4,6 +4,7 @@ import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
+import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
@@ -36,7 +37,7 @@ class _SellVehiclesState extends State<SellVehicles> {
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("SellVehicles")
+        collectionRef: FirebaseFirestore.instance.collection("Posts/SellVehicles/Entries")
         .where(SellVehiclesDoc.ISACTIVE, isEqualTo: true)
         .where(SellVehiclesDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
       ).within(center: point, radius: radius.toDouble(), field: SellVehiclesDoc.LOCATION, strictMode: true);
@@ -60,7 +61,7 @@ class _SellVehiclesState extends State<SellVehicles> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Buy Vehicles", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
+        title: Text(SELLVEHICLELISTPAGE.APPBAR_LABEL, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
         titleSpacing: 0,
         actions: [
           PopupMenuButton<int>(
@@ -90,7 +91,7 @@ class _SellVehiclesState extends State<SellVehicles> {
             // ),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text("Categories", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text(SELLVEHICLELISTPAGE.CAREGORIES_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             HorizontalSelector<int>(
               items: (vehiclesCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
@@ -103,7 +104,7 @@ class _SellVehiclesState extends State<SellVehicles> {
             SizedBox(height: 24,),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text("Available Vehicles", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text(SELLVEHICLELISTPAGE.LIST_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             Expanded(
               child: GridView.builder(
@@ -117,7 +118,7 @@ class _SellVehiclesState extends State<SellVehicles> {
                   return GridListTile(
                     header: "Rs. "+docs[index].sellAmount.toStringAsFixed(0),
                     title: docs[index].model,
-                    subtitle: docs[index].categoryName,
+                    subtitle: vehiclesCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehicleDetailsPage(docs[index])));

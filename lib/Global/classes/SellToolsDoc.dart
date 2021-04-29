@@ -9,8 +9,8 @@ class SellToolsDoc {
   static const CATEGORYNAME = "caterogy_name";
   static const DESC = "desc";
   static const SELLAMOUNT = "sell_amount";
-  static const SELLERUID = "seller_uid";
-  static const RENTERNAME = "renter_name";
+  static const SELLERUID = "uid";
+  static const RENTERNAME = "uid_name";
   static const RENTERPHONE = "renter_phone";
   static const CREATEDTIMESTAMP = "created_timestamp";
   static const UPDATEDTIMESTAMP = "updated_timestamp";
