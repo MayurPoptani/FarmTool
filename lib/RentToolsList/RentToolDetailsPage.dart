@@ -1,12 +1,8 @@
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong/latlong.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
-import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class RentToolDetailsPage extends StatefulWidget {
@@ -56,7 +52,11 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                         itemCount: widget.item.imageUrls.length,
                                         onPageChanged: (i) => setState(() => imgIndex = i),
                                         itemBuilder: (_, i) {
-                                          return Image.network(widget.item.imageUrls[i], fit: BoxFit.fill, width: double.maxFinite,);
+                                          return Image.network(
+                                            widget.item.imageUrls[i], 
+                                            width: double.maxFinite,
+                                            fit: BoxFit.contain,
+                                          );
                                         },
                                       )
                                     ),

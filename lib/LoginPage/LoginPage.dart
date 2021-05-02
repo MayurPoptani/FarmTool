@@ -5,8 +5,6 @@ import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:farmtool/SignupPage/SignupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
-import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
-import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
@@ -33,7 +31,7 @@ class _SellVehiclesState extends State<SellVehicles> {
   }
 
   getData() async {
-    if(globalPos!=null) globalPos = await getLocation();
+    // if(globalPos!=null) globalPos = await getLocation();
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
@@ -110,7 +108,7 @@ class _SellVehiclesState extends State<SellVehicles> {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: GridListTile.GRIDCROSSRATIO,
                 ),
                 shrinkWrap: true,
                 itemCount: docs.length,

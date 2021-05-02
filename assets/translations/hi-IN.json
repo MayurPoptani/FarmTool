@@ -82,11 +82,13 @@
             "add_sell_vehicle_post_title" : "बेचने के लिए एक वाहन जोड़ें",             
         "add_new_labour_post_title" : "नई कार्य पोस्ट जोड़ें",
         "add_new_labour_post_subtitle" : "खुद को श्रम के लिए रखो और मजदूरी कमाओ",
+        "my_posts_title" : "मेरे पोस्ट",
+        "my_posts_subtitle" : "अपनी सभी चीजें देखें जो आपने किराए या बेचने के लिए रखी हैं",
+        "change_language_title" : "भाषा बदलें",
+        "change_language_subtitle" : "ऐप के इंटरफ़ेस की भाषा बदलें",
         "logout" : "खाते से बाहर निकलो",
         "update" : "बदलो",
-        "write_your_name" : "अपना नाम लिखो",
-        "change_language_title" : "भाषा बदलें",
-        "change_language_subtitle" : "ऐप के इंटरफ़ेस की भाषा बदलें"
+        "write_your_name" : "अपना नाम लिखो"
     },
     "rent_tool" : {
         "appbar_label" : "उपकरण किराए पर रखें",

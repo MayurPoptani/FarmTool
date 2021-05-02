@@ -2,12 +2,10 @@ import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
 import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
-import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {

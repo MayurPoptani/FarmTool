@@ -1,12 +1,8 @@
-import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong/latlong.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
-import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class RentVehicleDetailsPage extends StatefulWidget {

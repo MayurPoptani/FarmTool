@@ -77,11 +77,13 @@
             "add_sell_vehicle_post_title" : "Put a vehicle for selling",
         "add_new_labour_post_title" : "ADD NEW LABOR POST",
         "add_new_labour_post_subtitle" : "Put Yourself up for labor & Earn Money",
+        "my_posts_title" : "MY POSTS",
+        "my_posts_subtitle" : "View all your products you have put up for renting or selling",
+        "change_language_title" : "Change Language",
+        "change_language_subtitle" : "Change app's interface language",
         "logout" : "Logout",
         "update" : "Update",
-        "write_your_name" : "Write your name",
-        "change_language_title" : "Change Language",
-        "change_language_subtitle" : "Change app's interface language"
+        "write_your_name" : "Write your name"
     },
     "change_language_page" : {
         "appbar_label" : "Lauguage / भाषा",

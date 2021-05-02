@@ -4,13 +4,13 @@ import 'package:farmtool/AddToolPost/SellToolPage.dart';
 import 'package:farmtool/AddVehiclePost/RentVehiclePage.dart';
 import 'package:farmtool/AddVehiclePost/SellVehiclePage.dart';
 import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
-import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:farmtool/MyDrawer/DrawerMenu.dart';
 import 'package:farmtool/MyDrawer/DrawerMenuItem.dart';
 import 'package:farmtool/MyDrawer/DrawerSubMenuItem.dart';
+import 'package:farmtool/MyPosts/MyPosts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -113,9 +113,17 @@ class _MyDrawerState extends State<MyDrawer> {
                                     icon: Icons.accessibility_new_rounded,
                                     onTap: () {},
                                   ),
+                                  
                                   DrawerMenuItem(
-                                    title: MYDRAWER.CHANGE_LANGGUAGE_TITLE.tr(),
-                                    subTitle: MYDRAWER.CHANGE_LANGGUAGE_SUBTITLE.tr(),
+                                    title: MYDRAWER.MY_POSTS_TITLE.tr(),
+                                    subTitle: MYDRAWER.MY_POSTS_SUBTITLE.tr(),
+                                    icon: Icons.menu_open_rounded,
+                                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyPosts(),),),
+                                  ),
+
+                                  DrawerMenuItem(
+                                    title: MYDRAWER.CHANGE_LANGUAGE_TITLE.tr(),
+                                    subTitle: MYDRAWER.CHANGE_LANGUAGE_SUBTITLE.tr(),
                                     icon: Image.asset("assets/images/language.png", color: Colors.black, height: 24,),
                                     onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChangeLanguagePage(),),),
                                   ),

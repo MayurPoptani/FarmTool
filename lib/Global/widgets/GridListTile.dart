@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class GridListTile extends StatefulWidget {
 
+  static double get GRIDCROSSRATIO => 0.65;
+
   final String header;
   final String title;
   final String subtitle;
@@ -114,7 +116,7 @@ class _GridListTileState extends State<GridListTile> {
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
                       padding: const EdgeInsets.all(4.0).copyWith(top: 6),
-                      child: Icon(favourite ? Icons.favorite_border_rounded : Icons.favorite_rounded, 
+                      child: Icon(!favourite ? Icons.favorite_border_rounded : Icons.favorite_rounded, 
                         color: Colors.red,  
                       ),
                       decoration: BoxDecoration(

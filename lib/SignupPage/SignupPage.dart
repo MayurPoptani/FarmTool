@@ -1,5 +1,4 @@
 import 'package:farmtool/Dashboard/Dashboard.dart';
-import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';

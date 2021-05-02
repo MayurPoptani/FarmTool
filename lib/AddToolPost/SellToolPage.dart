@@ -2,12 +2,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
-import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:flutter/material.dart';
@@ -260,7 +258,6 @@ class _SellToolPageState extends State<SellToolPage> {
 
   uploadData() async {
     if(formKey.currentState!.validate()==false) return;
-    List<String> imageUrls = [];
     showProgressLoaderDialog();
     if(images.where((element) => element!=null).isNotEmpty) uploadImages();
     else uploadDocument();

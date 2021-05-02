@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
-import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
@@ -168,7 +167,6 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: brandC,
-                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: RENTVEHICLE.VEHICLE_COMPANY_LABEL.tr()
                           ),
@@ -291,7 +289,6 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
 
   uploadData() async {
     if(formKey.currentState!.validate()==false) return;
-    List<String> imageUrls = [];
     showProgressLoaderDialog();
     if(images.where((element) => element!=null).isNotEmpty) uploadImages();
     else uploadDocument();

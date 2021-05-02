@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
-import 'package:farmtool/Global/classes/RentToolsDoc.dart';
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
@@ -168,7 +166,6 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: brandC,
-                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: SELLVEHICLE.VEHICLE_COMPANY_LABEL
                           ),

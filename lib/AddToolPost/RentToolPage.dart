@@ -277,7 +277,6 @@ class _RentToolPageState extends State<RentToolPage> {
 
   uploadData() async {
     if(formKey.currentState!.validate()==false) return;
-    List<String> imageUrls = [];
     showProgressLoaderDialog();
     if(images.where((element) => element!=null).isNotEmpty) uploadImages();
     else uploadDocument();

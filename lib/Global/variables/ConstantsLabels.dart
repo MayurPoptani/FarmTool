@@ -95,8 +95,10 @@ class MYDRAWER {
   static const String LOGOUT = "my_drawer.logout";
   static const String UPDATE = "my_drawer.update";
   static const String WRITE_YOUR_NAME = "my_drawer.write_your_name";
-  static const String CHANGE_LANGGUAGE_TITLE = "my_drawer.change_language_title";
-  static const String CHANGE_LANGGUAGE_SUBTITLE = "my_drawer.change_language_subtitle";
+  static const String CHANGE_LANGUAGE_TITLE = "my_drawer.change_language_title";
+  static const String CHANGE_LANGUAGE_SUBTITLE = "my_drawer.change_language_subtitle";
+  static const String MY_POSTS_TITLE = "my_drawer.my_posts_title";
+  static const String MY_POSTS_SUBTITLE = "my_drawer.my_posts_subtitle";
 }
 
 class RENTTOOL {
