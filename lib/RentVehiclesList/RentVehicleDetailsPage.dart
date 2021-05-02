@@ -89,7 +89,7 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 alignment: Alignment.centerLeft,
-                                child: Text(widget.item.model, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                child: Text(widget.item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                               ),
                             ],
                           )
@@ -214,7 +214,7 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
                                       label: RENTVEHICLEDETAILSPAGE.RENTER_NAME_LABEL,
-                                      text: widget.item.renterName,
+                                      text: widget.item.uidName,
                                     ),
                                   ),
                                 ],
@@ -250,8 +250,8 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                             child: Text(RENTVEHICLEDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
-                            if(await UrlLauncher.canLaunch("tel:"+widget.item.renterPhone)) {
-                              UrlLauncher.launch("tel:"+widget.item.renterPhone);
+                            if(await UrlLauncher.canLaunch("tel:"+widget.item.uidPhone)) {
+                              UrlLauncher.launch("tel:"+widget.item.uidPhone);
                             }
                           }, 
                         ),

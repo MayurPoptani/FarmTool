@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:farmtool/AddToolPost/RentToolPage.dart';
-import 'package:farmtool/AddToolPost/SellToolPage.dart';
-import 'package:farmtool/AddVehiclePost/RentVehiclePage.dart';
-import 'package:farmtool/AddVehiclePost/SellVehiclePage.dart';
+import 'package:farmtool/AddToolPost/RentToolPage/RentToolPage.dart';
+import 'package:farmtool/AddToolPost/SellToolPage/SellToolPage.dart';
+import 'package:farmtool/AddVehiclePost/RentVehiclePage/RentVehiclePage.dart';
+import 'package:farmtool/AddVehiclePost/SellVehiclePage/SellVehiclePage.dart';
 import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';

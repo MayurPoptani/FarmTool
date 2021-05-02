@@ -1,0 +1,1 @@
+enum IMAGESOURCE { URL, PATH }

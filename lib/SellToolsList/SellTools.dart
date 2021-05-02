@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
@@ -36,14 +37,19 @@ class _SellToolsState extends State<SellTools> {
     stream = Geoflutterfire()
       .collection(
         collectionRef: FirebaseFirestore.instance.collection("Posts/SellTools/Entries")
-        .where(SellToolsDoc.ISACTIVE, isEqualTo: true)
+        .where(BaseDoc.ISACTIVE, isEqualTo: true)
+        // .where(BaseDoc.UID, isNotEqualTo: globalUser!.uid)
         .where(SellToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
-      ).within(center: point, radius: radius.toDouble(), field: SellToolsDoc.LOCATION, strictMode: true);
+      ).within(center: point, radius: radius.toDouble(), field: BaseDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      event.forEach((element) => docs.add(SellToolsDoc.fromDocument(element)));
+      // event.forEach((element) => docs.add(SellToolsDoc.fromDocument(element)));
+      event.forEach((element) {
+        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(SellToolsDoc.fromDocument(element));
+      });
+      print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
     });
   }

@@ -188,7 +188,7 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
                                       label: SELLTOOLDETAILSPAGE.SELLER_NAME_LABEL,
-                                      text: widget.item.renterName,
+                                      text: widget.item.uidName,
                                     ),
                                   ),
                                 ],
@@ -224,8 +224,8 @@ class _SellToolDetailsPageState extends State<SellToolDetailsPage> {
                             child: Text(SELLTOOLDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
-                            if(await UrlLauncher.canLaunch("tel:"+widget.item.renterPhone)) {
-                              UrlLauncher.launch("tel:"+widget.item.renterPhone);
+                            if(await UrlLauncher.canLaunch("tel:"+widget.item.uidPhone)) {
+                              UrlLauncher.launch("tel:"+widget.item.uidPhone);
                             }
                           }, 
                         ),

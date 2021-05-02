@@ -206,7 +206,7 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
                                       label: RENTTOOLDETAILSPAGE.RENTER_NAME_LABEL,
-                                      text: widget.item.renterName,
+                                      text: widget.item.uidName,
                                     ),
                                   ),
                                 ],
@@ -242,8 +242,8 @@ class _RentToolDetailsPageState extends State<RentToolDetailsPage> {
                             child: Text(RENTTOOLDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
-                            if(await UrlLauncher.canLaunch("tel:"+widget.item.renterPhone)) {
-                              UrlLauncher.launch("tel:"+widget.item.renterPhone);
+                            if(await UrlLauncher.canLaunch("tel:"+widget.item.uidPhone)) {
+                              UrlLauncher.launch("tel:"+widget.item.uidPhone);
                             }
                           }, 
                         ),

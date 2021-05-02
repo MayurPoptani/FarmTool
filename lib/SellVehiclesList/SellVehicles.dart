@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
@@ -36,14 +37,18 @@ class _SellVehiclesState extends State<SellVehicles> {
     stream = Geoflutterfire()
       .collection(
         collectionRef: FirebaseFirestore.instance.collection("Posts/SellVehicles/Entries")
-        .where(SellVehiclesDoc.ISACTIVE, isEqualTo: true)
+        .where(BaseDoc.ISACTIVE, isEqualTo: true)
+        // .where(BaseDoc.UID, isEqualTo: globalUser!.uid)
         .where(SellVehiclesDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
-      ).within(center: point, radius: radius.toDouble(), field: SellVehiclesDoc.LOCATION, strictMode: true);
+      ).within(center: point, radius: radius.toDouble(), field: BaseDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      event.forEach((element) => docs.add(SellVehiclesDoc.fromDocument(element)));
+      event.forEach((element) {
+        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(SellVehiclesDoc.fromDocument(element));
+      });
+      print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
     });
   }
@@ -115,7 +120,7 @@ class _SellVehiclesState extends State<SellVehicles> {
                 itemBuilder: (_, index) {
                   return GridListTile(
                     header: "Rs. "+docs[index].sellAmount.toStringAsFixed(0),
-                    title: docs[index].model,
+                    title: docs[index].title,
                     subtitle: vehiclesCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {

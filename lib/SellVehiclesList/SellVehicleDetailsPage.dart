@@ -88,7 +88,7 @@ class _SellVehicleDetailsPageState extends State<SellVehicleDetailsPage> {
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 alignment: Alignment.centerLeft,
-                                child: Text(widget.item.model, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                child: Text(widget.item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                               ),
                             ],
                           )
@@ -200,7 +200,7 @@ class _SellVehicleDetailsPageState extends State<SellVehicleDetailsPage> {
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
                                       label: SELLVEHICLEDETAILSPAGE.SELLER_NAME_LABEL,
-                                      text: widget.item.sellerName,
+                                      text: widget.item.uidName,
                                     ),
                                   ),
                                 ],
@@ -236,8 +236,8 @@ class _SellVehicleDetailsPageState extends State<SellVehicleDetailsPage> {
                             child: Text(SELLVEHICLEDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
-                            if(await UrlLauncher.canLaunch("tel:"+widget.item.sellerPhone)) {
-                              UrlLauncher.launch("tel:"+widget.item.sellerPhone);
+                            if(await UrlLauncher.canLaunch("tel:"+widget.item.uidPhone)) {
+                              UrlLauncher.launch("tel:"+widget.item.uidPhone);
                             }
                           }, 
                         ),
