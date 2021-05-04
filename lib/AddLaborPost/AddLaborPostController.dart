@@ -16,7 +16,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class AddLaborPageController {
 
-  String? docId;
+  String? docId = "";
 
   AddLaborPageController([LaborsDoc? item]) {
     if(item!=null) {
@@ -58,7 +58,7 @@ class AddLaborPageController {
       uidPhone: globalUser!.phoneNumber??"", 
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
-      id: "",
+      id: docId,
     );
     
     var docRef;

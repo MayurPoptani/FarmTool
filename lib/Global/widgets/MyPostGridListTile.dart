@@ -9,7 +9,7 @@ class MyPostListTile extends StatefulWidget {
   final String title;
   final String subtitle;
   final String text;
-  final String imageUrl;
+  final String? imageUrl;
   final void Function()? onEditTap;
   final String? secondButtonLabel;
   final void Function()? onSecondButtonTap;
@@ -70,8 +70,13 @@ class _MyPostListTileState extends State<MyPostListTile> {
                           bottomRight: Radius.circular(16),
                         ),
                         child: Container(
-                          child: ExtendedImage.network(
-                            widget.imageUrl,
+                          child: widget.imageUrl == null
+                          ? ExtendedImage.asset("assets/images/farmer_image.png",
+                            height: MediaQuery.of(context).size.width*.375,
+                            fit: BoxFit.fill,
+                            loadStateChanged: extendedImageStateBuilder,
+                          ): ExtendedImage.network(
+                            widget.imageUrl!,
                             height: MediaQuery.of(context).size.width*.375,
                             fit: BoxFit.fill,
                             cache: true,

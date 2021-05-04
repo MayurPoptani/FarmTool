@@ -70,7 +70,7 @@ abstract class BaseDoc {
     geoHashPoint = GeoHashPoint.fromMap(map[LOCATION]);
   }
 
-  Map toMap() => {
+  Map<String,dynamic> toMap() => {
     ID : id,
     TITLE : title,
     UID : uid,
