@@ -1,3 +1,4 @@
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
@@ -5,15 +6,16 @@ import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:farmtool/Global/widgets/MyExtentions.dart';
 
-class RentVehicleDetailsPage extends StatefulWidget {
-  final RentVehiclesDoc item;
-  const RentVehicleDetailsPage(this.item, {Key? key}) : super(key: key);
+class RentWarehouseDetailsPage extends StatefulWidget {
+  final RentWarehousesDoc item;
+  const RentWarehouseDetailsPage(this.item, {Key? key}) : super(key: key);
   @override
-  _RentVehicleDetailsPageState createState() => _RentVehicleDetailsPageState();
+  _RentWarehouseDetailsPage createState() => _RentWarehouseDetailsPage();
 }
 
-class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
+class _RentWarehouseDetailsPage extends State<RentWarehouseDetailsPage> {
   bool favourite = false;
   int imgIndex = 0;
 
@@ -53,7 +55,11 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                         itemCount: widget.item.imageUrls.length,
                                         onPageChanged: (i) => setState(() => imgIndex = i),
                                         itemBuilder: (_, i) {
-                                          return Image.network(widget.item.imageUrls[i], fit: BoxFit.fill, width: double.maxFinite,);
+                                          return Image.network(
+                                            widget.item.imageUrls[i], 
+                                            width: double.maxFinite,
+                                            fit: BoxFit.contain,
+                                          );
                                         },
                                       )
                                     ),
@@ -159,78 +165,47 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.av_timer_sharp,
-                                      label: RENTVEHICLEDETAILSPAGE.RENTER_NAME_LABEL,
-                                      text: "Rs. "+widget.item.rentAmount.toStringAsFixed(0),
-                                    ),
-                                  ),
-                                  
-                                ],
+                              displayItem(
+                                icon: Icons.av_timer_sharp,
+                                label: "RENT PRICE",
+                                text: "Rs. "+widget.item.rentAmount.toStringAsFixed(0)
+                                  + (widget.item.rentingType==2 ? " Per Square foot" : ""),
                               ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.av_timer_sharp,
-                                      label: RENTVEHICLEDETAILSPAGE.RENT_DURATION_LABEL,
-                                      text: ToolDurationTypes.data[widget.item.rentDurationType]!,
-                                    ),
-                                  ),
-                                  
-                                ],
+                              16.heightbox,
+                              displayItem(
+                                icon: Icons.av_timer_sharp,
+                                label: "FOR DURATION",
+                                text: WarehouseDurationTypes.data[widget.item.rentDurationType]!,
                               ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.category_rounded,
-                                      label: RENTVEHICLEDETAILSPAGE.CATEGORY_LABEL,
-                                      text: vehiclesCategories[widget.item.category]!
-                                    ),
-                                  ),
-                                ],
+                              16.heightbox,
+                              displayItem(
+                                icon: Icons.category_rounded,
+                                label: "CATEGORY",
+                                text: warehousesCategories[widget.item.category]!,
                               ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.category_rounded,
-                                      label: RENTVEHICLEDETAILSPAGE.BRAND_LABEL,
-                                      text: widget.item.brand
-                                    ),
-                                  ),
-                                ],
+                              16.heightbox,
+                              displayItem(
+                                icon: Icons.category_rounded,
+                                label: "AREA (PER SQUARE FOOT)",
+                                text: widget.item.area.toStringAsFixed(0),
                               ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.indeterminate_check_box,
-                                      label: RENTVEHICLEDETAILSPAGE.RENTER_NAME_LABEL,
-                                      text: widget.item.uidName,
-                                    ),
-                                  ),
-                                ],
+                              16.heightbox,
+                              displayItem(
+                                icon: Icons.category_rounded,
+                                label: "LOCATION TYPE",
+                                text: warehousesLocationTypes[widget.item.locationType]!,
                               ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.indeterminate_check_box,
-                                      label: RENTVEHICLEDETAILSPAGE.DESCRIPTION_LABEL,
-                                      text: widget.item.desc,
-                                    ),
-                                  ),
-                                ],
+                              16.heightbox,
+                              displayItem(
+                                icon: Icons.indeterminate_check_box,
+                                label: RENTTOOLDETAILSPAGE.RENTER_NAME_LABEL,
+                                text: widget.item.uidName,
+                              ),
+                              16.heightbox,
+                              displayItem(
+                                icon: Icons.indeterminate_check_box,
+                                label: RENTTOOLDETAILSPAGE.DESCRIPTION_LABEL,
+                                text: widget.item.desc,
                               ),
                               SizedBox(height: 16,),
                             ],
@@ -248,7 +223,7 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                         child: ElevatedButton(
                           child: Padding(
                             padding: EdgeInsets.all(16),
-                            child: Text(RENTVEHICLEDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
+                            child: Text(RENTTOOLDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
                             if(await UrlLauncher.canLaunch("tel:"+widget.item.uidPhone)) {

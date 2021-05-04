@@ -1,26 +1,30 @@
 import 'dart:async';
 
 import 'package:farmtool/Global/classes/BaseDoc.dart';
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
-import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
+import 'package:farmtool/Global/classes/LaborsDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
+import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentVehiclesList/RentVehicleDetailsPage.dart';
+import 'package:farmtool/Global/widgets/LaborGridTile.dart';
+import 'package:farmtool/LaborsList/LaborsDetailsPage.dart';
+import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
-class RentVehicles extends StatefulWidget {
+class Labors extends StatefulWidget {
   @override
-  _RentVehiclesState createState() => _RentVehiclesState();
+  _LaborsState createState() => _LaborsState();
 }
 
-class _RentVehiclesState extends State<RentVehicles> {
+class _LaborsState extends State<Labors> {
 
-  List<RentVehiclesDoc> docs = [];
+  List<LaborsDoc> docs = [];
   late Stream<List<DocumentSnapshot>> stream;
   StreamSubscription? streamSubscription;
   int selectedCategoryId = 0;
@@ -33,22 +37,26 @@ class _RentVehiclesState extends State<RentVehicles> {
   }
 
   getData() async {
-    // if(globalPos!=null) globalPos = await getLocation();
+    if(globalPos==null) 
+    // globalPos = 
+    await getLocation();
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("Posts/RentVehicles/Entries")
+        collectionRef: FirebaseFirestore.instance.collection("Posts/Labors/Entries")
         .where(BaseDoc.ISACTIVE, isEqualTo: true)
+        .where(BaseDoc.ISAVAILABLE, isEqualTo: true)
         // .where(BaseDoc.UID, isNotEqualTo: globalUser!.uid)
-        .where(RentVehiclesDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
+        .where(LaborsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
       ).within(center: point, radius: radius.toDouble(), field: BaseDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      // event.forEach((element) => docs.add(RentVehiclesDoc.fromDocument(element)));
+      // event.forEach((element) => docs.add(RentToolsDoc.fromDocument(element)));
       event.forEach((element) {
-        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(RentVehiclesDoc.fromDocument(element));
+        // if(element.data()![BaseDoc.UID]!=globalUser!.uid) 
+        docs.add(LaborsDoc.fromDocument(element));
       });
       print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
@@ -66,7 +74,7 @@ class _RentVehiclesState extends State<RentVehicles> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(RENTVEHICLELISTPAGE.APPBAR_LABEL, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
+        title: Text("Get Labor On Fair Wages", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
         titleSpacing: 0,
         actions: [
           PopupMenuButton<int>(
@@ -96,10 +104,10 @@ class _RentVehiclesState extends State<RentVehicles> {
             // ),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text(RENTVEHICLELISTPAGE.CAREGORIES_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text("Categories", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             HorizontalSelector<int>(
-              items: (vehiclesCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
+              items: (laborsCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
               initialSelection: selectedCategoryId,
               onChange: (val) {
                 if(selectedCategoryId!=val) setState(() {
@@ -111,24 +119,23 @@ class _RentVehiclesState extends State<RentVehicles> {
             SizedBox(height: 24,),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text(RENTVEHICLELISTPAGE.LIST_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text("Available People", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: GridListTile.GRIDCROSSRATIO,
+                  childAspectRatio: LaborGridTile.GRIDCROSSRATIO,
                 ),
                 shrinkWrap: true,
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
-                  return GridListTile(
-                    header: "Rs. "+docs[index].rentAmount.toStringAsFixed(0),
-                    title: docs[index].title,
-                    subtitle: vehiclesCategories[docs[index].category]!,
-                    imageUrl: docs[index].imageUrls[0]??null,
+                  return LaborGridTile(
+                    header: "Rs. "+docs[index].wageAmount.toStringAsFixed(0) + " "+ LaborDurationTypes.data[docs[index].wageDurationType]!,
+                    title: docs[index].uidName,
+                    subtitle: laborsCategoriesWithAllAsEntry[docs[index].category]!,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehicleDetailsPage(docs[index])));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => LaborDetailsPage(docs[index])));
                     },
                   );
                 },

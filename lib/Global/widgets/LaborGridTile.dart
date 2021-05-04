@@ -2,34 +2,32 @@ import 'package:farmtool/Global/functions/ExtendedImageFunctions.dart';
 import 'package:flutter/material.dart';
 import 'MyExtentions.dart';
 
-class GridListTile extends StatefulWidget {
+class LaborGridTile extends StatefulWidget {
 
-  static double get GRIDCROSSRATIO => 0.65;
+  static double get GRIDCROSSRATIO => 0.75;
 
   final String header;
   final String? textOnTop;
   final String title;
   final String subtitle;
-  final String imageUrl;
   final bool isFavourite;
   final void Function()? onTap;
 
-  const GridListTile({
+  const LaborGridTile({
     Key? key, 
     this.textOnTop,
     required this.header, 
     required this.title, 
     required this.subtitle, 
-    required this.imageUrl, 
     this.onTap,
     this.isFavourite = false,
   }) : super(key: key);
 
   @override
-  _GridListTileState createState() => _GridListTileState();
+  _LaborGridTileState createState() => _LaborGridTileState();
 }
 
-class _GridListTileState extends State<GridListTile> {
+class _LaborGridTileState extends State<LaborGridTile> {
  bool favourite = false;
   @override
   Widget build(BuildContext context) {
@@ -71,10 +69,9 @@ class _GridListTileState extends State<GridListTile> {
                           bottomRight: Radius.circular(16),
                         ),
                         child: Container(
-                          child: ExtendedImage.network(widget.imageUrl,
+                          child: ExtendedImage.asset("assets/images/farmer_image.png",
                             height: MediaQuery.of(context).size.width*.375,
                             fit: BoxFit.fill,
-                            timeLimit: Duration(seconds: 5),
                             loadStateChanged: extendedImageStateBuilder,
                           ),
                         ),

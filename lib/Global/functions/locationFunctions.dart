@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 
@@ -97,3 +99,12 @@ Future<Position> getLocation() async {
   return await Geolocator.getCurrentPosition();
 }
 
+double getDistanceBetween(GeoPoint a, GeoPoint b) {
+  return GeoFirePoint.distanceBetween(to: Coordinates(a.latitude, a.longitude), from: Coordinates(b.latitude, b.longitude));
+}
+
+
+
+GeoPoint geoPointFromPosition(Position pos) {
+  return GeoPoint(pos.latitude, pos.longitude);
+}

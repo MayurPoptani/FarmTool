@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:farmtool/AddVehiclePost/RentVehiclePage/RentVehiclePageController.dart';
+import 'package:farmtool/AddWarehousePost/RentWarehousePageController.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
 import 'package:farmtool/Global/functions/ExtendedImageFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
@@ -20,39 +20,35 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class RentVehiclePage extends StatefulWidget {
+class RentWarehousePage extends StatefulWidget {
 
   final bool isEdit;
-  final RentVehiclesDoc item;
-  RentVehiclePage() : this.item = RentVehiclesDoc(), this.isEdit = false;
-  RentVehiclePage.edit(this.item) : this.isEdit = true;
+  final RentWarehousesDoc item;
+  RentWarehousePage() : this.item = RentWarehousesDoc(), this.isEdit = false;
+  RentWarehousePage.edit(this.item) : this.isEdit = true;
 
-  @override
-  _RentVehiclePageState createState() => _RentVehiclePageState();
+  @override _RentToolPageState createState() => _RentToolPageState();
 }
 
-class _RentVehiclePageState extends State<RentVehiclePage> {
+class _RentToolPageState extends State<RentWarehousePage> {
 
-  late final RentVehiclePageController c;
+  late final RentWarehousePageController c;
 
   @override
   void initState() { 
-    c = RentVehiclePageController(widget.isEdit ? widget.item : null);
+    c = RentWarehousePageController(widget.isEdit ? widget.item : null);
     super.initState();
-    fetchRentToolCategories();
+    fetchWarehouseCategories();
   }
 
-  fetchRentToolCategories() async {
-    c.categories = vehiclesCategories;
-  }
+  fetchWarehouseCategories() async => c.categories = warehousesCategories;
 
 
   @override
   Widget build(BuildContext context) {
-    // print(images);
     return Scaffold(
       appBar: AppBar(
-        title: Text(RENTVEHICLE.APPBAR_LABEL.tr(), style: TextStyle(color: Colors.black),), 
+        title: Text(widget.isEdit ? "EDIT WAREHOUSE ENTRY" : "ADD WAREHOUSE", style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -72,7 +68,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        child: Text(RENTVEHICLE.VEHICLE_IMAGES.tr()),
+                        child: Text("WAREHOUSE IMAGES"),
                       ),
                       SizedBox(height: 8,),
                       Container(
@@ -137,74 +133,120 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text(RENTVEHICLE.VEHICLE_NAME.tr(), style: TextStyle(color: Colors.black),), 
+                      Text("WAREHOUSE NAME", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           controller: c.nameC,
                           validator: (str) {
-                            if(str!.trim().isEmpty) return RENTVEHICLE.VEHICLE_NAME_EMPTY_ERROR.tr();
+                            if(str!.trim().isEmpty) return RENTTOOL.TOOL_NAME_EMPTY_ERROR.tr();
                             else return null;
                           },
                           decoration: InputDecoration(
-                            hintText: RENTVEHICLE.VEHICLE_NAME_LABEL.tr(),
+                            hintText: RENTTOOL.TOOL_NAME_LABEL.tr(),
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text(RENTVEHICLE.VEHICLE_TYPE.tr(), style: TextStyle(color: Colors.black),), 
+                      Text("WAREHOUSE TYPE", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
                           validator: (str) {
-                            if(str==null) return RENTVEHICLE.VEHICLE_TYPE_EMPTY_ERROR.tr();
+                            if(str==null) return RENTTOOL.TOOL_TYPE_EMPTY_ERROR.tr();
                             else return null;
                           },
-                          hint: Text(RENTVEHICLE.VEHICLE_TYPE_LABEL.tr()),
+                          hint: Text(RENTTOOL.TOOL_TYPE_LABEL.tr()),
                           items: (c.categories??{}).entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
                               value: e.key,
                             );
                           }).toList(),
-                          value: c.categoryId,
-                          onChanged: (val) => setState(() => c.categoryId = val??c.categoryId),
+                          value: c.category,
+                          onChanged: (val) => setState(() => c.category = val??c.category),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text(RENTVEHICLE.VEHICLE_COMPANY.tr(), style: TextStyle(color: Colors.black),), 
+                      Text("WAREHOUSE LOCATION TYPE", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
-                        child: TextFormField(
-                          controller: c.brandC,
-                          decoration: InputDecoration(
-                            hintText: RENTVEHICLE.VEHICLE_COMPANY_LABEL.tr()
-                          ),
+                        child: DropdownButtonFormField<int>(
+                          validator: (str) {
+                            if(str==null) return "Cannot be empty";
+                            else return null;
+                          },
+                          hint: Text("Select Warehouse Location Type"),
+                          items: (warehousesLocationTypes).entries.toList().map((e) {
+                            return DropdownMenuItem<int>(
+                              child: Text(e.value),
+                              value: e.key,
+                            );
+                          }).toList(),
+                          value: c.locationType,
+                          onChanged: (val) => setState(() => c.locationType = val??c.locationType),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text(RENTVEHICLE.RENT_AMOUNT.tr(), style: TextStyle(color: Colors.black),), 
+                      Text("WAREHOUSE AREA (PER SQUARE FOOT)", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
                           validator: (str) {
-                            if(str!.trim().isEmpty) return RENTVEHICLE.VEHICLE_RENT_AMOUT_EMPTY_ERROR.tr();
+                            if(str!.trim().isEmpty) return RENTTOOL.TOOL_RENT_AMOUT_EMPTY_ERROR.tr();
+                            else return null;
+                          },
+                          controller: c.areaC,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: RENTTOOL.RENT_AMOUNT_LABEL.tr()
+                          ),
+                        ),
+                      ),
+                      
+                      SizedBox(height: 16,),
+                      Text("WAREHOUSE RENTING TYPE", style: TextStyle(color: Colors.black),), 
+                      SizedBox(height: 8,),
+                      TextFomFieldContainer(
+                        child: DropdownButtonFormField<int>(
+                          validator: (str) {
+                            if(str==null) return "Cannot be empty";
+                            else return null;
+                          },
+                          hint: Text("Select Renting Type"),
+                          items: (warehousesRentCategories).entries.toList().map((e) {
+                            return DropdownMenuItem<int>(
+                              child: Text(e.value),
+                              value: e.key,
+                            );
+                          }).toList(),
+                          value: c.rentingType,
+                          onChanged: (val) => setState(() => c.rentingType = val??c.rentingType),
+                        ),
+                      ),
+                      SizedBox(height: 16,),
+                      Text("WAREHOUSE RENT AMOUNT", style: TextStyle(color: Colors.black),), 
+                      SizedBox(height: 8,),
+                      TextFomFieldContainer(
+                        child: TextFormField(
+                          validator: (str) {
+                            if(str!.trim().isEmpty) return RENTTOOL.TOOL_RENT_AMOUT_EMPTY_ERROR.tr();
                             else return null;
                           },
                           controller: c.amountC,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: RENTVEHICLE.RENT_AMOUNT_LABEL.tr()
+                            hintText: RENTTOOL.RENT_AMOUNT_LABEL.tr()
                           ),
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text(RENTVEHICLE.DURATION_TYPE.tr(), style: TextStyle(color: Colors.black),), 
+                      Text("DURATION TYPE", style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
-                          hint: Text(RENTVEHICLE.DURATION_LABEL.tr()),
-                          items: VehicleDurationTypes.data.entries.toList().map((e) {
+                          hint: Text(RENTTOOL.DURATION_LABEL.tr()),
+                          items: WarehouseDurationTypes.data.entries.toList().map((e) {
                             return DropdownMenuItem<int>(
                               child: Text(e.value),
                               value: e.key,
@@ -215,7 +257,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                         ),
                       ),
                       SizedBox(height: 16,),
-                      Text(RENTVEHICLE.DESCRIPTION.tr(), style: TextStyle(color: Colors.black),), 
+                      Text(RENTTOOL.DESCRIPTION.tr(), style: TextStyle(color: Colors.black),), 
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: TextFormField(
@@ -223,7 +265,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                           minLines: 3,
                           maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: RENTVEHICLE.DESCRIPTION_LABEL.tr(),
+                            hintText: RENTTOOL.DESCRIPTION_LABEL.tr(),
                           ),
                         ),
                       ),
@@ -233,7 +275,7 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
                           alignment: Alignment.center,
                           width: double.maxFinite,
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                          child: Text(RENTVEHICLE.SAVE.tr(), style: TextStyle(color: Colors.white,),),
+                          child: Text(RENTTOOL.SAVE.tr(), style: TextStyle(color: Colors.white,),),
                         ),
                         onPressed: () => c.uploadData(context),
                       ),
@@ -294,7 +336,13 @@ class _RentVehiclePageState extends State<RentVehiclePage> {
         ],
       ),
     ),);
+    
   }
+
+  
+
+
+  
 
   @override
   void dispose() async {

@@ -77,4 +77,7 @@ class RentToolsDoc extends BaseDoc {
     ...super.toMap(),
   };
 
+  @override
+  CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("RentTools").collection("Entries");
+  DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("RentTools").collection("Entries").doc(id);
 }

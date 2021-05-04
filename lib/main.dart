@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(
           elevation: MaterialStateProperty.all(4),
           shadowColor: MaterialStateProperty.all(Colors.white38,),
-          backgroundColor: MaterialStateProperty.all(colorBgColor,),
+          // backgroundColor: MaterialStateProperty.all(colorBgColor,),
+          backgroundColor: MaterialStateProperty.all(Colors.green.shade700,),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),),
         )),
       ),

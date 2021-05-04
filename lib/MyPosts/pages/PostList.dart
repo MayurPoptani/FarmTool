@@ -46,11 +46,7 @@ class PostListState extends State<PostList> with AutomaticKeepAliveClientMixin {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: GridListTile.GRIDCROSSRATIO,
-                ),
+              child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: snap!.docs.length,

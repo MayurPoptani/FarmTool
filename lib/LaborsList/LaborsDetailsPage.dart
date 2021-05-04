@@ -1,23 +1,25 @@
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
-import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
+import 'package:farmtool/Global/classes/LaborsDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:farmtool/Global/widgets/MyExtentions.dart';
 
-class RentVehicleDetailsPage extends StatefulWidget {
-  final RentVehiclesDoc item;
-  const RentVehicleDetailsPage(this.item, {Key? key}) : super(key: key);
+class LaborDetailsPage extends StatefulWidget {
+  final LaborsDoc item;
+  const LaborDetailsPage(this.item, {Key? key}) : super(key: key);
   @override
-  _RentVehicleDetailsPageState createState() => _RentVehicleDetailsPageState();
+  _LaborDetailsPageState createState() => _LaborDetailsPageState();
 }
 
-class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
+class _LaborDetailsPageState extends State<LaborDetailsPage> {
+
   bool favourite = false;
   int imgIndex = 0;
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return Hero(
       tag: widget.item.id,
@@ -28,9 +30,111 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Expanded(
+                //   flex: 27,
+                //   child: Container(
+                //     padding: EdgeInsets.all(16),
+                //     width: double.maxFinite,
+                //     child: Stack(
+                //       fit: StackFit.expand,
+                //       children: [
+                //         Card(
+                //           elevation: 16,
+                //           shadowColor: Colors.black54,
+                //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16),),
+                //           child: Column(
+                //             children: [
+                //               Expanded(
+                //                 child: Stack(
+                //                   fit: StackFit.expand,
+                //                   alignment: Alignment.bottomCenter,
+                //                   children: [
+                //                     ClipRRect(
+                //                       borderRadius: BorderRadius.circular(16),
+                //                       child: Image.asset(
+                //                         "assets/images/farmer_image.png", 
+                //                         width: double.maxFinite,
+                //                         fit: BoxFit.contain,
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 )
+                //               ),
+                //               Container(
+                //                 height: 56,
+                //                 width: double.maxFinite,
+                //                 decoration: BoxDecoration(
+                //                   color: Colors.green,
+                //                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))
+                //                 ),
+                //                 padding: EdgeInsets.symmetric(horizontal: 16),
+                //                 alignment: Alignment.centerLeft,
+                //                 child: Text(widget.item.uidName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                //               ),
+                //             ],
+                //           )
+                //         ),
+                //         Positioned(
+                //           top: 16, right: 16,
+                //           child: InkWell(
+                //             borderRadius: BorderRadius.circular(16),
+                //             child: Container(
+                //               alignment: Alignment.center,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.white,
+                //                 shape: BoxShape.circle,
+                //                 boxShadow: [
+                //                   BoxShadow(
+                //                     color: Colors.white60,
+                //                     spreadRadius: 6,
+                //                   )
+                //                 ]
+                //               ),
+                //               child: Padding(
+                //                 padding: const EdgeInsets.all(4.0),
+                //                 child: Icon(favourite ? Icons.favorite_border_rounded : Icons.favorite_rounded, 
+                //                   color: Colors.red,  
+                //                 ),
+                //               ),
+                //             ),
+                //             onTap: () => setState(() => favourite=!favourite),
+                //           ),
+                //         ),
+                //         Positioned(
+                //           top: 16, left: 16,
+                //           child: InkWell(
+                //             borderRadius: BorderRadius.circular(16),
+                //             child: Container(
+                //               alignment: Alignment.center,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.white,
+                //                 shape: BoxShape.circle,
+                //                 boxShadow: [
+                //                   BoxShadow(
+                //                     color: Colors.white60,
+                //                     spreadRadius: 6,
+                //                   )
+                //                 ]
+                //               ),
+                //               child: Padding(
+                //                 padding: const EdgeInsets.all(4.0),
+                //                 child: Icon(Icons.arrow_back_rounded, color: Colors.red,),
+                //               ),
+                //             ),
+                //             onTap: () => Navigator.of(context).pop(),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Expanded(
-                  flex: 27,
-                  child: Container(
+                  flex: 13,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: context.deviceSize.height*.65,
                     padding: EdgeInsets.all(16),
                     width: double.maxFinite,
                     child: Stack(
@@ -49,35 +153,12 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(16),
-                                      child: PageView.builder(
-                                        itemCount: widget.item.imageUrls.length,
-                                        onPageChanged: (i) => setState(() => imgIndex = i),
-                                        itemBuilder: (_, i) {
-                                          return Image.network(widget.item.imageUrls[i], fit: BoxFit.fill, width: double.maxFinite,);
-                                        },
-                                      )
-                                    ),
-                                    if(widget.item.imageUrls.length>0) Positioned(
-                                      bottom: 8,
-                                      child: Card(
-                                        elevation: 8,
-                                        shadowColor: Colors.black54,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4,),
-                                          child: Row(
-                                            children: List.generate(widget.item.imageUrls.length, (index) => Container(
-                                              margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                                              height: 8, width: 8,
-                                              decoration: BoxDecoration(
-                                                color: imgIndex == index ? Colors.green.shade900 : Colors.black45,
-                                                shape: BoxShape.circle,
-                                              ),
-                                            )),
-                                          ),
-                                        ),
+                                      child: Image.asset(
+                                        "assets/images/farmer_image.png", 
+                                        width: double.maxFinite,
+                                        fit: BoxFit.contain,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 )
                               ),
@@ -90,7 +171,7 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 alignment: Alignment.centerLeft,
-                                child: Text(widget.item.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                child: Text(widget.item.uidName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                               ),
                             ],
                           )
@@ -148,12 +229,6 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                       ],
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 13,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 32,),
                           child: Column(
@@ -164,8 +239,8 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.av_timer_sharp,
-                                      label: RENTVEHICLEDETAILSPAGE.RENTER_NAME_LABEL,
-                                      text: "Rs. "+widget.item.rentAmount.toStringAsFixed(0),
+                                      label: "WAGES",
+                                      text: "Rs. "+widget.item.wageAmount.toStringAsFixed(0),
                                     ),
                                   ),
                                   
@@ -177,8 +252,8 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.av_timer_sharp,
-                                      label: RENTVEHICLEDETAILSPAGE.RENT_DURATION_LABEL,
-                                      text: ToolDurationTypes.data[widget.item.rentDurationType]!,
+                                      label: "WAGE PAY DURATION",
+                                      text: LaborDurationTypes.data[widget.item.wageDurationType]!,
                                     ),
                                   ),
                                   
@@ -190,20 +265,8 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.category_rounded,
-                                      label: RENTVEHICLEDETAILSPAGE.CATEGORY_LABEL,
-                                      text: vehiclesCategories[widget.item.category]!
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.category_rounded,
-                                      label: RENTVEHICLEDETAILSPAGE.BRAND_LABEL,
-                                      text: widget.item.brand
+                                      label: "CATEGORY",
+                                      text: laborsCategoriesWithAllAsEntry[widget.item.category]!,
                                     ),
                                   ),
                                 ],
@@ -214,19 +277,7 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                                   Expanded(
                                     child: displayItem(
                                       icon: Icons.indeterminate_check_box,
-                                      label: RENTVEHICLEDETAILSPAGE.RENTER_NAME_LABEL,
-                                      text: widget.item.uidName,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: displayItem(
-                                      icon: Icons.indeterminate_check_box,
-                                      label: RENTVEHICLEDETAILSPAGE.DESCRIPTION_LABEL,
+                                      label: "DESCTRIPTION",
                                       text: widget.item.desc,
                                     ),
                                   ),
@@ -248,7 +299,7 @@ class _RentVehicleDetailsPageState extends State<RentVehicleDetailsPage> {
                         child: ElevatedButton(
                           child: Padding(
                             padding: EdgeInsets.all(16),
-                            child: Text(RENTVEHICLEDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
+                            child: Text(RENTTOOLDETAILSPAGE.BUTTON_LABEL, style: TextStyle(fontSize: 18),),
                           ),
                           onPressed: () async {
                             if(await UrlLauncher.canLaunch("tel:"+widget.item.uidPhone)) {

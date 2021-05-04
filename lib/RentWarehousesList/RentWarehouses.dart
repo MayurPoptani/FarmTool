@@ -1,26 +1,28 @@
 import 'dart:async';
 
 import 'package:farmtool/Global/classes/BaseDoc.dart';
-import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
+import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentVehiclesList/RentVehicleDetailsPage.dart';
+import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
+import 'package:farmtool/RentWarehousesList/RentWarehouseDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
-class RentVehicles extends StatefulWidget {
+class RentWarehouses extends StatefulWidget {
   @override
-  _RentVehiclesState createState() => _RentVehiclesState();
+  _RentWarehousesState createState() => _RentWarehousesState();
 }
 
-class _RentVehiclesState extends State<RentVehicles> {
+class _RentWarehousesState extends State<RentWarehouses> {
 
-  List<RentVehiclesDoc> docs = [];
+  List<RentWarehousesDoc> docs = [];
   late Stream<List<DocumentSnapshot>> stream;
   StreamSubscription? streamSubscription;
   int selectedCategoryId = 0;
@@ -33,22 +35,26 @@ class _RentVehiclesState extends State<RentVehicles> {
   }
 
   getData() async {
-    // if(globalPos!=null) globalPos = await getLocation();
+    if(globalPos==null) 
+    // globalPos = 
+    await getLocation();
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("Posts/RentVehicles/Entries")
+        collectionRef: FirebaseFirestore.instance.collection("Posts/RentWarehouses/Entries")
         .where(BaseDoc.ISACTIVE, isEqualTo: true)
+        .where(BaseDoc.ISAVAILABLE, isEqualTo: true)
         // .where(BaseDoc.UID, isNotEqualTo: globalUser!.uid)
-        .where(RentVehiclesDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
+        .where(RentToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
       ).within(center: point, radius: radius.toDouble(), field: BaseDoc.LOCATION, strictMode: true);
     streamSubscription = stream.listen((event) {
       docs.clear();
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
-      // event.forEach((element) => docs.add(RentVehiclesDoc.fromDocument(element)));
+      // event.forEach((element) => docs.add(RentToolsDoc.fromDocument(element)));
       event.forEach((element) {
-        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(RentVehiclesDoc.fromDocument(element));
+        // if(element.data()![BaseDoc.UID]!=globalUser!.uid) 
+        docs.add(RentWarehousesDoc.fromDocument(element));
       });
       print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
@@ -66,7 +72,7 @@ class _RentVehiclesState extends State<RentVehicles> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(RENTVEHICLELISTPAGE.APPBAR_LABEL, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
+        title: Text("RENT WAREHOUSES", style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),),
         titleSpacing: 0,
         actions: [
           PopupMenuButton<int>(
@@ -96,10 +102,10 @@ class _RentVehiclesState extends State<RentVehicles> {
             // ),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text(RENTVEHICLELISTPAGE.CAREGORIES_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text("Categories", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             HorizontalSelector<int>(
-              items: (vehiclesCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
+              items: (warehousesCategoriesWithAllAsEntry.entries.toList()..sort((a, b) => a.key - b.key)),
               initialSelection: selectedCategoryId,
               onChange: (val) {
                 if(selectedCategoryId!=val) setState(() {
@@ -111,7 +117,7 @@ class _RentVehiclesState extends State<RentVehicles> {
             SizedBox(height: 24,),
             Container(
               margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Text(RENTVEHICLELISTPAGE.LIST_LABEL, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
+              child: Text("Available Warehouses", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),),
             ),
             Expanded(
               child: GridView.builder(
@@ -123,12 +129,13 @@ class _RentVehiclesState extends State<RentVehicles> {
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
                   return GridListTile(
+                    textOnTop: getDistanceBetween(geoPointFromPosition(globalPos!), docs[index].geoHashPoint.geoPoint).toStringAsFixed(1)+" KM",
                     header: "Rs. "+docs[index].rentAmount.toStringAsFixed(0),
                     title: docs[index].title,
-                    subtitle: vehiclesCategories[docs[index].category]!,
+                    subtitle: toolsCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehicleDetailsPage(docs[index])));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentWarehouseDetailsPage(docs[index])));
                     },
                   );
                 },

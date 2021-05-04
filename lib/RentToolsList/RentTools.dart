@@ -41,6 +41,7 @@ class _RentToolsState extends State<RentTools> {
       .collection(
         collectionRef: FirebaseFirestore.instance.collection("Posts/RentTools/Entries")
         .where(BaseDoc.ISACTIVE, isEqualTo: true)
+        .where(BaseDoc.ISAVAILABLE, isEqualTo: true)
         // .where(BaseDoc.UID, isNotEqualTo: globalUser!.uid)
         .where(RentToolsDoc.CATEGORY, whereIn: selectedCategoryId==0 ? toolsCategories.entries.map((e) => e.key).toList() : [selectedCategoryId])
       ).within(center: point, radius: radius.toDouble(), field: BaseDoc.LOCATION, strictMode: true);

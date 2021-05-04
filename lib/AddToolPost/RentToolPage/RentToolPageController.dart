@@ -90,9 +90,9 @@ class RentToolPageController {
     
     var docRef;
     if(docId!=null) {
-      await FirebaseFirestore.instance.collection("Posts/RentTools/Entries").doc(docId).update(tool.toMap());
+      await tool.firebaseDocRef.update(tool.toMap());
     } else {
-      docRef = await FirebaseFirestore.instance.collection("Posts/RentTools/Entries").add(tool.toMap());
+      docRef = await tool.firebaseColRef.add(tool.toMap());
       print(docRef.id);
     }
     Navigator.of(context).pop();

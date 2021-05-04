@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
+import 'package:farmtool/Global/classes/LaborsDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
-import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
-import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -15,86 +14,58 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 
 
-class SellVehiclePageController {
+class AddLaborPageController {
 
   String? docId;
 
-  SellVehiclePageController([SellVehiclesDoc? item]) {
+  AddLaborPageController([LaborsDoc? item]) {
     if(item!=null) {
       docId = item.id;
-      nameC.text = item.title;
       categoryId = item.category;
-      brandC.text = item.brand;
       catC.text = toolsCategories[categoryId]!;
-      amountC.text = item.sellAmount.toString();
+      amountC.text = item.wageAmount.toString();
       descC.text = item.desc;
-      for(int i = 0 ; i < item.imageUrls.length ; i++) {
-        images[i] = MapEntry(IMAGESOURCE.URL, item.imageUrls[i]);
-      }
+      durationTypeId = item.wageDurationType;
     }
   }
 
-  Map<int, String>? categories;
   GlobalKey<FormState> formKey = GlobalKey();
-
-  TextEditingController nameC = TextEditingController();
-  TextEditingController brandC = TextEditingController();
-  TextEditingController catC = TextEditingController();
   TextEditingController amountC = TextEditingController();
+  TextEditingController catC = TextEditingController();
   TextEditingController descC = TextEditingController();
+  int categoryId = laborsCategoriesWithAllAsEntry.entries.first.key;
 
-  int? categoryId;
-  List<MapEntry<IMAGESOURCE, String>?> images = [null, null, null, null];
+  Map<int,String>? categories;
+  
+  int durationTypeId = ToolDurationTypes.DAILY;
 
   uploadData(BuildContext context) async {
     if(formKey.currentState!.validate()==false) return;
     showProgressLoaderDialog(context);
-    if(images.where((element) => element!=null).isNotEmpty) uploadImages(context);
-    else uploadDocument(context);
-  }
-
-  uploadImages(BuildContext context) async {
-    List<String> ls = [];
-    Reference ref = FirebaseStorage.instance.ref().child("SellVehicles");
-    List<MapEntry<IMAGESOURCE, String>?> temp = images.where((element) => element!=null).toList();
-    String url;
-    for(int i = 0 ; i < temp.length ; i++) {
-      if(temp[i]!.key==IMAGESOURCE.PATH) {
-        var task = await ref.child(globalUser!.uid+"-"+DateTime.now().toIso8601String()+"."+temp[i]!.value.trim().split('/').last.split('.').last).putFile(File(temp[i]!.value));
-        url = await task.ref.getDownloadURL();
-      } else {
-        url = temp[i]!.value;
-      }  
-      print("url = "+url);
-      ls.add(url);
-    }
-    uploadDocument(context, ls);
+    uploadDocument(context);
   }
 
   uploadDocument(BuildContext context, [List<String> imageUrls = const []]) async {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
-    SellVehiclesDoc tool =  SellVehiclesDoc.newDoc(
-      title: nameC.text.trim(), 
-      category: categoryId!, 
-      brand: brandC.text.trim(),
-      categoryName: categories![categoryId]!,
+    LaborsDoc tool =  LaborsDoc.newDoc(
+      title: "",
+      category: categoryId, 
       desc: descC.text.trim(), 
-      sellAmount: double.parse(amountC.text.trim()), 
+      wageAmount: double.parse(amountC.text.trim()), 
+      wageDurationType: durationTypeId,
       uid: globalUser!.uid,
       uidName: globalUser!.displayName!,
       uidPhone: globalUser!.phoneNumber??"", 
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
       id: "",
-      imageUrls: imageUrls,
-      
     );
     
     var docRef;
     if(docId!=null) {
-      await FirebaseFirestore.instance.collection("Posts/SellVehicles/Entries").doc(docId).update(tool.toMap());
+      await tool.firebaseDocRef.update(tool.toMap());
     } else {
-      docRef = await FirebaseFirestore.instance.collection("Posts/SellVehicles/Entries").add(tool.toMap());
+      docRef = await tool.firebaseColRef.add(tool.toMap());
       print(docRef.id);
     }
     Navigator.of(context).pop();

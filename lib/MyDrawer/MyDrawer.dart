@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmtool/AddLaborPost/AddLaborPost.dart';
 import 'package:farmtool/AddToolPost/RentToolPage/RentToolPage.dart';
 import 'package:farmtool/AddToolPost/SellToolPage/SellToolPage.dart';
 import 'package:farmtool/AddVehiclePost/RentVehiclePage/RentVehiclePage.dart';
 import 'package:farmtool/AddVehiclePost/SellVehiclePage/SellVehiclePage.dart';
+import 'package:farmtool/AddWarehousePost/AddWarehousePage.dart';
 import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
@@ -11,6 +13,7 @@ import 'package:farmtool/MyDrawer/DrawerMenu.dart';
 import 'package:farmtool/MyDrawer/DrawerMenuItem.dart';
 import 'package:farmtool/MyDrawer/DrawerSubMenuItem.dart';
 import 'package:farmtool/MyPosts/MyPosts.dart';
+import 'package:farmtool/WeatherPage/WeatherPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -88,7 +91,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                       ),
                                       DrawerSubMenuItem(
                                         title: MYDRAWER.ADD_NEW_RENT_WAREHOUSE_TITLE.tr(),
-                                        onTap: () {},
+                                        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentWarehousePage(),),),
                                       ),
                                     ],
                                   ),
@@ -111,7 +114,9 @@ class _MyDrawerState extends State<MyDrawer> {
                                     title: MYDRAWER.ADD_NEW_LABOR_POST_TITLE.tr(),
                                     subTitle: MYDRAWER.ADD_NEW_LABOR_POST_SUBTITLE.tr(),
                                     icon: Icons.accessibility_new_rounded,
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddLaborPage()));
+                                    },
                                   ),
                                   
                                   DrawerMenuItem(
@@ -126,6 +131,21 @@ class _MyDrawerState extends State<MyDrawer> {
                                     subTitle: MYDRAWER.CHANGE_LANGUAGE_SUBTITLE.tr(),
                                     icon: Image.asset("assets/images/language.png", color: Colors.black, height: 24,),
                                     onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChangeLanguagePage(),),),
+                                  ),
+                                  DrawerMenuItem(
+                                    title: "ADD-ONS",
+                                    subTitle: "Get access to guides, weather info, etc",
+                                    icon: Icons.add_circle_outlined,
+                                    subMenuItems: [
+                                      DrawerSubMenuItem(
+                                        title: "Weather",
+                                        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => WeatherPage(),),),
+                                      ),
+                                      // DrawerSubMenuItem(
+                                      //   title: "Guide",
+                                      //   onTap: () {},
+                                      // ),
+                                    ],
                                   ),
                                 ], 
                                 onChange: (index) => setState(() => selectedMenuIndex = index),

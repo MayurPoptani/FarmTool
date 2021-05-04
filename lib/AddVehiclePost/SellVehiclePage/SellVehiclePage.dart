@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/AddVehiclePost/SellVehiclePage/SellVehiclePageController.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
+import 'package:farmtool/Global/functions/ExtendedImageFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
@@ -100,8 +101,16 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                                           ClipRRect(
                                             borderRadius: BorderRadius.circular(8),
                                             child: e.value!.key == IMAGESOURCE.PATH 
-                                              ? Image.file(File(e.value!.value), fit: BoxFit.fill,)
-                                              : Image.network(e.value!.value, fit: BoxFit.fill,)
+                                              ? ExtendedImage.file(
+                                                File(e.value!.value), 
+                                                fit: BoxFit.fill,
+                                                loadStateChanged: extendedImageStateBuilder,
+                                              ): ExtendedImage.network(
+                                                e.value!.value, 
+                                                fit: BoxFit.fill,
+                                                timeLimit: Duration(seconds: 5),
+                                                loadStateChanged: extendedImageStateBuilder,
+                                              )
                                           ),
                                           Positioned(
                                             top: 2, right: 2,

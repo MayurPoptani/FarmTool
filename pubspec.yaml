@@ -39,13 +39,16 @@ dev_dependencies:
   cloud_functions: ^1.0.4
   easy_localization: ^3.0.0
   easy_localization_loader: ^1.0.0
+  extended_image: ^4.0.1
   firebase_storage: ^8.0.4
   flutter_cache_manager: ^3.0.1
+  flutter_weather_bg: ^2.8.2
   images_picker: ^1.2.0
   latlong: ^0.6.1
   location: ^4.1.1
   shared_preferences: ^2.0.5
   url_launcher: ^6.0.3
+  weather: ^2.0.0
 
 dependency_overrides:
   http_parser: ^4.0.0

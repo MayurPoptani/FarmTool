@@ -77,4 +77,7 @@ class SellVehiclesDoc extends BaseDoc {
     ...super.toMap(),
   };
 
+  @override
+  CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("SellVehicles").collection("Entries");
+  DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("SellVehicles").collection("Entries").doc(id);
 }

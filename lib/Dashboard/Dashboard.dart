@@ -1,9 +1,11 @@
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
+import 'package:farmtool/LaborsList/Labors.dart';
 import 'package:farmtool/MyDrawer/MyDrawer.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/RentToolsList/RentTools.dart';
 import 'package:farmtool/RentVehiclesList/RentVehicles.dart';
+import 'package:farmtool/RentWarehousesList/RentWarehouses.dart';
 import 'package:farmtool/SellToolsList/SellTools.dart';
 import 'package:farmtool/SellVehiclesList/SellVehicles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -121,7 +123,11 @@ class _DashboardState extends State<Dashboard> {
                     cardTile(
                       title: DASHBOARD.BUY_WAREHOUSES, 
                       subTitle: DASHBOARD.ON_RENT, 
-                      asset: "assets/images/rent_warehouses.png"),
+                      asset: "assets/images/rent_warehouses.png",
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentWarehouses()));
+                      }
+                    ),
                     cardTile(
                       title: DASHBOARD.BUY_TOOLS, 
                       subTitle: DASHBOARD.SECOND_HAND, 
@@ -141,7 +147,11 @@ class _DashboardState extends State<Dashboard> {
                     cardTile(
                       title: DASHBOARD.GET_LABOR, 
                       subTitle: DASHBOARD.ON_FAIR_RATES,
-                      asset: "assets/images/get_labour.png"),
+                      asset: "assets/images/get_labour.png",
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => Labors()));
+                      }
+                    ),
                   ],
                 ),
               ),

@@ -6,11 +6,15 @@ import 'package:farmtool/AddVehiclePost/SellVehiclePage/SellVehiclePage.dart';
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
+import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
 import 'package:farmtool/Global/classes/SellToolsDoc.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
+import 'package:farmtool/Global/functions/Dialogs.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
+import 'package:farmtool/Global/variables/DurationTypes.dart';
 import 'package:farmtool/Global/variables/GlobalVariables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
+import 'package:farmtool/Global/widgets/MyPostGridListTile.dart';
 import 'package:farmtool/MyPosts/pages/PostList.dart';
 import 'package:flutter/material.dart';
 
@@ -85,16 +89,29 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                       var obj = RentToolsDoc.fromDocument(item);
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
-                        child: GridListTile(
-                          header: "Rs. "+obj.rentAmount.toStringAsFixed(0), 
-                          title: obj.title, 
+                        child: MyPostListTile(
+                          title: obj.title*20,
                           subtitle: toolsCategories[obj.category]!, 
+                          text: "Rs. "+obj.rentAmount.toInt().toString() + " " + ToolDurationTypes.data[obj.rentDurationType]!,
                           imageUrl: obj.imageUrls[0]??null,
-                          onTap: () async {
+                          onEditTap: () async {
                             bool? shouldUpdate = await Navigator.of(context).push<bool?>(MaterialPageRoute(builder: (_) => RentToolPage.edit(obj)));
                             print("shouldUpdate = "+shouldUpdate.toString());
                             if(shouldUpdate!=null && shouldUpdate) {
                               rentToolsKey.currentState!.refreshList();
+                            }
+                          },
+                          secondButtonLabel: obj.isAvailable ? "Make Unavailable" : "Make Available",
+                          onSecondButtonTap: () async {
+                            bool confirm = await Dialogs.showConfirmationDialog(
+                              context: context, 
+                              title: "Make ${obj.isAvailable?'unavailable':'available'}?", 
+                              subtitle: "Are you sure you want to make this item ${obj.isAvailable?'unavailable':'available'}?",
+                            );
+                            print(confirm);
+                            if(confirm) {
+                              bool updated = await changeAvailiblilty(obj);
+                              if(updated) rentToolsKey.currentState!.refreshList();
                             }
                           },
                         ),
@@ -112,16 +129,29 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                       var obj = RentVehiclesDoc.fromDocument(item);
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
-                        child: GridListTile(
-                          header: "Rs. "+obj.rentAmount.toStringAsFixed(0), 
+                        child: MyPostListTile(
                           title: obj.title, 
-                          subtitle: toolsCategories[obj.category]!, 
+                          subtitle: toolsCategories[obj.category]!,
+                          text: "Rs. "+obj.rentAmount.toInt().toString() + " " + ToolDurationTypes.data[obj.rentDurationType]!,
                           imageUrl: obj.imageUrls[0]??null,
-                          onTap: () async {
+                          onEditTap: () async {
                             bool? shouldUpdate = await Navigator.of(context).push<bool?>(MaterialPageRoute(builder: (_) => RentVehiclePage.edit(obj)));
                             print("shouldUpdate = "+shouldUpdate.toString());
                             if(shouldUpdate!=null && shouldUpdate) {
                               rentVehiclesKey.currentState!.refreshList();
+                            }
+                          },
+                          secondButtonLabel: obj.isAvailable ? "Make Unavailable" : "Make Available",
+                          onSecondButtonTap: () async {
+                            bool confirm = await Dialogs.showConfirmationDialog(
+                              context: context, 
+                              title: "Make ${obj.isAvailable?'unavailable':'available'}?", 
+                              subtitle: "Are you sure you want to make this item ${obj.isAvailable?'unavailable':'available'}?",
+                            );
+                            print(confirm);
+                            if(confirm) {
+                              bool updated = await changeAvailiblilty(obj);
+                              if(updated) rentVehiclesKey.currentState!.refreshList();
                             }
                           },
                         ),
@@ -139,16 +169,29 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                       var obj = SellToolsDoc.fromDocument(item);
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
-                        child: GridListTile(
-                          header: "Rs. "+obj.sellAmount.toStringAsFixed(0), 
+                        child: MyPostListTile(
                           title: obj.title, 
-                          subtitle: toolsCategories[obj.category]!, 
+                          subtitle: toolsCategories[obj.category]!,
+                          text: "Rs. "+obj.sellAmount.toInt().toString(),
                           imageUrl: obj.imageUrls[0]??null,
-                          onTap: () async {
+                          onEditTap: () async {
                             bool? shouldUpdate = await Navigator.of(context).push<bool?>(MaterialPageRoute(builder: (_) => SellToolPage.edit(obj)));
                             print("shouldUpdate = "+shouldUpdate.toString());
                             if(shouldUpdate!=null && shouldUpdate) {
                               sellToolsKey.currentState!.refreshList();
+                            }
+                          },
+                          secondButtonLabel: obj.isAvailable ? "Make Unavailable" : "Make Available",
+                          onSecondButtonTap: () async {
+                            bool confirm = await Dialogs.showConfirmationDialog(
+                              context: context, 
+                              title: "Make ${obj.isAvailable?'unavailable':'available'}?", 
+                              subtitle: "Are you sure you want to make this item ${obj.isAvailable?'unavailable':'available'}?",
+                            );
+                            print(confirm);
+                            if(confirm) {
+                              bool updated = await changeAvailiblilty(obj);
+                              if(updated) sellToolsKey.currentState!.refreshList();
                             }
                           },
                         ),
@@ -166,16 +209,29 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                       var obj = SellVehiclesDoc.fromDocument(item);
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
-                        child: GridListTile(
-                          header: "Rs. "+obj.sellAmount.toStringAsFixed(0), 
+                        child: MyPostListTile(
                           title: obj.title, 
-                          subtitle: toolsCategories[obj.category]!, 
+                          subtitle: toolsCategories[obj.category]!,
+                          text: "Rs. "+obj.sellAmount.toInt().toString(),
                           imageUrl: obj.imageUrls[0]??null,
-                          onTap: () async {
+                          onEditTap: () async {
                             bool? shouldUpdate = await Navigator.of(context).push<bool?>(MaterialPageRoute(builder: (_) => SellVehiclePage.edit(obj)));
                             print("shouldUpdate = "+shouldUpdate.toString());
                             if(shouldUpdate!=null && shouldUpdate) {
                               sellVehiclesKey.currentState!.refreshList();
+                            }
+                          },
+                          secondButtonLabel: obj.isAvailable ? "Make Unavailable" : "Make Available",
+                          onSecondButtonTap: () async {
+                            bool confirm = await Dialogs.showConfirmationDialog(
+                              context: context, 
+                              title: "Make ${obj.isAvailable?'unavailable':'available'}?", 
+                              subtitle: "Are you sure you want to make this item ${obj.isAvailable?'unavailable':'available'}?",
+                            );
+                            print(confirm);
+                            if(confirm) {
+                              bool updated = await changeAvailiblilty(obj);
+                              if(updated) sellVehiclesKey.currentState!.refreshList();
                             }
                           },
                         ),
@@ -190,4 +246,18 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
+
+  Future<bool> changeAvailiblilty(BaseDoc doc) async {
+    try {
+      await doc.firebaseDocRef.update({
+        BaseDoc.ISAVAILABLE : !doc.isAvailable,
+        BaseDoc.UPDATEDTIMESTAMP : FieldValue.serverTimestamp(),
+      });
+      return Future.value(true);
+    } on Exception {
+      return Future.value(false);
+    }
+  }
+
 }

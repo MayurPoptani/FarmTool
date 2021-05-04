@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 
-class BaseDoc {
+abstract class BaseDoc {
 
   static const ID = "id";
   static const TITLE = "title";
@@ -24,6 +24,9 @@ class BaseDoc {
   late bool isAvailable;
   late bool isActive;
   late GeoHashPoint geoHashPoint;
+
+  CollectionReference get firebaseColRef;
+  DocumentReference get firebaseDocRef;
 
   BaseDoc.empty();
 
