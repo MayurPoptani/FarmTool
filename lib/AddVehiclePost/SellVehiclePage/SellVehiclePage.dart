@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/AddVehiclePost/SellVehiclePage/SellVehiclePageController.dart';
+import 'package:farmtool/Global/Global.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/functions/ExtendedImageFunctions.dart';
@@ -9,7 +10,7 @@ import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/variables/enums.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class SellVehiclePage extends StatefulWidget {
 
   final bool isEdit;
   final SellVehiclesDoc item;
-  SellVehiclePage() : this.item = SellVehiclesDoc(), this.isEdit = false;
+  SellVehiclePage() : this.item = SellVehiclesDoc.empty(), this.isEdit = false;
   SellVehiclePage.edit(this.item) : this.isEdit = true;
 
   @override
@@ -57,6 +58,24 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
           icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black,), 
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          if(widget.isEdit) TextButton(
+            child: Text("Delete Post"),
+            onPressed: () async {
+              bool shouldDelete = await Dialogs.showConfirmationDialog(
+                context: context, 
+                title: "Delete Post?", 
+                subtitle: "Are you sure you want to delete this post?"
+              );
+              if(!shouldDelete) return;
+              c.deletePost(SellVehiclesDoc.dummyInstance.firebaseColRef, c.docId!).then((void val) {
+                Navigator.of(context).pop(true);
+              }).onError((error, stackTrace) {
+                print("onError() => error = "+error.toString());
+              });
+            },
+          ),
+        ],
       ),
       body: Form(
         key: c.formKey,
@@ -217,7 +236,7 @@ class _SellVehiclePageState extends State<SellVehiclePage> {
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                           child: Text(SELLVEHICLE.SAVE, style: TextStyle(color: Colors.white,),),
                         ),
-                        onPressed: () => c.uploadData(context),
+                        onPressed: () => c.uploadData(context, images: c.images),
                       ),
                     ],
                   ),

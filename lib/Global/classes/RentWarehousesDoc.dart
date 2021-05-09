@@ -24,8 +24,9 @@ class RentWarehousesDoc extends BaseDoc {
   late int rentDurationType;
   late String desc;
   
+  static final RentWarehousesDoc dummyInstance = RentWarehousesDoc.empty();
 
-  RentWarehousesDoc() : super.empty();
+  RentWarehousesDoc.empty() : super.empty();
   
   RentWarehousesDoc.fromDocument(DocumentSnapshot snapshot) : super.fromDocument(snapshot) {
     this.imageUrls = snapshot.data()![IMAGEURLS];
@@ -92,4 +93,5 @@ class RentWarehousesDoc extends BaseDoc {
   @override
   CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("RentWarehouses").collection("Entries");
   DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("RentWarehouses").collection("Entries").doc(id);
+  Reference get folderReference => FirebaseStorage.instance.ref("RentWarehouses");
 }

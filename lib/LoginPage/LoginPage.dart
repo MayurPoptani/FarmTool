@@ -1,5 +1,5 @@
 import 'package:farmtool/Dashboard/Dashboard.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:farmtool/SignupPage/SignupPage.dart';
@@ -138,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                           onTap: () async {
                             var cred = await FirebaseAuth.instance.signInAnonymously();
                             globalUser = cred.user;
+                            // globalUser!.updatePhoneNumber(PhoneAuthProvider.);
                             await globalUser!.updateProfile(displayName: "Team 22");
                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => Dashboard()));
                           },

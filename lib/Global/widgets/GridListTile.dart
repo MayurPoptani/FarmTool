@@ -4,7 +4,7 @@ import 'MyExtentions.dart';
 
 class GridListTile extends StatefulWidget {
 
-  static double get GRIDCROSSRATIO => 0.65;
+  static double get GRIDCROSSRATIO => 0.75;
 
   final String header;
   final String? textOnTop;
@@ -107,9 +107,10 @@ class _GridListTileState extends State<GridListTile> {
                       child: Card(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         child: Container(
+                          constraints: BoxConstraints(maxWidth: context.deviceSize.width*.3),
                           child: Text(widget.header, 
                             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
+                          ).marquee(),
                           margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(

@@ -20,6 +20,7 @@ class RentToolsDoc extends BaseDoc {
   late int rentDurationType;
   late List<dynamic> imageUrls;
   
+  static final RentToolsDoc dummyInstance = RentToolsDoc.empty();
 
   RentToolsDoc.empty() : super.empty();
   
@@ -80,4 +81,5 @@ class RentToolsDoc extends BaseDoc {
   @override
   CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("RentTools").collection("Entries");
   DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("RentTools").collection("Entries").doc(id);
+  Reference get folderReference => FirebaseStorage.instance.ref("RentTools");
 }

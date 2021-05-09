@@ -3,16 +3,15 @@ import 'dart:async';
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/LaborsDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/functions/DetailsPageBuilders.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
 import 'package:farmtool/Global/widgets/LaborGridTile.dart';
-import 'package:farmtool/LaborsList/LaborsDetailsPage.dart';
-import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -135,7 +134,8 @@ class _LaborsState extends State<Labors> {
                     title: docs[index].uidName,
                     subtitle: laborsCategoriesWithAllAsEntry[docs[index].category]!,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => LaborDetailsPage(docs[index])));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => LaborDetailsPage(docs[index])));
+                      DetailsPageBuilders.pushLaborDetailsPage(context, docs[index]);
                     },
                   );
                 },

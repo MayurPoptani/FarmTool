@@ -7,7 +7,7 @@ import 'package:farmtool/AddVehiclePost/SellVehiclePage/SellVehiclePage.dart';
 import 'package:farmtool/AddWarehousePost/AddWarehousePage.dart';
 import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:farmtool/MyDrawer/DrawerMenu.dart';
 import 'package:farmtool/MyDrawer/DrawerMenuItem.dart';

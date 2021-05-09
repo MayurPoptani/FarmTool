@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/SellToolsDoc.dart';
+import 'package:farmtool/Global/functions/DetailsPageBuilders.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/SellToolsList/SellToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -47,7 +47,8 @@ class _SellToolsState extends State<SellTools> {
       print("DATA LENGTH = "+event.length.toString());
       // event.forEach((element) => docs.add(SellToolsDoc.fromDocument(element)));
       event.forEach((element) {
-        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(SellToolsDoc.fromDocument(element));
+        // if(element.data()![BaseDoc.UID]!=globalUser!.uid) 
+        docs.add(SellToolsDoc.fromDocument(element));
       });
       print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
@@ -127,7 +128,8 @@ class _SellToolsState extends State<SellTools> {
                     subtitle: toolsCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellToolDetailsPage(docs[index])));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellToolDetailsPage(docs[index])));
+                      DetailsPageBuilders.pushSellToolDetailsPage(context, docs[index]);
                     },
                   );
                 },

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+export 'package:firebase_storage/firebase_storage.dart';
 
 abstract class BaseDoc {
 
@@ -27,6 +29,9 @@ abstract class BaseDoc {
 
   CollectionReference get firebaseColRef;
   DocumentReference get firebaseDocRef;
+  Reference get folderReference;
+
+  // abstract BaseDoc dummyInstance; 
 
   BaseDoc.empty();
 

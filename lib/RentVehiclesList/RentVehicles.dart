@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/RentVehiclesDoc.dart';
 import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
+import 'package:farmtool/Global/functions/DetailsPageBuilders.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentVehiclesList/RentVehicleDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -48,7 +48,8 @@ class _RentVehiclesState extends State<RentVehicles> {
       print("DATA LENGTH = "+event.length.toString());
       // event.forEach((element) => docs.add(RentVehiclesDoc.fromDocument(element)));
       event.forEach((element) {
-        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(RentVehiclesDoc.fromDocument(element));
+        // if(element.data()![BaseDoc.UID]!=globalUser!.uid) 
+        docs.add(RentVehiclesDoc.fromDocument(element));
       });
       print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
@@ -128,7 +129,8 @@ class _RentVehiclesState extends State<RentVehicles> {
                     subtitle: vehiclesCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehicleDetailsPage(docs[index])));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentVehicleDetailsPage(docs[index])));
+                      DetailsPageBuilders.pushRentVehicleDetailsPage(context, docs[index]);
                     },
                   );
                 },

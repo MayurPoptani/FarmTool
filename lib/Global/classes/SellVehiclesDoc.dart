@@ -20,8 +20,9 @@ class SellVehiclesDoc extends BaseDoc {
   late double sellAmount;
   late List<dynamic> imageUrls;
   
+  static final SellVehiclesDoc dummyInstance = SellVehiclesDoc.empty();
 
-  SellVehiclesDoc() : super.empty();
+  SellVehiclesDoc.empty() : super.empty();
   
   SellVehiclesDoc.fromDocument(DocumentSnapshot snapshot) : super.fromDocument(snapshot) {
     this.category = snapshot.data()![CATEGORY];
@@ -80,4 +81,5 @@ class SellVehiclesDoc extends BaseDoc {
   @override
   CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("SellVehicles").collection("Entries");
   DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("SellVehicles").collection("Entries").doc(id);
+  Reference get folderReference => FirebaseStorage.instance.ref("SellVehicles");
 }

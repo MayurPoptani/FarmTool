@@ -1,7 +1,7 @@
 import 'package:farmtool/ChangeLanguagePage/ChangeLanguagePage.dart';
 import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

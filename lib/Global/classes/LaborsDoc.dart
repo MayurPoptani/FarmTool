@@ -16,6 +16,7 @@ class LaborsDoc extends BaseDoc {
   late double wageAmount;
   late int wageDurationType;
   
+  static final LaborsDoc dummyInstance = LaborsDoc.empty();
 
   LaborsDoc.empty() : super.empty();
   
@@ -68,4 +69,5 @@ class LaborsDoc extends BaseDoc {
   @override
   CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("Labors").collection("Entries");
   DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("Labors").collection("Entries").doc(id);
+  Reference get folderReference => FirebaseStorage.instance.ref("Labors");
 }

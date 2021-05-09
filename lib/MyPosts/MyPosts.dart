@@ -15,7 +15,7 @@ import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
 import 'package:farmtool/Global/functions/Dialogs.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/MyPostGridListTile.dart';
 import 'package:farmtool/MyPosts/pages/PostList.dart';
@@ -98,7 +98,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
                         child: MyPostListTile(
-                          title: obj.title*20,
+                          title: obj.title,
                           subtitle: toolsCategories[obj.category]!, 
                           text: "Rs. "+obj.rentAmount.toInt().toString() + " " + ToolDurationTypes.data[obj.rentDurationType]!,
                           imageUrl: obj.imageUrls[0]??null,
@@ -128,11 +128,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   ),
                   PostList(
                     key: rentVehiclesKey,
-                    query: FirebaseFirestore.instance
-                      .collection("Posts")
-                      .doc("RentVehicles")
-                      .collection("Entries")
-                      .where(BaseDoc.UID, isEqualTo: globalUser!.uid),
+                    query: FirebaseFirestore.instance.collection("Posts").doc("RentVehicles").collection("Entries").where(BaseDoc.UID, isEqualTo: globalUser!.uid),
                     itemBuilder: (i, item) {
                       var obj = RentVehiclesDoc.fromDocument(item);
                       return Container(
@@ -168,17 +164,13 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   ),
                   PostList(
                     key: rentWarehousesKey,
-                    query: FirebaseFirestore.instance
-                      .collection("Posts")
-                      .doc("RentWarehouses")
-                      .collection("Entries")
-                      .where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
+                    query: FirebaseFirestore.instance.collection("Posts").doc("RentWarehouses").collection("Entries").where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
                     itemBuilder: (i, item) {
                       var obj = RentWarehousesDoc.fromDocument(item);
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
                         child: MyPostListTile(
-                          title: obj.title*20,
+                          title: obj.title,
                           subtitle: toolsCategories[obj.category]!, 
                           text: "Rs. "+obj.rentAmount.toInt().toString() + " " + WarehouseDurationTypes.data[obj.rentDurationType]!,
                           imageUrl: obj.imageUrls[0]??null,
@@ -208,11 +200,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   ),
                   PostList(
                     key: sellToolsKey,
-                    query: FirebaseFirestore.instance
-                      .collection("Posts")
-                      .doc("SellTools")
-                      .collection("Entries")
-                      .where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
+                    query: FirebaseFirestore.instance.collection("Posts").doc("SellTools").collection("Entries").where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
                     itemBuilder: (i, item) {
                       var obj = SellToolsDoc.fromDocument(item);
                       return Container(
@@ -248,11 +236,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   ),
                   PostList(
                     key: sellVehiclesKey,
-                    query: FirebaseFirestore.instance
-                      .collection("Posts")
-                      .doc("SellVehicles")
-                      .collection("Entries")
-                      .where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
+                    query: FirebaseFirestore.instance.collection("Posts").doc("SellVehicles").collection("Entries").where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
                     itemBuilder: (i, item) {
                       var obj = SellVehiclesDoc.fromDocument(item);
                       return Container(
@@ -288,17 +272,13 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   ),
                   PostList(
                     key: laborsKey,
-                    query: FirebaseFirestore.instance
-                      .collection("Posts")
-                      .doc("Labors")
-                      .collection("Entries")
-                      .where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
+                    query: FirebaseFirestore.instance.collection("Posts").doc("Labors").collection("Entries").where(BaseDoc.UID, isEqualTo: globalUser!.uid), 
                     itemBuilder: (i, item) {
                       var obj = LaborsDoc.fromDocument(item);
                       return Container(
                         margin: EdgeInsets.only(bottom: 8),
                         child: MyPostListTile(
-                          title: obj.title*20,
+                          title: obj.uidName,
                           subtitle: laborsCategories[obj.category]!, 
                           text: "Rs. "+obj.wageAmount.toInt().toString() + " " + LaborDurationTypes.data[obj.wageDurationType]!,
                           imageUrl: null,

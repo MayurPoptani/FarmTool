@@ -1,6 +1,6 @@
 import 'package:farmtool/Dashboard/Dashboard.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -45,7 +45,9 @@ class PostListState extends State<PostList> with AutomaticKeepAliveClientMixin {
       child: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child: snap!.docs.length ==0 
+            ? Center(child: Text("No Posts", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),)
+            : SingleChildScrollView(
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),

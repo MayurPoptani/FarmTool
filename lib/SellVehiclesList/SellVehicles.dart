@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/SellVehiclesDoc.dart';
+import 'package:farmtool/Global/functions/DetailsPageBuilders.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/SellVehiclesList/SellVehicleDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -46,7 +46,8 @@ class _SellVehiclesState extends State<SellVehicles> {
       print("NEW DATA IN STREAM");
       print("DATA LENGTH = "+event.length.toString());
       event.forEach((element) {
-        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(SellVehiclesDoc.fromDocument(element));
+        // if(element.data()![BaseDoc.UID]!=globalUser!.uid) 
+        docs.add(SellVehiclesDoc.fromDocument(element));
       });
       print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
@@ -124,7 +125,8 @@ class _SellVehiclesState extends State<SellVehicles> {
                     subtitle: vehiclesCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehicleDetailsPage(docs[index])));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => SellVehicleDetailsPage(docs[index])));
+                      DetailsPageBuilders.pushSellVehicleDetailsPage(context, docs[index]);
                     },
                   );
                 },

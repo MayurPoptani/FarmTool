@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/LaborsList/Labors.dart';
 import 'package:farmtool/MyDrawer/MyDrawer.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/RentToolsList/RentTools.dart';
 import 'package:farmtool/RentVehiclesList/RentVehicles.dart';
 import 'package:farmtool/RentWarehousesList/RentWarehouses.dart';
@@ -33,6 +34,15 @@ class _DashboardState extends State<Dashboard> {
       globalPos = value;
       print("calling saveLocation()");
       saveLocation(globalPos!);
+      getLocationStream()
+      .listen((event) {
+        // print("Distance = "+getDistanceBetween(GeoPoint(event.latitude, event.longitude), GeoPoint(getSavedLocation()!.latitude, getSavedLocation()!.longitude)).toString());
+        if(getSavedLocation()==null) {
+          saveLocation(event);
+        } else if(getDistanceBetween(GeoPoint(event.latitude, event.longitude), GeoPoint(getSavedLocation()!.latitude, getSavedLocation()!.longitude)) > 0.25) {
+          saveLocation(event);
+        }
+      });
     });
   }
 

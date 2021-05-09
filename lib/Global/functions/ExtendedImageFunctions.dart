@@ -11,5 +11,5 @@ Widget extendedImageStateBuilder(ExtendedImageState state) {
       image: state.extendedImageInfo!.image,
       fit: BoxFit.fill,
     );
-  } else return Text("ERROR");
+  } else return Center(child: Text("Faild To \nLoad Image", textAlign: TextAlign.center,),);
 }

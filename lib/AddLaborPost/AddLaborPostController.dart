@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmtool/Global/classes/BaseController.dart';
+import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/LaborsDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/variables/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -14,7 +16,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 
 
-class AddLaborPageController {
+class AddLaborPageController extends BaseController<LaborsDoc>{
 
   String? docId = "";
 
@@ -39,15 +41,10 @@ class AddLaborPageController {
   
   int durationTypeId = ToolDurationTypes.DAILY;
 
-  uploadData(BuildContext context) async {
-    if(formKey.currentState!.validate()==false) return;
-    showProgressLoaderDialog(context);
-    uploadDocument(context);
-  }
-
-  uploadDocument(BuildContext context, [List<String> imageUrls = const []]) async {
+  @override
+  LaborsDoc prepareData([List<String> imgUrls = const []]) {
     GeoFirePoint point = Geoflutterfire().point(latitude: globalPos!.latitude, longitude: globalPos!.longitude);
-    LaborsDoc tool =  LaborsDoc.newDoc(
+    return LaborsDoc.newDoc(
       title: "",
       category: categoryId, 
       desc: descC.text.trim(), 
@@ -59,33 +56,6 @@ class AddLaborPageController {
       createdTimestamp: Timestamp.now(),
       geoHashPoint: GeoHashPoint(point.hash, point.geoPoint), 
       id: docId,
-    );
-    
-    var docRef;
-    if(docId!=null) {
-      await tool.firebaseDocRef.update(tool.toMap());
-    } else {
-      docRef = await tool.firebaseColRef.add(tool.toMap());
-      print(docRef.id);
-    }
-    Navigator.of(context).pop();
-    Navigator.of(context).pop(true);
-  }
-
-  showProgressLoaderDialog(BuildContext context) {
-    showDialog(
-      barrierDismissible: false,
-      context: context, 
-      builder: (_) => AlertDialog(
-        title: Text("Uploading..."),
-        content: Container(
-          height: 100,
-          alignment: Alignment.center,
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(Colors.green),
-          ),
-        ),
-      ),
     );
   }
 

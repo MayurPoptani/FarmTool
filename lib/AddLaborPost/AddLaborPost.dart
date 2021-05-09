@@ -6,12 +6,13 @@ import 'package:farmtool/AddToolPost/RentToolPage/RentToolPageController.dart';
 import 'package:farmtool/Global/classes/GeoHashPoint.dart';
 import 'package:farmtool/Global/classes/LaborsDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/functions/Dialogs.dart';
 import 'package:farmtool/Global/functions/ExtendedImageFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/Colors.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
 import 'package:farmtool/Global/variables/DurationTypes.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/variables/enums.dart';
 import 'package:farmtool/Global/widgets/TextFormFieldContainer.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,24 @@ class _AddLaborPageState extends State<AddLaborPage> {
       appBar: AppBar(
         title: Text(widget.isEdit ? "EDIT LABOR ENTRY" : "ADD LABOR POST", style: TextStyle(color: Colors.black),), 
         backgroundColor: Colors.transparent,
+        actions: [
+          if(widget.isEdit) TextButton(
+            child: Text("Delete Post"),
+            onPressed: () async {
+              bool shouldDelete = await Dialogs.showConfirmationDialog(
+                context: context, 
+                title: "Delete Post?", 
+                subtitle: "Are you sure you want to delete this post?"
+              );
+              if(!shouldDelete) return;
+              c.deletePost(LaborsDoc.dummyInstance.firebaseColRef, c.docId!).then((void val) {
+                Navigator.of(context).pop(true);
+              }).onError((error, stackTrace) {
+                print("onError() => error = "+error.toString());
+              });
+            },
+          ),
+        ],
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black,), 
@@ -75,6 +94,7 @@ class _AddLaborPageState extends State<AddLaborPage> {
                       SizedBox(height: 8,),
                       TextFomFieldContainer(
                         child: DropdownButtonFormField<int>(
+                          isExpanded: true,
                           validator: (str) {
                             if(str==null) return "SELECT A LABOR TYPE";
                             else return null;
@@ -143,7 +163,7 @@ class _AddLaborPageState extends State<AddLaborPage> {
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                           child: Text("POST IT", style: TextStyle(color: Colors.white,),),
                         ),
-                        onPressed: () => c.uploadData(context),
+                        onPressed: () => c.uploadData(context, images: null),
                       ),
                     ],
                   ),

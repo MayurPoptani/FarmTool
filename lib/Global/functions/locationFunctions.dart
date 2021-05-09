@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
@@ -33,7 +33,7 @@ Position? getSavedLocation() {
   // prefs!.clear();
   String? locDataList = prefs!.getString("location");
   if(locDataList!=null) {
-    print(locDataList);
+    // print(locDataList);
     return Position.fromMap((jsonDecode(locDataList) as Map)
       .map<String,dynamic>((key, value) {
         if(key!="timestamp") return MapEntry<String,double>(key, value);
@@ -97,6 +97,10 @@ Future<Position> getLocation() async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   return await Geolocator.getCurrentPosition();
+}
+
+Stream<Position> getLocationStream() {
+  return (Geolocator.getPositionStream()..listen((event) => saveLocation(event)));
 }
 
 double getDistanceBetween(GeoPoint a, GeoPoint b) {

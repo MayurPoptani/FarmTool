@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
 import 'package:farmtool/Global/classes/RentWarehousesDoc.dart';
+import 'package:farmtool/Global/functions/DetailsPageBuilders.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
-import 'package:farmtool/RentWarehousesList/RentWarehouseDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -135,7 +134,8 @@ class _RentWarehousesState extends State<RentWarehouses> {
                     subtitle: toolsCategories[docs[index].category]!,
                     imageUrl: docs[index].imageUrls[0]??null,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentWarehouseDetailsPage(docs[index])));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentWarehouseDetailsPage(docs[index])));
+                      DetailsPageBuilders.pushRentWarehouseDetailsPage(context, docs[index]);
                     },
                   );
                 },

@@ -1,4 +1,4 @@
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/LoginPage/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';

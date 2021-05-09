@@ -22,8 +22,9 @@ class RentVehiclesDoc extends BaseDoc {
   late int rentDurationType;
   late List<dynamic> imageUrls;
   
+  static final RentVehiclesDoc dummyInstance = RentVehiclesDoc.empty();
 
-  RentVehiclesDoc() : super.empty();
+  RentVehiclesDoc.empty() : super.empty();
   
   RentVehiclesDoc.fromDocument(DocumentSnapshot snapshot) : super.fromDocument(snapshot) {
     this.category = snapshot.data()![CATEGORY];
@@ -86,4 +87,5 @@ class RentVehiclesDoc extends BaseDoc {
   @override
   CollectionReference get firebaseColRef => FirebaseFirestore.instance.collection("Posts").doc("RentVehicles").collection("Entries");
   DocumentReference get firebaseDocRef => FirebaseFirestore.instance.collection("Posts").doc("RentVehicles").collection("Entries").doc(id);
+  Reference get folderReference => FirebaseStorage.instance.ref("RentVehicles");
 }

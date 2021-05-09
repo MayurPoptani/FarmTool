@@ -1,14 +1,15 @@
 import 'dart:async';
 
+import 'package:farmtool/Global/Global.dart';
 import 'package:farmtool/Global/classes/BaseDoc.dart';
 import 'package:farmtool/Global/classes/RentToolsDoc.dart';
+import 'package:farmtool/Global/functions/DetailsPageBuilders.dart';
 import 'package:farmtool/Global/functions/locationFunctions.dart';
 import 'package:farmtool/Global/variables/Categories.dart';
 import 'package:farmtool/Global/variables/ConstantsLabels.dart';
-import 'package:farmtool/Global/variables/GlobalVariables.dart';
+import 'package:farmtool/Global/variables/variables.dart';
 import 'package:farmtool/Global/widgets/GridListTile.dart';
 import 'package:farmtool/Global/widgets/HorizontalSelector.dart';
-import 'package:farmtool/RentToolsList/RentToolDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -39,7 +40,7 @@ class _RentToolsState extends State<RentTools> {
     var point = GeoFirePoint(globalPos!.latitude, globalPos!.longitude);
     stream = Geoflutterfire()
       .collection(
-        collectionRef: FirebaseFirestore.instance.collection("Posts/RentTools/Entries")
+        collectionRef: RentToolsDoc.dummyInstance.firebaseColRef
         .where(BaseDoc.ISACTIVE, isEqualTo: true)
         .where(BaseDoc.ISAVAILABLE, isEqualTo: true)
         // .where(BaseDoc.UID, isNotEqualTo: globalUser!.uid)
@@ -51,7 +52,8 @@ class _RentToolsState extends State<RentTools> {
       print("DATA LENGTH = "+event.length.toString());
       // event.forEach((element) => docs.add(RentToolsDoc.fromDocument(element)));
       event.forEach((element) {
-        if(element.data()![BaseDoc.UID]!=globalUser!.uid) docs.add(RentToolsDoc.fromDocument(element));
+        // if(element.data()![BaseDoc.UID]!=globalUser!.uid) 
+        docs.add(RentToolsDoc.fromDocument(element));
       });
       print("FILTERED DATA LENGHT = "+docs.length.toString());
       if(mounted) setState(() {});
@@ -126,12 +128,13 @@ class _RentToolsState extends State<RentTools> {
                 itemCount: docs.length,
                 itemBuilder: (_, index) {
                   return GridListTile(
-                    header: "Rs. "+docs[index].rentAmount.toStringAsFixed(0),
+                    header: "Rs. "+docs[index].rentAmount.toStringAsFixed(0) + " " + ToolDurationTypes.data[docs[index].rentDurationType]!,
                     title: docs[index].title,
                     subtitle: toolsCategories[docs[index].category]!,
-                    imageUrl: docs[index].imageUrls[0]??null,
+                    imageUrl: docs[index].imageUrls.length>0 ? docs[index].imageUrls[0] : null,
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolDetailsPage(docs[index])));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => RentToolDetailsPage(docs[index])));
+                      DetailsPageBuilders.pushRentToolDetailsPage(context, docs[index]);
                     },
                   );
                 },
